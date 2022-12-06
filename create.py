@@ -58,13 +58,13 @@ def parser():
 ##########################  default  fn  ########################################
 def default():
     global input,output
-    if not os.path.exists(child_path):
+    if not os.path.exists(folder_name):
         os.makedirs(folder_name)
         os.chdir(folder_name)
         with open (file_name,'w+') as file:
             file.write(set_instance_name(file_name,input,output))
             print(f"{file_name} created ")
-    elif os.path.exists(child_path):
+    elif os.path.exists(folder_name):
         #print(f"{folder_name} already exists in {list_modules.path}!")
         os.chdir(folder_name)
         with open (file_name,'w+') as file:
