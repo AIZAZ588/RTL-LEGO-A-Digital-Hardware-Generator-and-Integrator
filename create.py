@@ -7,8 +7,8 @@ input = ''
 output = ''
 create = False
 #child_path = os.path.join(list_modules.path,folder_name)
-path = r"..\LAGO" 
-child_path = os.path.join(path,folder_name)
+path2 = r"..\LAGO" 
+child_path = r'..\\LAGO\\Baseboard'
 ######################### setting name of instance & body  ############################
 
 def set_instance_name(f_name,input,output):
@@ -59,13 +59,14 @@ def parser():
 ##########################  default  fn  ########################################
 def default():
     global input,output
-    if not folder_name:
+    print(os.getcwd())
+    try:
         os.makedirs(folder_name)
         os.chdir(folder_name)
         with open (file_name,'w+') as file:
             file.write(set_instance_name(file_name,input,output))
             print(f"{file_name} created ")
-   elif folder_name:
+    except:
         #print(f"{folder_name} already exists in {list_modules.path}!")
         os.chdir(folder_name)
         with open (file_name,'w+') as file:
@@ -76,14 +77,15 @@ def default():
 ############################ New name fn #############################################
 def name():
     global input,output
-    if not folder_name:
-        os.makedirs(folder_name)
+    print(os.getcwd())
+    try:
+        #print(f"{folder_name} already exists in {list_modules.path}!")
         os.chdir(folder_name)
         with open (file_name,'w+') as file:
             file.write(set_instance_name(file_name,input,output))
             print(f"{file_name} created ")
-   elif folder_name:
-        #print(f"{folder_name} already exists in {list_modules.path}!")
+    except:
+        os.makedirs(folder_name)
         os.chdir(folder_name)
         with open (file_name,'w+') as file:
             file.write(set_instance_name(file_name,input,output))
