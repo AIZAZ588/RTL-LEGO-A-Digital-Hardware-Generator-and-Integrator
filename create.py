@@ -1,13 +1,14 @@
 ################################ Global ######################
-import os,list_modules 
+import os
 import argparse
 folder_name = 'Baseboard'
 file_name = "Baseboard.sv"
 input = ''
 output = ''
 create = False
-child_path = os.path.join(list_modules.path,folder_name)
-
+#child_path = os.path.join(list_modules.path,folder_name)
+path = r"..\LAGO" 
+child_path = os.path.join(path,folder_name)
 ######################### setting name of instance & body  ############################
 
 def set_instance_name(f_name,input,output):
@@ -58,13 +59,13 @@ def parser():
 ##########################  default  fn  ########################################
 def default():
     global input,output
-    if not os.path.exists(folder_name):
+    if not os.path.exists(child_path):
         os.makedirs(folder_name)
         os.chdir(folder_name)
         with open (file_name,'w+') as file:
             file.write(set_instance_name(file_name,input,output))
             print(f"{file_name} created ")
-    elif os.path.exists(folder_name):
+    elif os.path.exists(child_path):
         #print(f"{folder_name} already exists in {list_modules.path}!")
         os.chdir(folder_name)
         with open (file_name,'w+') as file:
@@ -75,13 +76,13 @@ def default():
 ############################ New name fn #############################################
 def name():
     global input,output
-    if not os.path.exists(folder_name):
+    if not os.path.exists(child_path):
         os.makedirs(folder_name)
         os.chdir(folder_name)
         with open (file_name,'w+') as file:
             file.write(set_instance_name(file_name,input,output))
             print(f"{file_name} created ")
-    elif os.path.exists(folder_name):
+    elif os.path.exists(child_path):
         #print(f"{folder_name} already exists in {list_modules.path}!")
         os.chdir(folder_name)
         with open (file_name,'w+') as file:
@@ -98,7 +99,7 @@ def main():
             default()
             os.chdir(child_path)
         with open("key_val.py",'a+') as key_file:
-            key_file.write(f"file_name = '{file_name}'\nfolder_name = '{folder_name}'\nchild_path = '{child_path}'")
+            key_file.write(f"\nfile_name = '{file_name}'\nfolder_name = '{folder_name}'\nchild_path = '{child_path}'")
             key_file.close()
     else:
         print("error :enter create first!")
