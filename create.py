@@ -5,10 +5,9 @@ folder_name = 'Baseboard'
 file_name = "Baseboard.sv"
 input = ''
 output = ''
-create = False
 #child_path = os.path.join(list_modules.path,folder_name)
 path2 = r"..\LAGO" 
-child_path = r'..\\LAGO\\Baseboard'
+child_path = r'..\LAGO\Baseboard'
 ######################### setting name of instance & body  ############################
 
 def set_instance_name(f_name,input,output):
@@ -43,14 +42,12 @@ def parser():
     parser = argparse.ArgumentParser(
     description= "Create a base file using -n or --name: default<Baseboard>"
     )
-    parser.add_argument('create',help='usege: create')
     parser.add_argument('-n','--name',help="usage: use -n or --name for New name")
     parser.add_argument('-i','--input',action='append',nargs='+',type=str,help="usage: use -i or --input")
     parser.add_argument('-o','--output',action='append',nargs='+',type=str,help="usage: use -o or --output")
     arg = parser.parse_args()
     input = arg.input
     output = arg.output
-    create = arg.create
     if arg.name:
         global file_name
         file_name = arg.name 
@@ -73,7 +70,6 @@ def default():
             file.write(set_instance_name(file_name,input,output))
             print(f"{file_name} created ")
         
-        
 ############################ New name fn #############################################
 def name():
     global input,output
@@ -94,16 +90,12 @@ def name():
 ###########################  Calling fns  #################################################
 def main():
     parser()
-    if create:
-        if file_name: 
-            name()
-        else:
-            default()
-            os.chdir(child_path)
-        with open("key_val.py",'a+') as key_file:
-            key_file.write(f"\nfile_name = '{file_name}'\nfolder_name = '{folder_name}'\nchild_path = '{child_path}'")
-            key_file.close()
+    if file_name: 
+        name()
     else:
-        print("error :enter create first!")
+        default()
+    with open("key_val.py",'a+') as key_file:
+        key_file.write(f"\nfile_name = '{file_name}'\nfolder_name = '{folder_name}'\nchild_path = '{child_path}'")
+        key_file.close()
 if __name__ == '__main__':
     main()
