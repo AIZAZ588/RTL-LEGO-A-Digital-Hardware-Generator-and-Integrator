@@ -1,3 +1,4 @@
+#!/bin/python3
 from Baseboard.key_val import file_name,folder_name
 import fileinput
 import os
