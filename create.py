@@ -1,4 +1,5 @@
 ################################ Global ######################
+#!/bin/python3
 import os
 import argparse
 folder_name = 'Baseboard'
