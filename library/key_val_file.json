@@ -1,0 +1,1 @@
+{"modulename": {"ports": [{"name": "clk,", "type": "input", "range": "None"}, {"name": "reset,", "type": "input", "range": "[15:1]"}, {"name": "en,", "type": "input", "range": "None"}, {"name": "clr,", "type": "input", "range": "[16:0]"}, {"name": "count", "type": "output", "range": "[17:0]"}]}}

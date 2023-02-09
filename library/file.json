@@ -1,0 +1,10 @@
+clk_type: input
+clk_range: None
+reset_type: input
+reset_range: [15:1]
+en_type: input
+en_range: None
+clr_type: input
+clr_range: [16:0]
+count_type: output
+count_range: [17:0]
