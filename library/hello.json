@@ -1,1 +1,0 @@
-{"module_name": "counter", "ports": [{"name": "", "type": "input", "range": "[0:0]"}, {"name": "", "type": "input", "range": "[Y_WIDTH-1:0]"}, {"name": "", "type": "input", "range": "[0:0]"}, {"name": "", "type": "input", "range": "[R_WIDTH-1:0]"}, {"name": "", "type": "output", "range": "[X_WIDTH-1:0]"}]}
