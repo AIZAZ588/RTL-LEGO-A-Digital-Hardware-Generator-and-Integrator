@@ -2,7 +2,7 @@
 #set -x
 #=====================VARIABLES=======================
 CURRENT_DIR=$(pwd)
-. ./USR_INFO
+. ~/.LAGO_USR_INFO
 PATH="${LAGO_DIR}/files/connect.py"
 cd ${LAGO_DIR}/files
 RED=$'\e[1;31m'
