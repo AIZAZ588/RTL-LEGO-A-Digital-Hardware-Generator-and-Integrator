@@ -63,14 +63,14 @@ def default():
             # file.write(set_instance_name(f_name, inputs,outputs,input_ranges,output_ranges))
             file.write(set_instance_name(f_name, inputs, outputs,input_ranges,output_ranges))
 
-            print(Fore.BLUE + f"{f_name} created" + Fore.RESET)
+            print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
     except:
         os.chdir(folder_name)
         with open(f_name, 'w+') as file:
             # file.write(set_instance_name(f_name, inputs, outputs,input_ranges,output_ranges))
             file.write(set_instance_name(f_name, inputs, outputs,input_ranges,output_ranges))
 
-            print(Fore.BLUE + f"{f_name} created" + Fore.RESET)
+            print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
 #########################################################
 
 
@@ -82,13 +82,13 @@ def name():
         os.chdir(folder_name)
         with open(f_name, 'w+') as file:
             file.write(set_instance_name(f_name, inputs, outputs,input_ranges,output_ranges))
-            print(Fore.BLUE + f"{f_name} created" + Fore.RESET)
+            print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
     except:
         os.makedirs(folder_name)
         os.chdir(folder_name)
         with open(f_name, 'w+') as file:
             file.write(set_instance_name(f_name, inputs, outputs,input_ranges,output_ranges))
-            print(Fore.BLUE + f"{f_name} created" + Fore.RESET)
+            print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
 
 
 #########################################################
