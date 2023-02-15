@@ -1,0 +1,10 @@
+{
+"toplevelfile":{"file_name": "aizaz.sv", "folder_name": "Baseboard", "child_path": "..\\LAGO\\Baseboard"}
+,"aizaz":{"ports": {"clk": {"type": "input", "range": "None"}, "reset": {"type": "input", "range": "None"}}}
+,
+"cout_sec":{"ports": {"clk": {"type": "input", "range": "None"}, "reset": {"type": "input", "range": "None"}, "en": {"type": "input", "range": "None"}, "count_max": {"type": "input", "range": "[31:0]"}, "clr": {"type": "output", "range": "None"}, "count": {"type": "output", "range": "[31:0]"}}}
+,
+"cout_min":{"ports": {"clk": {"type": "input", "range": "None"}, "reset": {"type": "input", "range": "None"}, "en": {"type": "input", "range": "None"}, "count_max": {"type": "input", "range": "[31:0]"}, "clr": {"type": "output", "range": "None"}, "count": {"type": "output", "range": "[31:0]"}}}
+,
+"cout_hra":{"ports": {"clk": {"type": "input", "range": "None"}, "reset": {"type": "input", "range": "None"}, "en": {"type": "input", "range": "None"}, "count_max": {"type": "input", "range": "[31:0]"}, "clr": {"type": "output", "range": "None"}, "count": {"type": "output", "range": "[31:0]"}}}
+}
