@@ -65,7 +65,7 @@ def extract_data(file):
                 f.write('\n\n' + output_string)
                 f.write(');')
                 f.write('\n\nendmodule')
-            print(Fore.LIGHTBLUE_EX + 'Module Pluged' + Fore.RESET)
+            print(Fore.LIGHTBLUE_EX + f'{instance} is pluged successfully' + Fore.RESET)
                 
 
 
