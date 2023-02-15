@@ -17,7 +17,7 @@ then
 	sudo ln -s  ${LAGO_DIR}/connect.sh connect;
 	echo "======connect installed======";
 	sudo ln -s ${LAGO_DIR}/list_lago.sh lago_list;
-	echo "======list_lago installed====";
+	echo "======lago_list installed====";
 	echo "+++++++++++++++++++++++++++++";
 	cd $LAGO_DIR
 	if [[ -f ~/.LAGO_USR_INFO ]]
@@ -62,8 +62,9 @@ fi
 CREATE_LINK
 
 echo -e "USAGE:\nUse 'create' command to generate toplevel file\n eg: create -f clock.sv";
-echo -e "\nAfter creating toplevel file use 'plug' command to the instances of file\n eg: plug -f up_counter.sv -i count_sec";
+echo -e "\nAfter creating toplevel file use 'plug' command to plug the instance of file\n eg: plug -f up_counter.sv -i count_sec";
 echo -e "\nAfter pluging instances use 'connect' command to connect instances \n eg: connect -i count_sec -ip clear -o count_min -op en ";
+echo -e "\nUse 'lago_list' command to find avalible modules"
 echo -e "\nHERE is a list of files you can plug to:";
 
 ./list_lago.sh
