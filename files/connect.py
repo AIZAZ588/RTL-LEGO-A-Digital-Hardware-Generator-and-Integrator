@@ -39,28 +39,6 @@ def check_range_equality(inst1, inst2, k1, k2):
             found = False
         return found
 
-
-# def change_line_in_instance(found, instance1, input_ports, output_ports):
-#     with open(f"{fileName}", 'r') as f:
-#         content = f.read()
-#     pattern = rf'{instance1}\s*(([\s\S]*?));'
-#     match = re.search(pattern, content)
-#     if found and match:
-#         block = match.group()
-#         for input_port, output_port in zip(input_ports, output_ports):
-#             pattern = rf'\.{input_port}\s*\([\s\S]*?\)'
-#             block = re.sub(pattern, f'.{input_port} \t\t\t\t({output_port})', block)
-#         pattern = rf'{instance1}\s*(([\s\S]*?));'
-#         content = re.sub(pattern, block, content)
-#         print('Ports Connected.')
-#     else:
-#         print('Error: Not connected.')
-#         exit()
-
-#     # Write the modified content back to the file
-#     with open('Baseboard.sv', 'w') as f:
-#         f.write(content)
-
 def change_line_in_instance(found, instance1, input_ports, output_ports):
     with open(f"{fileName}", 'r') as f:
         content = f.read()
@@ -79,7 +57,7 @@ def change_line_in_instance(found, instance1, input_ports, output_ports):
             block = re.sub(pattern, f'.{input_port} \t\t\t\t({output_port})', block)
         pattern = rf'{instance1}\s*(([\s\S]*?));'
         content = re.sub(pattern, block, content)
-        print(Fore.BLUE + 'Ports Connected.' + Fore.RESET)
+        print(Fore.LIGHTBLUE_EX + 'Ports Connected.' + Fore.RESET)
     else:
         print(Fore.RED + 'Error: Not connected.' + Fore.RESET)
         exit()
@@ -87,7 +65,6 @@ def change_line_in_instance(found, instance1, input_ports, output_ports):
     # Write the modified content back to the file
     with open(f'{fileName}', 'w') as f:
         f.write(content)
-
 
 if __name__ == '__main__':
     # Create an argument parser
