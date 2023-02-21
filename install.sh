@@ -4,7 +4,12 @@ LAGO_DIR=$(pwd);
 FILE1=false;
 FILE2=false;
 FILE3=false;
-#echo $LAGO_DIR
+
+RED=$'\e[1;31m'
+YELLOW=$'\e[1;33m'
+WHITE=$'\e[1;37m'
+GREEN=$'\e[1;32m'
+
 CREATE_LINK(){
 if [[ ${FILE1} && ${FILE2} && ${FILE3} ]];
 then
@@ -16,8 +21,8 @@ then
 	echo "======plug    installed======";
 	sudo ln -s  ${LAGO_DIR}/connect.sh connect;
 	echo "======connect installed======";
-	sudo ln -s ${LAGO_DIR}/list_lago.sh lago_list;
-	echo "======lago_list installed====";
+	sudo ln -s ${LAGO_DIR}/list_lagos.sh list_lagos;
+	echo "======list_lagos installed===";
 	echo "+++++++++++++++++++++++++++++";
 	cd $LAGO_DIR
 	if [[ -f ~/.LAGO_USR_INFO ]]
@@ -32,6 +37,9 @@ then
 		echo "error: LAGO_USR_INFO is not written!";
 		exit 1
 	fi
+
+		/bin/chmod a+x *.sh
+		/bin/chmod a+x ${LAGO_DIR}/files/*.py
 
 fi
 }
@@ -61,10 +69,9 @@ fi
 
 CREATE_LINK
 
-echo -e "USAGE:\nUse 'create' command to generate toplevel file\n eg: create -f clock.sv";
-echo -e "\nAfter creating toplevel file use 'plug' command to plug the instance of file\n eg: plug -f up_counter.sv -i count_sec";
-echo -e "\nAfter pluging instances use 'connect' command to connect instances \n eg: connect -i count_sec -ip clear -o count_min -op en ";
-echo -e "\nUse 'lago_list' command to find avalible modules"
-echo -e "\nHERE is a list of files you can plug to:";
-
-./list_lago.sh
+echo -e ${WHITE} "USAGE:\nUse 'create' command to generate toplevel file\n eg:";./create.sh '-h';
+echo -e ${WHITE}  "\nAfter creating toplevel file use 'plug' command to plug the instance of file\n eg:"; ./plug.sh '-h';
+echo -e ${WHITE} "\nAfter pluging instances use 'connect' command to connect instances \n eg:";./connect.sh '-h';
+echo -e ${WHITE} "\nUse 'list_lagos' command to find avalible modules";./list_lagos.sh '-h';
+echo -e ${WHITE} "\nHERE is a list of files you can plug to:";
+${LAGO_DIR}/list_lagos.sh
