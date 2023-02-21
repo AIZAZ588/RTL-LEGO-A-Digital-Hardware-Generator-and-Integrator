@@ -1,9 +1,9 @@
 #!/bin/bash
 . ~/.LAGO_USR_INFO
-RED=$'\e[1;31m'
-YELLOW=$'\e[1;33m'
-WHITE=$'\e[1;37m'
-GREEN=$'\e[1;32m'
+RED=$'\e[1;31m';
+YELLOW=$'\e[1;33m';
+WHITE=$'\e[1;37m';
+GREEN=$'\e[1;32m';
 
 PATH="${LAGO_DIR}/files/library"
 USAGE(){
