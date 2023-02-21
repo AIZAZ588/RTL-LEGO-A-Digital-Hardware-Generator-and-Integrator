@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #set -x
 #=====================VARIABLES=======================
 CURRENT_DIR=$(pwd)
@@ -12,88 +12,24 @@ GREEN=$'\e[1;32m'
 
 #===============Checking file =========================
 
-#if [[ ! -x $PATH ]]
-#then
-#	chmod +x $PATH;           #--> Error: chmod command not found!
-#
-#elif [[ ! -e $PATH ]]
-#then
-#	echo "${PATH} NOT FOUND!";
-#	exit 1
-#fi
-
 #======================================================
 
 usage(){
 
-#echo "$(basename $0) :USAGE"      # --> Error :basename command not found ??
-echo $WHITE "${0} :UASGE";
-echo $YELLOW	       "$0 -f | --filename [name]  -i | --instance_name [name] ";
+echo $WHITE "$(/bin/basename $0) :USAGE"
+echo $YELLOW	   "plug -f | --filename [name]  -i | --instance_name [name] ";
 
 }
-#if [[ $(${#} + 2) != 0 ]]
-#then
-#	echo "last argument has no value!"
-#	usage				    # $(expr $# % 2) -> is not wroking : command not found
-#	exit 1
-#fi
-
 
 run(){
 
-echo "run is called!";
-echo "file name is : ${filename}";
-echo "inst name is : ${inst_name}";
-
-if [[ -n ${filename} && -n ${inst_name} ]]
-then
-	${PATH} '-f' ${filename} '-i' ${inst_name}
-	#exit 0
-
-elif [[ -n ${filename} ]]
-then
-	${PATH} '-f' ${filename}
-	#exit 0
-
-fi
+	#echo "run is called!";
+	#echo "file name is : ${filename}";
+	#echo "inst name is : ${inst_name}";
+	${PATH} $@
 
 }
-
-if [[ $# -gt 1  ]]
-then
-	while [[ $# -gt 1 ]]
-	do
-		case ${1} in
-		-f | --filename)       if [[ ${2} = -* || -z ${2} ]]
-					then
-						echo $RED "Error: file_name not found!";
-						usage
-						exit 1
-					else
-						filename=${2}
-					fi
-					;;
-
-		-i | --instance_name)
-					if [[ ${2} = -* || -z ${2} ]]
-					then
-					   	 echo $RED "Error: inputs not found!";
-						 usage
-						 exit 1
-			       		 else
-      					 	 inst_name=${2}
-					fi
-					;;
-		*)  echo $RED "Error : Unknown argumment!";
-		    usage
-		    exit 1
-		;;
-		esac
-
-	shift 2
-	done
-run
-elif [[ $# -eq 1 && $1 = -h || $1 = --help ]]
+if [[ $# -eq 1 && $1 = -h || $1 = --help ]]
 then
 	echo $GREEN " --help";
 	usage
@@ -105,9 +41,7 @@ then
 	usage
 	exit 1
 else
-	echo $RED "Error: required at leat one argument -f | --filename [name]"
-	usage
-	exit 1
+	run $@
 fi
 cd ${CURRENT_DIR}
 if [[ -f *.sv ]]
