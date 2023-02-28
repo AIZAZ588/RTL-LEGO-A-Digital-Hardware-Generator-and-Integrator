@@ -3,37 +3,35 @@ import argparse
 import os
 import json
 import colorama
+#################### LAGO ROOT address #######################################
+file_path = os.path.expanduser("~/.LAGO_USR_INFO")
+with open(file_path, "r") as f:
+	LAGO_DIR=f.readline().replace("LAGO_DIR=","")+"/files/";
+	f.close()
+LAGO_DIR=LAGO_DIR.replace("\n","")
+#print(LAGO_DIR," :is the path")
+##############################################################################
 from colorama import Fore
 f_name = "Baseboard.sv"
 folder_name = 'Baseboard'
-input = ''
-output = ''
-child_path = r'..\LAGO\Baseboard'
-######################### setting name of instance & body  ############################
-
+######################## setting name of instance & body  ############################
 def set_instance_name(f_name, inputs, outputs, input_ranges, output_ranges):
     m_name = f_name.replace(".sv", "")
     if inputs or outputs:
         Body = f"module {m_name} (\ninput\tlogic\t\tclk,\ninput\tlogic\t\treset,"
         if inputs:
             i = ""
-            for inp,inp_ranges in zip(inputs,input_ranges):
-                if inp_ranges == 'None':
-                    inpo = f"\ninput\tlogic\t\t{(i.join(inp))},"
-                    Body = Body + inpo
-                elif inp_ranges is None:
-                    inpo = f"\ninput\tlogic\t\t{(i.join(inp))},"
-                    Body = Body + inpo
+            for inp, inp_ranges in zip(inputs, input_ranges):
+                if inp_ranges == 'None' or inp_ranges == 'none':
+                    inpu = f"\ninput\tlogic\t\t{(i.join(inp))},"
+                    Body = Body + inpu
                 else:
-                    inpo = f"\ninput\tlogic\t{inp_ranges}\t{(i.join(inp))},"
-                    Body = Body + inpo
+                    inpu = f"\ninput\tlogic\t{inp_ranges}\t{(i.join(inp))},"
+                    Body = Body + inpu
         if outputs:
             o = ""
-            for out,opt_ranges in zip(outputs,output_ranges):
-                if opt_ranges == 'None':
-                    outu = f"\noutput\tlogic\t\t{o.join(out)},"
-                    Body = Body + outu
-                elif opt_ranges is None:
+            for out, opt_ranges in zip(outputs, output_ranges):
+                if opt_ranges == 'None' or opt_ranges == 'none':
                     outu = f"\noutput\tlogic\t\t{o.join(out)},"
                     Body = Body + outu
                 else:
@@ -44,53 +42,17 @@ def set_instance_name(f_name, inputs, outputs, input_ranges, output_ranges):
         Body = Body + end
         print(Body)
     else:
-        Body = f'''module {m_name} (\ninput\tlogic\t\tclk,\ninput\tlogic\t\treset,\n\n);\nendmodule'''
+        Body = f'''module {m_name} (\ninput\tlogic\t\tclk,\ninput\tlogic\t\treset\n\n);\nendmodule'''
         print(Body)
     return Body
 
-
 #########################################################
-
-
-def default():
-    global inputs, outputs, f_name,input_ranges,output_ranges
-    print(f_name)
-    print(os.getcwd())
-    try:
-        os.makedirs(folder_name)
-        os.chdir(folder_name)
-        with open(f_name, 'w+') as file:
-            # file.write(set_instance_name(f_name, inputs,outputs,input_ranges,output_ranges))
-            file.write(set_instance_name(f_name, inputs, outputs,input_ranges,output_ranges))
-
-            print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
-    except:
-        os.chdir(folder_name)
-        with open(f_name, 'w+') as file:
-            # file.write(set_instance_name(f_name, inputs, outputs,input_ranges,output_ranges))
-            file.write(set_instance_name(f_name, inputs, outputs,input_ranges,output_ranges))
-
-            print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
-#########################################################
-
-
 def name():
-    global inputs, outputs,input_ranges,output_ranges
-    print(os.getcwd())
-    try:
-        # print(f"{folder_name} already exists in {list_modules.path}!")
-        os.chdir(folder_name)
-        with open(f_name, 'w+') as file:
-            file.write(set_instance_name(f_name, inputs, outputs,input_ranges,output_ranges))
-            print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
-    except:
-        os.makedirs(folder_name)
-        os.chdir(folder_name)
-        with open(f_name, 'w+') as file:
-            file.write(set_instance_name(f_name, inputs, outputs,input_ranges,output_ranges))
-            print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
-
-
+    global inputs, outputs, input_ranges,f_name, output_ranges;
+    print(os.getcwd());
+    with open(f_name, 'w+') as file:
+        file.write(set_instance_name(f_name, inputs,outputs, input_ranges, output_ranges))
+        print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
 #########################################################
 def storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges):
     m_name = f_name.replace(".sv", "")
@@ -111,22 +73,21 @@ def storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges):
             ports[out] = {"type": "output", "range": output_ranges[j]}
 
     module_dict = {m_name: {"ports": ports}}
-    # return module_dict
     return m_name, module_dict
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--filename',
-                        default="Baseboard.sv", help='Name of the file')
+                        default="Baseboard.sv", help='Name of the  top level file')
     parser.add_argument('-i', '--inputs', type=str,
-                        nargs='+', help='Input port names')
-    parser.add_argument('-ir', '--input_ranges',type=str,
-                        nargs='+', help='Input port ranges')
+                        nargs='+', help='Input port name')
+    parser.add_argument('-ir', '--input_ranges', type=str,
+                        nargs='+', help='Input port range')
     parser.add_argument('-o', '--outputs', type=str,
-                        nargs='+', help='Output port names')
+                        nargs='+', help='Output port name')
     parser.add_argument('-or', '--output_ranges',
-                        nargs='+', help='Output port ranges')
+                        nargs='+', help='Output port range')
     args = parser.parse_args()
 
     f_name = args.filename
@@ -135,52 +96,35 @@ if __name__ == '__main__':
     outputs = args.outputs
     output_ranges = args.output_ranges
 
-    if f_name:
-        name()
-    else:
-        default()
-    m_name, module_dict = storing_data_in_Json(
-        f_name, inputs, input_ranges, outputs, output_ranges)
-
-    os.chdir('..')
-    os.chdir('Baseboard')
+    name() #->> name function called
+    os.chdir(LAGO_DIR)
+    try:
+        os.chdir(folder_name)
+    except:
+        os.mkdir(folder_name)
+        os.chdir(folder_name)
+    print("name is called")
+    m_name, module_dict = storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges)
 
     json_data = {
         "file_name": f"{f_name}",
-        "folder_name": f"{folder_name}",
-        "child_path": f"{child_path}"
+        "folder_name": f"{folder_name}"
     }
-    with open("key_val_file.json", "w") as jsonfile:
+
+    jname=f_name.replace(".sv","")
+    with open(f"{jname}.json", "w") as jsonfile:
         body = '{\n\"toplevelfile\":'
         end_body = '\n}'
         jsonfile.write(body)
-        json.dump(json_data, jsonfile)
+        json.dump(json_data, jsonfile, indent=4)
         jsonfile.write(end_body)
 
-
-    with open("key_val_file.json", "rb") as f:
+    with open(f"{jname}.json", "rb") as f:
         content = f.read()
-        f.seek(0,2)
-    with open('key_val_file.json', 'a+') as f:
-        # if "}" in content:
+        f.seek(0, 2)
+    with open(f'{jname}.json', 'a+') as f:
         r_end = (f.tell())-1
         x = f.truncate(r_end)
         f.write(f',\"{m_name}\":')
-        # json.dump(module_dict[m_name], f, indent=4)
-        json.dump(module_dict[m_name], f)
+        json.dump(module_dict[m_name], f, indent=4)
         f.write("\n}")
-        
-        
-    # with open("key_val_file.json", "r") as f:
-    #     content = f.read()
-    # with open('key_val_file.json', 'a+') as f:
-    #     if "}" in content:
-    #         r_end = (f.tell())-3
-    #         x = f.truncate(r_end)
-    #     f.write(',\n')
-    #     f.write(f'\"{m_name}\":')
-    #     # json.dump(module_dict[m_name], f, indent=4)
-    #     json.dump(module_dict[m_name], f, indent=4)
-    #     f.write("\n}")
-
-    
