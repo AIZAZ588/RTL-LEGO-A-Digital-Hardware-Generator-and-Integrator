@@ -4,16 +4,19 @@ import argparse
 import json
 import Extracting_data
 import colorama
-
+LAGO_DIR=''
 #################### LAGO ROOT address #######################################
-file_path = os.path.expanduser("~/.LAGO_USR_INFO")
-with open(file_path, "r") as f:
-	LAGO_DIR=f.readline().replace("LAGO_DIR=","")+"/files/";
-	f.close()
-LAGO_DIR=LAGO_DIR.replace("\n","")
+def LAGO_USR_INFO()
+	global LAGO_DIR
+	file_path = os.path.expanduser("~/.LAGO_USR_INFO")
+	with open(file_path, "a+") as f:
+		LAGO_DIR=f.readline().replace("LAGO_DIR=","")+"/files/";
+		f.close()
+	LAGO_DIR=LAGO_DIR.replace("\n","")
 #print(LAGO_DIR," :is the path")
+
 ##############################################################################
-CURRENT_DIR=os.getpwd();
+CURRENT_DIR=os.getcwd();
 from colorama import Fore
 os.chdir(LAGO_DIR)
 os.chdir('Baseboard')
