@@ -3,15 +3,20 @@ import argparse
 import os
 import json
 import colorama
-#################### LAGO ROOT address #######################################
-file_path = os.path.expanduser("~/.LAGO_USR_INFO")
-with open(file_path, "r") as f:
-	LAGO_DIR=f.readline().replace("LAGO_DIR=","")+"/files/";
-	f.close()
-LAGO_DIR=LAGO_DIR.replace("\n","")
+#################### LAGO ROOT address ######################################
+def LAGO_USR_INFO(fname):
+	global LAGO_DIR;
+	file_path = os.path.expanduser("~/.LAGO_USR_INFO")
+	with open(file_path, "a+") as f:
+		f.write(f"top_level_file={fname}\n") #--> write file current top file name
+		f.seek(0)
+		LAGO_DIR=f.readline().replace("LAGO_DIR=","")+"/files/";
+		f.close()
+		LAGO_DIR=LAGO_DIR.replace("\n","")
 #print(LAGO_DIR," :is the path")
 ##############################################################################
 from colorama import Fore
+LAGO_DIR=''
 f_name = "Baseboard.sv"
 folder_name = 'Baseboard'
 ######################## setting name of instance & body  ############################
@@ -95,7 +100,7 @@ if __name__ == '__main__':
     input_ranges = args.input_ranges
     outputs = args.outputs
     output_ranges = args.output_ranges
-
+    LAGO_USR_INFO(f_name)
     name() #->> name function called
     os.chdir(LAGO_DIR)
     try:
