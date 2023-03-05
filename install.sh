@@ -28,18 +28,18 @@ then
 	if [[ -f ~/.LAGO_USR_INFO ]]
 	then
 		/bin/rm -r ~/.LAGO_USR_INFO
-		echo "LAGO_DIR=${LAGO_DIR}">~/.LAGO_USR_INFO;
+		echo -n "LAGO_DIR=${LAGO_DIR}">~/.LAGO_USR_INFO; # -n -> dont insert newline at end
 
 	elif [[ -n ~/.LAGO_USR_INFO ]]
 	then
-		echo "LAGO_DIR=${LAGO_DIR}">~/.LAGO_USR_INFO;
+		echo -n "LAGO_DIR=${LAGO_DIR}">~/.LAGO_USR_INFO;
 	else
 		echo "error: LAGO_USR_INFO is not written!";
 		exit 1
 	fi
 
-		/bin/chmod a+x *.sh
-		/bin/chmod a+x ${LAGO_DIR}/files/*.py
+		/bin/chmod u+x *.sh
+		/bin/chmod u+x ${LAGO_DIR}/files/*.py
 
 fi
 }
@@ -69,9 +69,9 @@ fi
 
 CREATE_LINK
 
-echo -e ${WHITE} "USAGE:\nUse 'create' command to generate toplevel file\n eg:";./create.sh '-h';
-echo -e ${WHITE}  "\nAfter creating toplevel file use 'plug' command to plug the instance of file\n eg:"; ./plug.sh '-h';
-echo -e ${WHITE} "\nAfter pluging instances use 'connect' command to connect instances \n eg:";./connect.sh '-h';
-echo -e ${WHITE} "\nUse 'list_lagos' command to find avalible modules";./list_lagos.sh '-h';
-echo -e ${WHITE} "\nHERE is a list of files you can plug to:";
+echo -e -n ${WHITE} "USAGE:\nUse 'create' command to generate toplevel file\n eg:";./create.sh '-h';
+echo -e -n ${WHITE}  "\nAfter creating toplevel file use 'plug' command to plug the instance of file\n eg:"; ./plug.sh '-h';
+echo -e -n ${WHITE} "\nAfter pluging instances use 'connect' command to connect instances \n eg:";./connect.sh '-h';
+echo -e -n ${WHITE} "\nUse 'list_lagos' command to find avalible modules";./list_lagos.sh '-h';
+echo -e -n ${WHITE} "\nHERE is a list of files you can plug to:";
 ${LAGO_DIR}/list_lagos.sh

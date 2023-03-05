@@ -3,17 +3,17 @@ import argparse
 import os
 import json
 import colorama
+
 #################### LAGO ROOT address ######################################
 def LAGO_USR_INFO(fname):
 	global LAGO_DIR;
 	file_path = os.path.expanduser("~/.LAGO_USR_INFO")
 	with open(file_path, "a+") as f:
-		f.write(f"top_level_file={fname}\n") #--> write file current top file name
+		f.write(f"\nTOP_FILE={fname}") #--> write current toplevel file name
 		f.seek(0)
 		LAGO_DIR=f.readline().replace("LAGO_DIR=","")+"/files/";
 		f.close()
 		LAGO_DIR=LAGO_DIR.replace("\n","")
-#print(LAGO_DIR," :is the path")
 ##############################################################################
 from colorama import Fore
 LAGO_DIR=''
@@ -54,7 +54,6 @@ def set_instance_name(f_name, inputs, outputs, input_ranges, output_ranges):
 #########################################################
 def name():
     global inputs, outputs, input_ranges,f_name, output_ranges;
-    print(os.getcwd());
     with open(f_name, 'w+') as file:
         file.write(set_instance_name(f_name, inputs,outputs, input_ranges, output_ranges))
         print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
@@ -100,6 +99,7 @@ if __name__ == '__main__':
     input_ranges = args.input_ranges
     outputs = args.outputs
     output_ranges = args.output_ranges
+
     LAGO_USR_INFO(f_name)
     name() #->> name function called
     os.chdir(LAGO_DIR)
@@ -108,7 +108,6 @@ if __name__ == '__main__':
     except:
         os.mkdir(folder_name)
         os.chdir(folder_name)
-    print("name is called")
     m_name, module_dict = storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges)
 
     json_data = {

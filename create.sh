@@ -5,7 +5,6 @@
 CURRENT_DIR=$(pwd)
 . ~/.LAGO_USR_INFO
 PATH="${LAGO_DIR}/files/create.py"
-#cd ${LAGO_DIR}/files
 RED=$'\e[1;31m'
 YELLOW=$'\e[1;33m'
 WHITE=$'\e[1;37m'
@@ -17,7 +16,6 @@ GREEN=$'\e[1;32m'
 usage(){
 
 echo $WHITE  "$(/bin/basename $0) :USAGE"
-#echo $WHITE "create :UASGE";
 echo $YELLOW	       "create -f | --filename [name] ";
 echo "             -i | --inputs   [name] -ir | --input_range  [a:b]  "
 echo "	            -o | --outputs  [name] -or | --output_range [x:y]  ";
