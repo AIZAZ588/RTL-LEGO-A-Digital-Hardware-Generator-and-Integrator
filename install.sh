@@ -21,14 +21,16 @@ then
 	echo "======plug    installed======";
 	sudo ln -s  ${LAGO_DIR}/connect.sh connect;
 	echo "======connect installed======";
-	sudo ln -s ${LAGO_DIR}/list_lagos.sh list_lagos;
-	echo "======list_lagos installed===";
+	sudo ln -s ${LAGO_DIR}/list_lago.sh list_lago;
+	echo "======list_lago installed===";
+	sudo ln -s ${LAGO_DIR}/config.sh config;
+	echo "======config installed=======";
 	echo "+++++++++++++++++++++++++++++";
 	cd $LAGO_DIR
 	if [[ -f ~/.LAGO_USR_INFO ]]
 	then
 		/bin/rm -r ~/.LAGO_USR_INFO
-		echo -n "LAGO_DIR=${LAGO_DIR}">~/.LAGO_USR_INFO; # -n -> dont insert newline at end
+		echo -n "LAGO_DIR=${LAGO_DIR}">~/.LAGO_USR_INFO;
 
 	elif [[ -n ~/.LAGO_USR_INFO ]]
 	then
@@ -67,11 +69,20 @@ else
 	exit 1
 fi
 
+if [ -e ./config.sh ];then
+	FILE4=true;
+else
+	echo "config.sh not exists"
+	echo "config.sh is not installed"
+	exit 1
+fi
+
 CREATE_LINK
 
 echo -e -n ${WHITE} "USAGE:\nUse 'create' command to generate toplevel file\n eg:";./create.sh '-h';
 echo -e -n ${WHITE}  "\nAfter creating toplevel file use 'plug' command to plug the instance of file\n eg:"; ./plug.sh '-h';
 echo -e -n ${WHITE} "\nAfter pluging instances use 'connect' command to connect instances \n eg:";./connect.sh '-h';
-echo -e -n ${WHITE} "\nUse 'list_lagos' command to find avalible modules";./list_lagos.sh '-h';
+echo -e -n ${WHITE} "\nUse config command to configure your Top_level_file"
+echo -e -n ${WHITE} "\nUse 'list_lago' command to find avalible modules";./list_lago.sh '-h';
 echo -e -n ${WHITE} "\nHERE is a list of files you can plug to:";
-${LAGO_DIR}/list_lagos.sh
+${LAGO_DIR}/list_lago.sh

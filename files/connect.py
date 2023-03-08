@@ -6,13 +6,28 @@ import re
 import colorama
 from colorama import Fore
 found = False
-os.chdir('Baseboard')
-with open('key_val_file.json', 'r') as f:
-    data = json.load(f)
-    for i in data:
-        fileName = data['toplevelfile']['file_name']
-        folder_name = data['toplevelfile']['folder_name']
 
+LAGO_DIR=''
+Top_level_file=''
+CURRENT_DIR=os.getcwd()
+#################### LAGO ROOT address #######################################
+def LAGO_USR_INFO():
+        global LAGO_DIR,Top_level_file,top_file
+        Linux_file_path = os.path.expanduser("~/.LAGO_USR_INFO")
+        with open(Linux_file_path, "r") as Shell_file:
+            sh_file=Shell_file.readlines()
+            LAGO_DIR=sh_file[0].replace("LAGO_DIR=","")+"/files/";
+            if top_file:
+             if f"TOP_FILE={top_file}\n" in sh_file:
+                Top_level_file=top_file
+             else:
+                print(f"{top_file} is not present")
+                exit()
+            else:
+                Top_level_file=sh_file[-1]
+        LAGO_DIR=LAGO_DIR.replace("\n","")
+        Top_level_file=Top_level_file.replace("TOP_FILE=",'')
+##############################################################################
 
 def check_range_equality(inst1, inst2, k1, k2):
     global found
@@ -40,7 +55,7 @@ def check_range_equality(inst1, inst2, k1, k2):
         return found
 
 def change_line_in_instance(found, instance1, input_ports, output_ports):
-    with open(f"{fileName}", 'r') as f:
+    with open(f"{CURRENT_DIR}/{Top_level_file}", 'r') as f:
         content = f.read()
     pattern = rf'{instance1}\s*(([\s\S]*?));'
     match = re.search(pattern, content)
@@ -63,7 +78,7 @@ def change_line_in_instance(found, instance1, input_ports, output_ports):
         exit()
 
     # Write the modified content back to the file
-    with open(f'{fileName}', 'w') as f:
+    with open(f"{CURRENT_DIR}/{Top_level_file}", 'w') as f:
         f.write(content)
 
 if __name__ == '__main__':
@@ -73,6 +88,7 @@ if __name__ == '__main__':
     # Add arguments for the instances and ports
     parser.add_argument('-i', '--instance1', required=True,
                         help='Name of the first instance')
+    parser.add_argument('-t', '--top_file', help='other top level file',type=str)
     parser.add_argument('-o', '--instance2', required=True,
                         help='Name of the second instance')
     parser.add_argument('-ip', '--input_ports', nargs='+', type=str,
@@ -81,8 +97,15 @@ if __name__ == '__main__':
                         required=True, help='Output ports of the second instance')
     # Parse the arguments
     args = parser.parse_args()
+    top_file=args.top_file
+    LAGO_USR_INFO()
+
+    Baseboard_path = os.path.join(LAGO_DIR,'Baseboard')
+    json_file=Top_level_file.replace(".sv",'.json')
+    with open(f'{Baseboard_path}/{json_file}', 'r') as f:
+        data = json.load(f)
+
     found = check_range_equality(
         args.instance1, args.instance2, args.input_ports, args.output_ports)
     change_line_in_instance(found, args.instance1,
                             args.input_ports, args.output_ports)
-

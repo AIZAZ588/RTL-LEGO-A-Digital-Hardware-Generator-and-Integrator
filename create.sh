@@ -1,8 +1,7 @@
 #!/bin/bash
 #set -x
 #=====================VARIABLES=======================
-#echo "my home is :" $(pwd)
-CURRENT_DIR=$(pwd)
+#CURRENT_DIR=$(pwd)
 . ~/.LAGO_USR_INFO
 PATH="${LAGO_DIR}/files/create.py"
 RED=$'\e[1;31m'
@@ -18,14 +17,10 @@ usage(){
 echo $WHITE  "$(/bin/basename $0) :USAGE"
 echo $YELLOW	       "create -f | --filename [name] ";
 echo "             -i | --inputs   [name] -ir | --input_range  [a:b]  "
-echo "	            -o | --outputs  [name] -or | --output_range [x:y]  ";
+echo "	           -o | --outputs  [name] -or | --output_range [x:y]  ";
 
 }
 run(){
-
-	#echo "run is called"
-	#echo "path is 	   : ${PATH}";
-	#echo "you entered : " $@
 	${PATH} $@
 }
 

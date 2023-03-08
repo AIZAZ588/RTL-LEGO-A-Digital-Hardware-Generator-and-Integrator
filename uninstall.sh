@@ -26,13 +26,22 @@ else
 	echo "create was not installed";
 fi
 
-if [[ -n $(/bin/find list_lagos) ]]
+if [[ -n $(/bin/find list_lago) ]]
 then
 	echo "------------------------------";
-	sudo /bin/rm list_lagos
-	echo "----list_lagos uninstalled----";
+	sudo /bin/rm list_lago
+	echo "----list_lago uninstalled----";
 else
-	echo "lago_list was not installed";
+	echo "list_lago was not installed";
+fi
+
+if [[ -n $(/bin/find config) ]]
+then
+	echo "------------------------------";
+	sudo /bin/rm config
+	echo "----config uninstalled----";
+else
+	echo "config was not installed";
 fi
 cd ~
 if [[ -n $(find .LAGO_USR_INFO) ]]
