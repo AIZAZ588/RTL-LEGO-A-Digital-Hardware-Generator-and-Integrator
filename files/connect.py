@@ -72,7 +72,7 @@ def change_line_in_instance(found, instance1, input_ports, output_ports):
             block = re.sub(pattern, f'.{input_port} \t\t\t\t({output_port})', block)
         pattern = rf'{instance1}\s*(([\s\S]*?));'
         content = re.sub(pattern, block, content)
-        print(Fore.LIGHTBLUE_EX + 'Ports Connected.' + Fore.RESET)
+        print(Fore.GREEN + 'Ports Connected.' + Fore.RESET)
     else:
         print(Fore.RED + 'Error: Not connected.' + Fore.RESET)
         exit()
