@@ -9,16 +9,16 @@ LAGO_DIR=''
 Top_level_file=''
 #################### LAGO ROOT address #######################################
 def LAGO_USR_INFO():
-        global LAGO_DIR,Top_level_file,file,top_file
+        global LAGO_DIR,Top_level_file,file
         Linux_file_path = os.path.expanduser("~/.LAGO_USR_INFO")
         with open(Linux_file_path, "r") as Shell_file:
             sh_file=Shell_file.readlines()
             LAGO_DIR=sh_file[0].replace("LAGO_DIR=","")+"/files/";
-            if top_file:
-             if f"TOP_FILE={top_file}\n" in sh_file:
-                Top_level_file=top_file
+            if Top_level_file:
+             if f"TOP_FILE={Top_level_file}\n" in sh_file:
+                pass
              else:
-                print(f"{top_file} is not present")
+                print(f"{Top_level_file} is not present")
                 exit()
             else:
                 Top_level_file=sh_file[-1]
@@ -96,16 +96,14 @@ def change_IO_status_json(port_name, new_status):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Update file contents')
     parser.add_argument('-f','--file_name', help='Name of the file to update')
-    parser.add_argument('-t', '--top_file', help='other top level file',type=str)
     parser.add_argument('-a','--operation', choices=['update_range', 'update_range_json', 'change_IO_status', 'change_IO_status_json'])
     parser.add_argument('-nr','--new_range', help='New range to update (for update_range and update_range_json operations)')
     parser.add_argument('-p','--port_name', help='Name of the port to update (for update_range, update_range_json, change_IO_status, and change_IO_status_json operations)')
     parser.add_argument('-ns','--new_status', choices=['input', 'output'], help='New status to update (for change_IO_status and change_IO_status_json operations)')
     args = parser.parse_args()
-    top_file=args.top_file
 
     Top_level_file = arg.file_name
-    LAGO_USR_INFO()	
+    LAGO_USR_INFO()
     Baseboard_path = os.path.join(LAGO_DIR,'Baseboard')
     Json_Top_file=Top_level_file.replace(".sv",'')
 

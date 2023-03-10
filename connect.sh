@@ -17,7 +17,7 @@ usage(){
 
 echo $WHITE "$(/bin/basename $0) :USAGE"
 echo $YELLOW	       "$0 -i | --input_inst [name], -ip | --input_ports  [name]";
-echo "	            -o | --output_inst [name] -op |, --output_ports [name] ";
+echo "	            -op |, --output_ports [name] ";
 	exit
 
 }
