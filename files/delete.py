@@ -11,16 +11,16 @@ LAGO_DIR=''
 Top_level_file=''
 #################### LAGO ROOT address #######################################
 def LAGO_USR_INFO():
-        global LAGO_DIR,Top_level_file,top_file
+        global LAGO_DIR,Top_level_file
         Linux_file_path = os.path.expanduser("~/.LAGO_USR_INFO")
         with open(Linux_file_path, "r") as Shell_file:
             sh_file=Shell_file.readlines()
             LAGO_DIR=sh_file[0].replace("LAGO_DIR=","")+"/files/";
-            if top_file:
-             if f"TOP_FILE={top_file}\n" in sh_file:
-                Top_level_file=top_file
+            if Top_level_file:
+             if f"TOP_FILE={Top_level_file}" in sh_file:
+                pass
              else:
-                print(f"{top_file} is not present")
+                print(f"{Top_level_file} is not present")
                 exit()
             else:
                 Top_level_file=sh_file[-1]
@@ -49,7 +49,7 @@ def delete_port(filename, port_name):
     prev_line = ""
     deleted = False  # flag to track if the port has been deleted
 
-    for line in fileinput.input(fileName, inplace=True):
+    for line in fileinput.input(filename, inplace=True):
         if port_name in line and not ',' in line:
             line = prev_line.rstrip(',\n') + "\n"
             new_lines[-1] = line
@@ -103,25 +103,25 @@ def delete_instance(fileName, instance):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-f', "--file_name", help="Name of file where instance needs to be removed from")
-    parser.add_argument("-d", "--delete", nargs='+',
-                        help="Name of instance to be removed")
+        '-f', "--file_name", help="Name of file where port or instance has to be removed")
+    parser.add_argument(
+        '-p', "--port", help="Name of file of port which needs to be removed")
 
-    parser.add_argument('-t', '--top_file', help='other top level file',type=str)
+    parser.add_argument(
+        '-i', "--instance", help="Name of instances which needs to be removed")
 
     arg = parser.parse_args()
-    top_file=args.top_file
     Top_level_file = arg.file_name
 
-    Json_Top_file=Top_level_file.replace(".sv",'')
     LAGO_USR_INFO()
+    Json_Top_file=Top_level_file.replace(".sv",'')
     Baseboard_path = os.path.join(LAGO_DIR,'Baseboard')
 
-    if arg.delete[0] == 'port':
-        port = arg.delete[1]
+    if arg.port:
+        port = arg.port
         json_delete_port(Top_level_file,port)
         delete_port(Top_level_file, port)
-    elif arg.delete[0] == 'instance':
-        instance = arg.delete[1]
+    if arg.instance:
+        instance = arg.instance
         delete_instance(Top_level_file, instance)
         json_delete_instance(instance)

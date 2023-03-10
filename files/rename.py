@@ -8,16 +8,16 @@ LAGO_DIR=''
 Top_level_file=''
 #################### LAGO ROOT address #######################################
 def LAGO_USR_INFO():
-        global LAGO_DIR,Top_level_file,top_file
+        global LAGO_DIR,Top_level_file
         Linux_file_path = os.path.expanduser("~/.LAGO_USR_INFO")
         with open(Linux_file_path, "r") as Shell_file:
             sh_file=Shell_file.readlines()
             LAGO_DIR=sh_file[0].replace("LAGO_DIR=","")+"/files/";
-            if top_file:
-             if f"TOP_FILE={top_file}\n" in sh_file:
-                Top_level_file=top_file
+            if Top_level_file:
+             if f"TOP_FILE={Top_level_file}\n" in sh_file:
+                pass
              else:
-                print(f"{top_file} is not present")
+                print(f"{Top_level_file} is not present")
                 exit()
             else:
                 Top_level_file=sh_file[-1]
@@ -87,26 +87,26 @@ def update_port_name(old_port_name, new_port_name):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-r','--rename',type=str, help='name of file where instance or port need to be renamed')
+
     parser.add_argument('-f','--file_name',type=str, help='name of file where instance or port need to be renamed')
     parser.add_argument('-e','--earlier',type=str, help='name of file where instance or port need to be renamed')
     parser.add_argument('-c','--current',type=str, help='name of file where instance or port need to be renamed')
 
-    parser.add_argument('-t', '--top_file', help='other top level file',type=str)
+    parser.add_argument('-p','--port',type=str, help='name of port need to be renamed')
+    parser.add_argument('-i','--instance',type=str, help='name of instance need to be renamed')
 
     args = parser.parse_args()
     Top_level_file = args.file_name
     erlier_name = args.earlier
     current_name = args.current
-    top_file=args.top_file
-    Json_Top_file=Top_level_file.replace(".sv",'')
     LAGO_USR_INFO()
+    Json_Top_file=Top_level_file.replace(".sv",'')
     Baseboard_path = os.path.join(LAGO_DIR,'Baseboard')
 
 
-    if args.rename == 'port':
+    if args.port:
         rename_port(Top_level_file,erlier_name,current_name)
         update_port_name(erlier_name,current_name)
-    elif args.rename == 'instance':
+    if args.instance:
         update_module_name(erlier_name,current_name)
         rename_module(Top_level_file,erlier_name,current_name)
