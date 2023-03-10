@@ -56,7 +56,7 @@ def name():
     global inputs, outputs, input_ranges,f_name, output_ranges;
     with open(f_name, 'w+') as file:
         file.write(set_instance_name(f_name, inputs,outputs, input_ranges, output_ranges))
-        print(Fore.LIGHTBLUE_EX + f"{f_name} created" + Fore.RESET)
+        print(Fore.GREEN + f"{f_name} created" + Fore.RESET)
 #########################################################
 def storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges):
     m_name = f_name.replace(".sv", "")
