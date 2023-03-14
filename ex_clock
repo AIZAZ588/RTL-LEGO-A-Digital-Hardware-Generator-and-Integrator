@@ -1,9 +1,0 @@
-#!/bin/bash
-create "-f clock.sv" "-i en count_max_hrs clr_sec count_sec" "-ir None [5:0] None [5:0]" "-o clr_min count_min clr_hrs count_hrs" "-or None [5:0] None [5:0]";
-plug "-f up_counter.sv"" -n Sec";
-plug "-f up_counter.sv"" -n Min";
-plug "-f up_counter.sv"" -n Hr";
-
-connect "-i Sec" " -ip clk en reset clr count_max count ""-op clk en reset clr_sec count_max count_sec"
-connect "-i Min" " -ip clk en reset clr count_max count ""-op clk en reset clr_min count_max count_min"
-connect "-i Hr " " -ip clk en reset clr count_max count ""-op clk en reset clr_hrs count_max_hrs count_hrs"
