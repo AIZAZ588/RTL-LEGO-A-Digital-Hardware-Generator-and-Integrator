@@ -39,7 +39,7 @@ if [[ -n $(/bin/find config) ]]
 then
 	echo "------------------------------";
 	sudo /bin/rm config
-	echo "----config uninstalled----";
+	echo "----config uninstalled--------";
 else
 	echo "config was not installed";
 fi
@@ -48,7 +48,7 @@ if [[ -n $(find .LAGO_USR_INFO) ]]
 then
 	echo "------------------------------";
 	sudo /bin/rm .LAGO_USR_INFO
-	echo "-----create uninstalled-------";
+	echo "---LAGO_USR_INFO uninstalled--";
 else
 	echo ".LAGO_USR_INFO not found!";
 fi
