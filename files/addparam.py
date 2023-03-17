@@ -1,13 +1,8 @@
 #!/usr/bin/python3
-import os
 from colorama import Fore
-
 def adding_parameters(filename, param, ranges):
-    print("top file is  : ", filename)
-    print(os.getcwd())
     with open (filename,'r') as topfile:
         data=topfile.readlines()
-        print(data)
         if data[0].endswith("#(\n"):
             if any(param in s for s in data):
                 print(Fore.RED + f"{param} already exists in {filename}" + Fore.RESET)
@@ -25,6 +20,5 @@ def adding_parameters(filename, param, ranges):
             data.insert(0,first_line)
             data.insert(1,f"\tparameter {param}  \t = {ranges}\n)\n\n(\n")
             print(Fore.BLUE + f"{param} added in {filename}" + Fore.RESET)
-        print(data)
         with open (filename,'w') as topfile:
             topfile.writelines(data)
