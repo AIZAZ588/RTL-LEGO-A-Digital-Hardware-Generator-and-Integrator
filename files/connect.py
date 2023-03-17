@@ -15,7 +15,7 @@ def LAGO_USR_INFO():
         Linux_file_path = os.path.expanduser("~/.LAGO_USR_INFO")
         with open(Linux_file_path, "r") as Shell_file:
             sh_file=Shell_file.readlines()
-            LAGO_DIR=sh_file[0].replace("LAGO_DIR=","")+"/files/";
+            LAGO_DIR=sh_file[0].replace("LAGO_DIR=","")+"/files/"
             if Top_level_file:
              if f"TOP_FILE={Top_level_file}\n" in sh_file:
                 pass
@@ -62,6 +62,36 @@ def check_range_equality(inst1, inst2, k1, k2):
         return found
 
 
+# def change_line_in_instance(found, instance1, input_ports, output_ports):
+#     with open(f"{Top_level_file}", 'r') as f:
+#         content = f.read()
+#     pattern = rf'{instance1}\s*(([\s\S]*?));'
+#     match = re.search(pattern, content)
+#     if found and match:
+#         block = match.group()
+#         for input_port, output_port in zip(input_ports, output_ports):
+#             pattern = rf'\.{input_port}\s*\((?P<connected_port>\w+)\)'
+#             existing_connection = re.search(pattern, block)
+#             if existing_connection:
+#                 connected_port = existing_connection.group('connected_port')
+#                 if connected_port:
+#                     print(
+#                         Fore.RED + f'Error: Port {input_port} is already connected to {connected_port}.' + Fore.RESET)
+#                     exit()
+#             pattern = rf'\.{input_port}\s*\([\s\S]*?\)'
+#             block = re.sub(
+#                 pattern, f'.{input_port} \t\t\t\t({output_port})', block)
+#         pattern = rf'{instance1}\s*(([\s\S]*?));'
+#         content = re.sub(pattern, block, content)
+#         print(Fore.GREEN + f'Instance {instance1} Connected to ports of {instance2}.' + Fore.RESET)
+#     else:
+#         print(Fore.RED + 'Error: Not connected.' + Fore.RESET)
+#         exit()
+
+#     # Write the modified content back to the file
+#     with open(f'{Top_level_file}', 'w') as f:
+#         f.write(content)
+
 def change_line_in_instance(found, instance1, input_ports, output_ports):
     with open(f"{Top_level_file}", 'r') as f:
         content = f.read()
@@ -70,25 +100,25 @@ def change_line_in_instance(found, instance1, input_ports, output_ports):
     if found and match:
         block = match.group()
         for input_port, output_port in zip(input_ports, output_ports):
-            pattern = rf'\.{input_port}\s*\((?P<connected_port>\w+)\)'
-            existing_connection = re.search(pattern, block)
-            if existing_connection:
-                connected_port = existing_connection.group('connected_port')
+            pattern = rf'\.{input_port}\s*\((?P<connected_port>.*)\)'
+            existing_connections = re.findall(pattern, block)
+            for connected_port in existing_connections:
+                pattern = rf'\.{input_port}\s*\([\s\S]*?\)' 
                 if connected_port:
-                    print(
-                        Fore.RED + f'Error: Port {input_port} is already connected to {connected_port}.' + Fore.RESET)
-                    exit()
-            pattern = rf'\.{input_port}\s*\([\s\S]*?\)'
-            block = re.sub(
-                pattern, f'.{input_port} \t\t\t\t({output_port})', block)
-        pattern = rf'{instance1}\s*(([\s\S]*?));'
-        content = re.sub(pattern, block, content)
-        print(Fore.GREEN + 'Ports Connected.' + Fore.RESET)
-
-    else:
-        print(Fore.RED + 'Error: Not connected.' + Fore.RESET)
-        exit()
-
+                    connected_ports_list = [port.strip() for port in connected_port.strip('(){}').split(',')]
+                    if output_port in connected_ports_list:
+                        print(Fore.RED + f"Error: {output_port} already connected to {input_port}" + Fore.RESET)
+                        exit()
+                    else:
+                        connected_ports_list.append(output_port)
+                    connected_ports_str = '{{{}}}'.format(', '.join(connected_ports_list))
+                    block = re.sub(pattern, fr'.{input_port} \t\t\t\t({connected_ports_str})', block)
+                else:
+                    block = re.sub(pattern, f'.{input_port} \t\t\t\t({output_port})', block)       
+            pattern = rf'{instance1}\s*(([\s\S]*?));'
+            content = re.sub(pattern, block, content)
+            print(Fore.LIGHTGREEN_EX + 'Ports Connected.' + Fore.RESET)
+        
     # Write the modified content back to the file
     with open(f'{Top_level_file}', 'w') as f:
         f.write(content)
