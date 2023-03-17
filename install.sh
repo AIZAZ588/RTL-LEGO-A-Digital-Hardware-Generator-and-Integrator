@@ -19,7 +19,7 @@ then
 	echo "======create  installed======";
 	sudo ln -s  ${LAGO_DIR}/files/plug.py plug;
 	echo "======plug    installed======";
-	sudo ln -s  ${LAGO_DIR}/files/connect.sh connect;
+	sudo ln -s  ${LAGO_DIR}/files/connect.py connect;
 	echo "======connect installed======";
 	sudo ln -s ${LAGO_DIR}/list_lago.sh list_lago;
 	echo "======list_lago installed===";
@@ -27,7 +27,7 @@ then
 	echo "======add installed=======";
 	sudo ln -s ${LAGO_DIR}/files/rename.py rename;
 	echo "======rename installed=======";
-	sudo ln -s ${LAGO_DIR}/files/delete.py add;
+	sudo ln -s ${LAGO_DIR}/files/delete.py delete;
 	echo "======delete installed=======";
 	echo "+++++++++++++++++++++++++++++";
 	cd $LAGO_DIR

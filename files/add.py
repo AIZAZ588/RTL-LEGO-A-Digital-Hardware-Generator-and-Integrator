@@ -32,7 +32,8 @@ def LAGO_USR_INFO():
 ##############################################################################
 
 
-def add_inputs_outputs(fileName,inputs,outputs,input_ranges,output_ranges,Baseboard_path):
+def add_inputs_outputs(fileName,inputs,input_ranges,outputs,output_ranges,Baseboard_path):
+    print("Base path is  : ",Baseboard_path)
     instance1 = fileName.replace('.sv','')
     with open(fileName, 'r') as f:
         content = f.read()
@@ -100,12 +101,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()       
     parser.add_argument('-p',"--port",action='store_true')
     parser.add_argument('-c',"--chnage",type=str,help='change IO status or range')
-    parser.add_argument('-P', '--parameter', type=str, nargs='+',help='the name of the parameter(s) to add')
-    parser.add_argument('-v', '--value', dest='value', type=str, nargs='+',default=['None'], help='the value of the parameter(s) to add')
+    parser.add_argument('-P', '--parameter', type=str,help='the name of the parameter(s) to add')
+    parser.add_argument('-v', '--value', dest='value', type=str,default=['None'], help='the value of the parameter(s) to add')
     
     
     parser.add_argument('-nr','--new_range', help='New range of input or output port')
-    parser.add_argument('-p','--port_name', help='Name of the port to update (for update_range, update_range_json, change_IO_status, and change_IO_status_json operations)')
+    parser.add_argument('-pr','--port_name', help='Name of the port to update (for update_range, update_range_json, change_IO_status, and change_IO_status_json operations)')
     parser.add_argument('-ns','--new_status', choices=['input', 'output'], help='New status to update (for change_IO_status and change_IO_status_json operations)')
 
     
@@ -117,26 +118,28 @@ if __name__ == '__main__':
     parser.add_argument('-or', '--output_ranges',help='Output port range')
     args=parser.parse_args()
     
-    Top_level_file = args.toplevelfile
-    Baseboard_path = os.path.join(LAGO_DIR, 'Baseboard')
+    Top_level_file = args.topfile
+    
     
     LAGO_USR_INFO()
+    Baseboard_path = os.path.join(LAGO_DIR, 'Baseboard')
     if args.port:
         if args.inputs or args.outputs:
             add_inputs_outputs(Top_level_file,args.inputs,args.input_ranges,args.outputs,args.output_ranges,Baseboard_path)
+            exit()
         else:
             print("Please provide input or output port name")
             print("Example:add -p <port> -i <inputs> 'clk' -o <outputs> 'rst' -t <topfile> 'top.sv")
             exit()
-    if args.parameter:
+    elif args.parameter:
         if args.value:
-           addparam.add_parameters(Top_level_file,args.parameter,args.ranges,Baseboard_path)
+           addparam.adding_parameters(Top_level_file,args.parameter,args.value)
         else:
             print("Please provide value for parameter(s) to add")
             print("Example:add -P <parameter> 'WIDTH' -v <value> '32' -t <topfile> 'top.sv")
             exit()
             
-    if args.chnage:
+    elif args.chnage:
         if args.change=='range':
             if args.port_name and args.new_range:
                 changeIOandRange.update_range(Top_level_file,args.port_name,args.new_range,Baseboard_path)

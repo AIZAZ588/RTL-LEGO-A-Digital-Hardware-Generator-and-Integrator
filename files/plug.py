@@ -303,13 +303,13 @@ if __name__ == '__main__':
             exit()
         
     if args.register:
-        if args.inputs and args.outputs and args.enable_signal:
+        if args.inputs and args.outputs:
             generate_register(args.inputs, args.outputs, args.enable_signal, args.input_ranges, args.output_ranges)   # why en is taking as input
             exit()
         else:
             print("Please provide all the required arguments\n")
             print("plug -r -i <input_signal> -o <output_signal> -en <enable_signal> -ir <input_range> -or <output_range> \n")
             exit()
-else:
-    print("Please select bewteen inst,reg,mux \n")
-    exit()
+    else:
+        print("Please select bewteen inst,reg,mux")
+        exit()
