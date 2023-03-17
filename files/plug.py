@@ -10,20 +10,21 @@ import re
 from colorama import Fore
 LAGO_DIR = ''
 Top_level_file = ''
+CURRENT_DIR = os.getcwd()
 #################### LAGO ROOT address #######################################
 
 
 def LAGO_USR_INFO():
-    global LAGO_DIR, Top_level_file, file, top_file
+    global LAGO_DIR, Top_level_file, file
     Linux_file_path = os.path.expanduser("~/.LAGO_USR_INFO")
     with open(Linux_file_path, "r") as Shell_file:
         sh_file = Shell_file.readlines()
         LAGO_DIR = sh_file[0].replace("LAGO_DIR=", "")+"/files/"
-        if top_file:
-            if f"TOP_FILE={top_file}\n" in sh_file:
-                Top_level_file = top_file
+        if Top_level_file:
+            if f"TOP_FILE={Top_level_file}\n" in sh_file:
+                pass
             else:
-                print(f"{top_file} is not present")
+                print(f"{Top_level_file} is not present")
                 exit()
         else:
             Top_level_file = sh_file[-1]
@@ -32,7 +33,6 @@ def LAGO_USR_INFO():
 
 
 ##############################################################################
-CURRENT_DIR = os.getcwd()
 
 def copy_file(file):
     global CURRENT_DIR, library_file
@@ -237,73 +237,80 @@ def fileio(inputs, input_ranges, outputs, output_ranges):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('-inst',"--instance",action='store_true')
+    parser.add_argument('-m',"--mux",action='store_true')
+    parser.add_argument('-r',"--register",action='store_true')
+    parser.add_argument('-t,','--toplevelfile',help='Top level file name', type=str)
+    
     parser.add_argument('-n', '--instance_name', help='Name of instance')
-    parser.add_argument('-f', '--file_name',
-                        help='Name of file from which instance is taken', type=str)
-    parser.add_argument('-t', '--top_file',
-                        help='other top level file', type=str)
+    parser.add_argument('-f', '--file_name',help='Name of file from which instance is taken', type=str)
     parser.add_argument('-i', '--inputs',help='Input port name')
     parser.add_argument('-ir', '--input_ranges',help='Input port range')
     parser.add_argument('-o', '--outputs',help='Output port name')
     parser.add_argument('-or', '--output_ranges',help='Output port range')
-    parser.add_argument('-is', '--input_signal', default=[], type=str,
-                        nargs='+', help='Output port range')
-    parser.add_argument('-os', '--output_signal', type=str,
-                        help='Output port range')
+    
+    
+    #parser.add_argument('-is', '--input_signal', default=[], type=str,nargs='+', help='Output port range')
+    #parser.add_argument('-os', '--output_signal', type=str,help='Output port range')
+    
     parser.add_argument('-sl', '--select_line', type=str, help='Select line')
+    
     parser.add_argument('-re', '--reset_signal', type=str, help='Select line')
     parser.add_argument('-en', '--enable_signal', type=str, help='Select line')
-    parser.add_argument('-op', '--operation', choices=['dec', 'add','reg'])
-    args = parser.parse_args()
-
-    file = args.file_name
-    top_file = args.top_file
     
-###################################################################################################
-    info = LAGO_USR_INFO()  # ---->
+    args = parser.parse_args()
+    file = args.file_name
+    Top_level_file = args.toplevelfile
+    
+    LAGO_USR_INFO()  # ---->
     Baseboard_path = os.path.join(LAGO_DIR, 'Baseboard')
+    
+    if args.instance:
+        if args.file_name:
+            library = os.path.join(LAGO_DIR, 'library')
+            library_file = os.path.join(library, file)  # --->
 
-######################################################################################################
-    # if args.inputs or args.outputs:
-    if args.operation == 'add':
-        add_in_out.add_inputs_outputs(           # add extra inputs and outputs
-            Top_level_file, args.inputs, args.outputs, args.input_ranges, args.output_ranges, Baseboard_path)
-    if args.operation == 'dec':
-        fileio(args.inputs, args.input_ranges,
-               args.outputs, args.output_ranges)
+            if args.instance_name:
+                instance = args.instance_name
+            else:
+                instance = file.replace(".sv", '')
 
-    if args.input_signal:
-        input_signals = args.input_signal
-        output_signal = args.output_signal
-        select_line = args.select_line
-        data = generating_mux(input_signals, output_signal, select_line)
-    if args.operation == 'reg':
-        inp_signal = args.inputs
-        out_signal = args.outputs
-        enable_signal = args.enable_signal
-        inp_ranges = args.input_ranges
-        out_ranges = args.output_ranges
-        generate_register(inp_signal,inp_ranges,out_signal,out_ranges,enable_signal)
-#####################################################################################################
-    if file and Top_level_file:
-        library = os.path.join(LAGO_DIR, 'library')
-        library_file = os.path.join(library, file)  # --->
-
-        if args.instance_name:
-            instance = args.instance_name
+            copy_file(library_file)
+            extract_data(library_file)
+            
+            data = Extracting_data.get_ranges_from_file(library_file)
+            Top_level_file = Top_level_file.replace(".sv", '')
+            with open(f"{Baseboard_path}/{Top_level_file}.json", "rb") as f:
+                content = f.read()
+                f.seek(0, 2)
+            with open(f'{Baseboard_path}/{Top_level_file}.json', 'a+') as f:
+                r_end = (f.tell())-1
+                x = f.truncate(r_end)
+                f.write(f',\n\"{instance}\":')
+                json.dump(data, f, indent=4)
+                f.write("\n}")
+            exit()
         else:
-            instance = file.replace(".sv", '')
-
-        copy_file(library_file)
-        extract_data(library_file)
-        data = Extracting_data.get_ranges_from_file(library_file)
-        Top_level_file = Top_level_file.replace(".sv", '')
-        with open(f"{Baseboard_path}/{Top_level_file}.json", "rb") as f:
-            content = f.read()
-            f.seek(0, 2)
-        with open(f'{Baseboard_path}/{Top_level_file}.json', 'a+') as f:
-            r_end = (f.tell())-1
-            x = f.truncate(r_end)
-            f.write(f',\n\"{instance}\":')
-            json.dump(data, f, indent=4)
-            f.write("\n}")
+            print("Please provide all the required arguments\n")
+            print("plug -inst -f <file_name> \n")
+            exit()
+    if args.mux:
+        if args.inputs and args.outputs and args.select_line:
+            generating_mux(args.inputs, args.outputs, args.select_line)
+            exit()
+        else:
+            print("Please provide all the required arguments\n")
+            print("plug -m -i <inputs> -o <output> -sl <select_line> \n")
+            exit()
+        
+    if args.register:
+        if args.inputs and args.outputs and args.enable_signal:
+            generate_register(args.inputs, args.outputs, args.enable_signal, args.input_ranges, args.output_ranges)   # why en is taking as input
+            exit()
+        else:
+            print("Please provide all the required arguments\n")
+            print("plug -r -i <input_signal> -o <output_signal> -en <enable_signal> -ir <input_range> -or <output_range> \n")
+            exit()
+else:
+    print("Please select bewteen inst,reg,mux \n")
+    exit()
