@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-import colorama
 from colorama import Fore
 import re
 import os

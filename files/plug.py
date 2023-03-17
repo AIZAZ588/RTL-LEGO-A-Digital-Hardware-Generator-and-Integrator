@@ -3,7 +3,6 @@ import os
 import argparse
 import json
 import Extracting_data
-import add_in_out
 import shutil
 import math
 import re
@@ -15,7 +14,7 @@ CURRENT_DIR = os.getcwd()
 
 
 def LAGO_USR_INFO():
-    global LAGO_DIR, Top_level_file, file
+    global LAGO_DIR, Top_level_file
     Linux_file_path = os.path.expanduser("~/.LAGO_USR_INFO")
     with open(Linux_file_path, "r") as Shell_file:
         sh_file = Shell_file.readlines()
@@ -240,7 +239,7 @@ if __name__ == '__main__':
     parser.add_argument('-inst',"--instance",action='store_true')
     parser.add_argument('-m',"--mux",action='store_true')
     parser.add_argument('-r',"--register",action='store_true')
-    parser.add_argument('-t,','--toplevelfile',help='Top level file name', type=str)
+    parser.add_argument('-t,','--topfile',help='Top level file name', type=str)
     
     parser.add_argument('-n', '--instance_name', help='Name of instance')
     parser.add_argument('-f', '--file_name',help='Name of file from which instance is taken', type=str)
@@ -260,7 +259,7 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     file = args.file_name
-    Top_level_file = args.toplevelfile
+    Top_level_file = args.topfile
     
     LAGO_USR_INFO()  # ---->
     Baseboard_path = os.path.join(LAGO_DIR, 'Baseboard')

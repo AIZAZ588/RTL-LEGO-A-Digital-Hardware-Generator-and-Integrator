@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 import re
-import argparse
 from colorama import Fore
-
 
 def adding_parameters(filename, param, ranges):
     # open the file and read its contents
@@ -55,17 +53,3 @@ def adding_parameters(filename, param, ranges):
             content = content.replace('module clock', pattern_text)
             with open(filename, 'w') as file:
                 file.write(content)
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description='Add parameters to a Verilog module')
-    parser.add_argument('-f', '--filename', type=str,
-                        help='the name of the Verilog file to modify')
-    parser.add_argument('-pm', '--param', type=str, nargs='+',
-                        help='the name of the parameter(s) to add')
-    parser.add_argument('-pr', '--range', dest='ranges', type=str, nargs='+',
-                        default=['None'], help='the range(s) of the parameter(s) to add')
-    args = parser.parse_args()
-
-    adding_parameters(args.filename, args.param, args.ranges)

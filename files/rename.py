@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import re, os
+import os
 import json
 import argparse
 from colorama import Fore

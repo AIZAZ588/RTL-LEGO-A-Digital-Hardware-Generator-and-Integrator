@@ -102,7 +102,7 @@ if __name__ == '__main__':
     parser.add_argument('-ns','--new_status', choices=['input', 'output'], help='New status to update (for change_IO_status and change_IO_status_json operations)')
     args = parser.parse_args()
 
-    Top_level_file = arg.file_name
+    Top_level_file = args.file_name
     LAGO_USR_INFO()
     Baseboard_path = os.path.join(LAGO_DIR,'Baseboard')
     Json_Top_file=Top_level_file.replace(".sv",'')

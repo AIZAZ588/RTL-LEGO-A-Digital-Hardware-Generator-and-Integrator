@@ -23,8 +23,12 @@ then
 	echo "======connect installed======";
 	sudo ln -s ${LAGO_DIR}/list_lago.sh list_lago;
 	echo "======list_lago installed===";
-	sudo ln -s ${LAGO_DIR}/config.sh config;
-	echo "======config installed=======";
+	sudo ln -s ${LAGO_DIR}/files/add.py add;
+	echo "======add installed=======";
+	sudo ln -s ${LAGO_DIR}/files/rename.py rename;
+	echo "======rename installed=======";
+	sudo ln -s ${LAGO_DIR}/files/delete.py add;
+	echo "======delete installed=======";
 	echo "+++++++++++++++++++++++++++++";
 	cd $LAGO_DIR
 	if [[ -f ~/.LAGO_USR_INFO ]]
