@@ -8,7 +8,6 @@ def adding_parameters(filename, param, ranges):
                 print(Fore.RED + f"{param} already exists in {filename}" + Fore.RESET)
                 exit()
             else:
-                print("hello")
                 existing_param = data[1]
                 existing_param = existing_param+f"\tparameter {param}  \t = {ranges}\n"
                 data.remove(data[1])
