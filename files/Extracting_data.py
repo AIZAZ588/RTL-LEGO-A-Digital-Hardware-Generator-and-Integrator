@@ -1,5 +1,3 @@
-import os
-import json
 def get_ranges_from_file(filename):
     data = {'ports': {}}
     ranges = {}

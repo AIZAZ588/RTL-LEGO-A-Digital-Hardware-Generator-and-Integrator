@@ -1,6 +1,8 @@
 #!/usr/bin/python3
+import json
 from colorama import Fore
 def adding_parameters(filename, param, ranges):
+
     with open (filename,'r') as topfile:
         data=topfile.readlines()
         if data[0].endswith("#(\n"):
@@ -21,3 +23,18 @@ def adding_parameters(filename, param, ranges):
             print(Fore.BLUE + f"{param} added in {filename}" + Fore.RESET)
         with open (filename,'w') as topfile:
             topfile.writelines(data)
+            
+def parameter_json(filename,param,ranges,Baseboard_path):
+    filename=filename.replace(".sv",".json")
+    with open (f"{Baseboard_path}/{filename}",'r') as j:
+        data=j.read()
+        data=json.loads(data)
+        if data.get('parameter'):
+            data['parameter'][param]=ranges
+        else:
+            data.update({"parameter":{param:ranges}})
+        j.close()
+        with open (f"{Baseboard_path}/{filename}",'w') as n:
+            new = json.dumps(data,indent=4)
+            n.write(new)
+            n.close()

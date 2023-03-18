@@ -28,7 +28,6 @@ def LAGO_USR_INFO():
     LAGO_DIR = LAGO_DIR.replace("\n", "")
     Top_level_file = Top_level_file.replace("TOP_FILE=", '')
 
-
 ##############################################################################
 
 
@@ -133,13 +132,34 @@ def add_inputs_outputs(fileName, inputs, input_ranges, outputs, output_ranges):
         new_content = content.replace(match2.group(2), new_instance_text)
         with open(fileName, "w") as f:
             f.write(new_content)
-
+def add_inputs_outputs_JSON(fileName,inputs, input_ranges, ouputs,output_ranges,Baseboard_path):
+    json_file=fileName.replace('.sv','.json')
+    with open(f"{Baseboard_path}/{json_file}") as f:
+        data = json.load(f)
+        print(len(inputs))
+        if inputs:
+            for inputs, input_ranges in zip(inputs, input_ranges):
+                if inputs in data['ports']:
+                    print(Fore.RED + f"{inputs} already exists in {fileName}" + Fore.RESET)
+                else:
+                    s={'type':'input','range':input_ranges} 
+                    data['ports'].update({inputs:s})
+                    print(Fore.GREEN + f"{inputs} is added in {fileName}" + Fore.RESET)
+        if ouputs:
+            for output,range in zip(ouputs,output_ranges):
+                if output in data['ports']:
+                    print(Fore.RED + f"{output} already exists in {fileName}" + Fore.RESET)
+                else:
+                    data['ports'][output][{'type':'output','range':range}]
+                    print(Fore.GREEN + f"{output} is added in {fileName}" + Fore.RESET)
+    with open(f"{Baseboard_path}/{json_file}" , 'w') as f:
+        json.dump(data, f, indent=4)
    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()       
     parser.add_argument('-p',"--port",action='store_true')
     parser.add_argument('-c',"--change",type=str,help='change IO status or range')
-    parser.add_argument('-P', '--parameter', type=str,help='the name of the parameter(s) to add')
+    parser.add_argument('-P', '--parameter',help='the name of the parameter(s) to add')
     parser.add_argument('-v', '--value', dest='value', type=str,default=['None'], help='the value of the parameter(s) to add')
     
     
@@ -151,27 +171,29 @@ if __name__ == '__main__':
     parser.add_argument('-t,','--topfile',help='Top level file name', type=str)
     
     parser.add_argument('-i', '--inputs',nargs='+',help='Input port name')
-    parser.add_argument('-ir', '--input_ranges',nargs='+',help='Input port range')
+    parser.add_argument('-ir', '--input_ranges',nargs='+',help='Input port range',default=['None'])
     parser.add_argument('-o', '--outputs',nargs='+',help='Output port name')
-    parser.add_argument('-or', '--output_ranges',nargs='+',help='Output port range')
+    parser.add_argument('-or', '--output_ranges',nargs='+',help='Output port range',default=['None'])
     args=parser.parse_args()
     
-    Top_level_file = args.topfile
-    
+    Top_level_file = args.topfile  
     
     LAGO_USR_INFO()
     Baseboard_path = os.path.join(LAGO_DIR, 'Baseboard')
+    
     if args.port:
         if args.inputs or args.outputs:
             add_inputs_outputs(Top_level_file,args.inputs,args.input_ranges,args.outputs,args.output_ranges)
+            add_inputs_outputs_JSON(Top_level_file,args.inputs,args.input_ranges,args.outputs,args.output_ranges,Baseboard_path)
             exit()
         else:
             print("Please provide input or output port name")
             print("Example:add -p <port> -i <inputs> 'clk' -o <outputs> 'rst' -t <topfile> 'top.sv")
             exit()
     elif args.parameter:
-        if args.value:  # json not present
-           addparam.adding_parameters(Top_level_file,args.parameter,args.value)
+        if args.value:
+            addparam.adding_parameters(Top_level_file,args.parameter,args.value)
+            addparam.parameter_json(Top_level_file,args.parameter,args.value,Baseboard_path)
         else:
             print("Please provide value for parameter(s) to add")
             print("Example:add -P <parameter> 'WIDTH' -v <value> '32' -t <topfile> 'top.sv")
@@ -179,17 +201,17 @@ if __name__ == '__main__':
             
     elif args.change:
         if args.change=='range':
-            if args.port_name and args.new_range:   # json not working
+            if args.port_name and args.new_range:
                 changeIOandRange.update_ranges(Top_level_file,args.port_name,args.new_range)
-                #changeIOandRange.update_ranges_json(Top_level_file,args.port_name,args.new_range,Baseboard_path)
+                changeIOandRange.update_ranges_json(Top_level_file,args.port_name,args.new_range,Baseboard_path)
             else:
                 print("Please provide port name and new range")
                 print("Example:add -c <change> 'range' -pr <port_name> 'clk' -nr <new_range> '32' -t <topfile> 'top.sv")
                 exit()
         elif args.change=='port':
-            if args.port_name and args.new_status:  # json not working
+            if args.port_name and args.new_status: 
                 changeIOandRange.change_IO_status(Top_level_file,args.port_name,args.new_status)
-                #changeIOandRange.change_IO_status_json(Top_level_file,args.port_name,args.new_status,Baseboard_path)
+                changeIOandRange.change_IO_status_json(Top_level_file,args.port_name,args.new_status,Baseboard_path)
             else:
                 print("Please provide port name and new status")
                 print("Example:add -c <change> 'port' -pr <port_name> 'clk' -ns <new_status> 'input' -t <topfile> 'top.sv")

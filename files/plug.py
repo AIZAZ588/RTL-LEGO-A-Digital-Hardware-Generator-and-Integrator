@@ -39,8 +39,8 @@ def copy_file(file):
         shutil.copy(library_file, CURRENT_DIR)
 
 
-def extract_data(file):                   # it will open library file
-    global Top_level_file, CURRENT_DIR, instance
+def extract_data(file,instance):                   # it will open library file
+    global Top_level_file, CURRENT_DIR
     with open(f"{file}", 'r') as f:
         lines = f.readlines()
     in_module = False
@@ -232,67 +232,59 @@ def fileio(inputs, input_ranges, outputs, output_ranges):
         file_contents = re.sub(pattern, new, file_contents)
         with open(f"{CURRENT_DIR}/{Top_level_file}", "w") as f:
             f.write(file_contents)
+def create_instance(file_name,inst_name):
+    global LAGO_DIR, Baseboard_path,library_file
 
-
+    if inst_name:
+        instance = inst_name
+    else:
+        instance = file_name.replace(".sv", '')
+    try:
+        data = Extracting_data.get_ranges_from_file(library_file)
+        json_file = Top_level_file.replace(".sv", '.json')
+        new_inst={instance:data}
+        with open (f"{Baseboard_path}/{json_file}",'r') as j:
+            jfile=j.read()
+            dict_j =json.loads(jfile) #str -> dict
+            dict_j.update(new_inst)
+            with open (f"{Baseboard_path}/{json_file}",'w') as f:
+                new_data=json.dumps(dict_j,indent=4)  #dict -> str
+                f.write(new_data)
+                copy_file(library_file)
+                extract_data(library_file,instance)
+    except:
+        print("error occured! ")
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-inst',"--instance",action='store_true')
+    parser.add_argument('-inst',"--instance",help='Name of file from which instance is taken', type=str)
     parser.add_argument('-m',"--mux",action='store_true')
     parser.add_argument('-r',"--register",action='store_true')
     parser.add_argument('-t,','--topfile',help='Top level file name', type=str)
     
     parser.add_argument('-n', '--instance_name', help='Name of instance')
-    parser.add_argument('-f', '--file_name',help='Name of file from which instance is taken', type=str)
+    #parser.add_argument('-f', '--file_name',help='Name of file from which instance is taken', type=str)
     parser.add_argument('-i', '--inputs',help='Input port name')
     parser.add_argument('-ir', '--input_ranges',help='Input port range')
     parser.add_argument('-o', '--outputs',help='Output port name')
     parser.add_argument('-or', '--output_ranges',help='Output port range')
-    
-    
-    #parser.add_argument('-is', '--input_signal', default=[], type=str,nargs='+', help='Output port range')
-    #parser.add_argument('-os', '--output_signal', type=str,help='Output port range')
-    
+      
     parser.add_argument('-sl', '--select_line', type=str, help='Select line')
     
     parser.add_argument('-re', '--reset_signal', type=str, help='Select line')
     parser.add_argument('-en', '--enable_signal', type=str, help='Select line')
     
     args = parser.parse_args()
-    file = args.file_name
+    file = args.instance
     Top_level_file = args.topfile
     
     LAGO_USR_INFO()  # ---->
     Baseboard_path = os.path.join(LAGO_DIR, 'Baseboard')
+    library = os.path.join(LAGO_DIR, 'library')
+    library_file = os.path.join(library, file)  # --->
     
     if args.instance:
-        if args.file_name:
-            library = os.path.join(LAGO_DIR, 'library')
-            library_file = os.path.join(library, file)  # --->
-
-            if args.instance_name:
-                instance = args.instance_name
-            else:
-                instance = file.replace(".sv", '')
-
-            copy_file(library_file)
-            extract_data(library_file)
-            
-            data = Extracting_data.get_ranges_from_file(library_file)
-            Top_level_file = Top_level_file.replace(".sv", '')
-            with open(f"{Baseboard_path}/{Top_level_file}.json", "rb") as f:
-                content = f.read()
-                f.seek(0, 2)
-            with open(f'{Baseboard_path}/{Top_level_file}.json', 'a+') as f:
-                r_end = (f.tell())-1
-                x = f.truncate(r_end)
-                f.write(f',\n\"{instance}\":')
-                json.dump(data, f, indent=4)
-                f.write("\n}")
-            exit()
-        else:
-            print("Please provide all the required arguments\n")
-            print("plug -inst -f <file_name> \n")
-            exit()
+        create_instance(args.instance,args.instance_name)
+        exit()
     if args.mux:
         if args.inputs and args.outputs and args.select_line:
             generating_mux(args.inputs, args.outputs, args.select_line)

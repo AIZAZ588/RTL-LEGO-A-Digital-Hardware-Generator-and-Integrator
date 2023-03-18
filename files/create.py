@@ -23,24 +23,24 @@ folder_name = 'Baseboard'
 def set_instance_name(f_name, inputs, outputs, input_ranges, output_ranges):
     m_name = f_name.replace(".sv", "")
     if inputs or outputs:
-        Body = f"module {m_name} (\ninput\tlogic\t\tclk,\ninput\tlogic\t\treset,"
+        Body = f"module {m_name} (\ninput\t   \t\tclk,\ninput\t   \t\treset,"
         if inputs:
             i = ""
             for inp, inp_ranges in zip(inputs, input_ranges):
                 if inp_ranges == 'None' or inp_ranges == 'none':
-                    inpu = f"\ninput\tlogic\t\t{(i.join(inp))},"
+                    inpu = f"\ninput\t  \t\t{(i.join(inp))},"
                     Body = Body + inpu
                 else:
-                    inpu = f"\ninput\tlogic\t{inp_ranges}\t{(i.join(inp))},"
+                    inpu = f"\ninput\t  \t{inp_ranges}\t{(i.join(inp))},"
                     Body = Body + inpu
         if outputs:
             o = ""
             for out, opt_ranges in zip(outputs, output_ranges):
                 if opt_ranges == 'None' or opt_ranges == 'none':
-                    outu = f"\noutput\tlogic\t\t{o.join(out)},"
+                    outu = f"\noutput\twire\t\t{o.join(out)},"
                     Body = Body + outu
                 else:
-                    outu = f"\noutput\tlogic\t{opt_ranges}\t{o.join(out)},"
+                    outu = f"\noutput\twire\t{opt_ranges}\t{o.join(out)},"
                     Body = Body + outu
         Body = Body.rstrip(",")
         end = "\n\n);\nendmodule"
@@ -59,7 +59,6 @@ def name():
         print(Fore.GREEN + f"{f_name} created" + Fore.RESET)
 #########################################################
 def storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges):
-    m_name = f_name.replace(".sv", "")
 
     ports = {}
     ports["clk"] = {"type": "input", "range": "None"}
@@ -76,8 +75,7 @@ def storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges):
                 out = out[0]
             ports[out] = {"type": "output", "range": output_ranges[j]}
 
-    module_dict = {m_name: {"ports": ports}}
-    return m_name, module_dict
+    return ports
 
 
 if __name__ == '__main__':
@@ -108,27 +106,12 @@ if __name__ == '__main__':
     except:
         os.mkdir(folder_name)
         os.chdir(folder_name)
-    m_name, module_dict = storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges)
-
-    json_data = {
-        "file_name": f"{f_name}",
-        "folder_name": f"{folder_name}"
-    }
+    ports = storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges)
 
     jname=f_name.replace(".sv","")
     with open(f"{jname}.json", "w") as jsonfile:
-        body = '{\n\"toplevelfile\":'
-        end_body = '\n}'
-        jsonfile.write(body)
-        json.dump(json_data, jsonfile, indent=4)
-        jsonfile.write(end_body)
-
-    with open(f"{jname}.json", "rb") as f:
-        content = f.read()
-        f.seek(0, 2)
-    with open(f'{jname}.json', 'a+') as f:
-        r_end = (f.tell())-1
-        x = f.truncate(r_end)
-        f.write(f',\"{m_name}\":')
-        json.dump(module_dict[m_name], f, indent=4)
-        f.write("\n}")
+        json_data = {"toplevelfile": f"{f_name}"}
+        inpouts={"ports":ports}
+        json_data.update(inpouts)
+        jsonfile.write(json.dumps(json_data,indent=4))
+        

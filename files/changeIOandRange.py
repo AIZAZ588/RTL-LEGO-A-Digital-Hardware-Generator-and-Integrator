@@ -29,12 +29,11 @@ def update_ranges(file_name,port_name,new_range):
             return Success
 
 
-def update_ranges_json(file_name,new_range, port_name,Baseboard_path):
+def update_ranges_json(file_name,port_name,new_range, Baseboard_path):
     Json_Top_file = file_name.replace(".sv", "")      
     with open(f'{Baseboard_path}/{Json_Top_file}.json', 'r') as f:
         data = json.load(f)
-        old_range = data['clock']['ports'][port_name]['range']
-        data['clock']['ports'][port_name]['range'] = new_range
+        data['ports'][port_name]['range'] = new_range
         with open(f"{Baseboard_path}/{Json_Top_file}.json", 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
@@ -67,7 +66,6 @@ def change_IO_status_json(file_name,port_name, new_status,Baseboard_path):
     Json_Top_file = file_name.replace(".sv", "")
     with open(f'{Baseboard_path}/{Json_Top_file}.json', 'r') as f:
         data = json.load(f)
-        old_status = data['clock']['ports'][port_name]['type']
-        data['clock']['ports'][port_name]['type'] = new_status
+        data['ports'][port_name]['type'] = new_status
         with open(f"{Baseboard_path}/{Json_Top_file}.json", 'w') as outfile:
             json.dump(data, outfile, indent=4)
