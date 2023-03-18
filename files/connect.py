@@ -28,8 +28,6 @@ def LAGO_USR_INFO():
         Top_level_file=Top_level_file.replace("TOP_FILE=",'')
 ##############################################################################
       
-
-
 def check_range_equality(inst1, inst2, k1, k2):
     instance2 = Top_level_file.replace('.sv','')
     global found
@@ -60,37 +58,6 @@ def check_range_equality(inst1, inst2, k1, k2):
                     Fore.RED + f'Error: Port {k2} not found of instance {inst2}' + Fore.RESET)
             found = False
         return found
-
-
-# def change_line_in_instance(found, instance1, input_ports, output_ports):
-#     with open(f"{Top_level_file}", 'r') as f:
-#         content = f.read()
-#     pattern = rf'{instance1}\s*(([\s\S]*?));'
-#     match = re.search(pattern, content)
-#     if found and match:
-#         block = match.group()
-#         for input_port, output_port in zip(input_ports, output_ports):
-#             pattern = rf'\.{input_port}\s*\((?P<connected_port>\w+)\)'
-#             existing_connection = re.search(pattern, block)
-#             if existing_connection:
-#                 connected_port = existing_connection.group('connected_port')
-#                 if connected_port:
-#                     print(
-#                         Fore.RED + f'Error: Port {input_port} is already connected to {connected_port}.' + Fore.RESET)
-#                     exit()
-#             pattern = rf'\.{input_port}\s*\([\s\S]*?\)'
-#             block = re.sub(
-#                 pattern, f'.{input_port} \t\t\t\t({output_port})', block)
-#         pattern = rf'{instance1}\s*(([\s\S]*?));'
-#         content = re.sub(pattern, block, content)
-#         print(Fore.GREEN + f'Instance {instance1} Connected to ports of {instance2}.' + Fore.RESET)
-#     else:
-#         print(Fore.RED + 'Error: Not connected.' + Fore.RESET)
-#         exit()
-
-#     # Write the modified content back to the file
-#     with open(f'{Top_level_file}', 'w') as f:
-#         f.write(content)
 
 def change_line_in_instance(found, instance1, input_ports, output_ports):
     with open(f"{Top_level_file}", 'r') as f:
@@ -129,14 +96,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Change lines in instances in  file')
     # Add arguments for the instances and ports
-    parser.add_argument('-i', '--instance1', required=True,
-                        help='Name of the first instance')
-    # parser.add_argument('-o', '--instance2', required=True,
-    #                     help='Name of the second instance')
-    parser.add_argument('-ip', '--input_ports', nargs='+', type=str,
-                        required=True, help='Input ports of the first instance')
-    parser.add_argument('-op', '--output_ports', nargs='+', type=str,
-                        required=True, help='Output ports of the second instance')
+    parser.add_argument('-i', '--instance1',help='Name of the first instance')
+    
+    parser.add_argument('-o', '--instance2',  help='Name of the second instance')
+    
+    parser.add_argument('-ip', '--input_ports', nargs='+', type=str,help='Input ports of the first instance')
+    
+    parser.add_argument('-op', '--output_ports', nargs='+', type=str,help='Output ports of the second instance')
+    
     parser.add_argument('-f', '--filename', help='other top level file',type=str)
     # Parse the arguments
     args = parser.parse_args()
@@ -145,12 +112,12 @@ if __name__ == '__main__':
     LAGO_USR_INFO()
     Baseboard_path = os.path.join(LAGO_DIR,'Baseboard')
     json_file=Top_level_file.replace(".sv",'.json')
-
+    
     with open(f'{Baseboard_path}/{json_file}', 'r') as f:
-        data = json.load(f)
+       data = json.load(f)
 
     instance2 = Top_level_file.replace('.sv','')
     found = check_range_equality(
-        args.instance1, instance2, args.input_ports, args.output_ports)
+       args.instance1, instance2, args.input_ports, args.output_ports)
     change_line_in_instance(found, args.instance1,
-                            args.input_ports, args.output_ports)
+                           args.input_ports, args.output_ports)
