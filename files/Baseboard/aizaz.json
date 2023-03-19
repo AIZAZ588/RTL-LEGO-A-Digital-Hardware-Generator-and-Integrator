@@ -1,0 +1,44 @@
+{
+    "toplevelfile": "aizaz.sv",
+    "ports": {
+        "clk": {
+            "type": "input",
+            "range": "None"
+        },
+        "reset": {
+            "type": "input",
+            "range": "None"
+        }
+    },
+    "SEC": {
+        "ports": {
+            "clk": {
+                "type": "input",
+                "range": "None"
+            },
+            "reset": {
+                "type": "input",
+                "range": "None"
+            },
+            "en": {
+                "type": "input",
+                "range": "None"
+            },
+            "count_max": {
+                "type": "input",
+                "range": "[31:0]"
+            },
+            "clr": {
+                "type": "output",
+                "range": "None"
+            },
+            "count": {
+                "type": "output",
+                "range": "[31:0]"
+            }
+        }
+    },
+    "parameter": {
+        "TRUE": "1'b1"
+    }
+}
