@@ -260,9 +260,10 @@ if __name__ == '__main__':
     parser.add_argument('-m',"--mux",action='store_true')
     parser.add_argument('-r',"--register",action='store_true')
     parser.add_argument('-t,','--topfile',help='Top level file name', type=str)
+
     
     parser.add_argument('-n', '--instance_name', help='Name of instance')
-    #parser.add_argument('-f', '--file_name',help='Name of file from which instance is taken', type=str)
+   
     parser.add_argument('-i', '--inputs',help='Input port name')
     parser.add_argument('-ir', '--input_ranges',help='Input port range')
     parser.add_argument('-o', '--outputs',help='Output port name')

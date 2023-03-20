@@ -5,6 +5,7 @@ import argparse,json
 from colorama import Fore
 import addparam
 import changeIOandRange
+import add_reg_wire
 LAGO_DIR = ''
 Top_level_file = ''
 CURRENT_DIR = os.getcwd()
@@ -136,7 +137,6 @@ def add_inputs_outputs_JSON(fileName,inputs, input_ranges, ouputs,output_ranges,
     json_file=fileName.replace('.sv','.json')
     with open(f"{Baseboard_path}/{json_file}") as f:
         data = json.load(f)
-        print(len(inputs))
         if inputs:
             for inputs, input_ranges in zip(inputs, input_ranges):
                 if inputs in data['ports']:
@@ -159,9 +159,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()       
     parser.add_argument('-p',"--port",action='store_true')
     parser.add_argument('-c',"--change",type=str,help='change IO status or range')
-    parser.add_argument('-P', '--parameter',help='the name of the parameter(s) to add')
-    parser.add_argument('-v', '--value', dest='value', type=str,default=['None'], help='the value of the parameter(s) to add')
-    
+    parser.add_argument('-P', '--parameter',nargs='+',help='the name of the parameter(s) to add')
+    parser.add_argument('-v', '--value', dest='value',nargs='+', type=str,default=['None'], help='the value of the parameter(s) to add')
+    parser.add_argument('-r','--reg',help='reg',nargs='+', type=str)
+    parser.add_argument('-w','--wire',help='wire', nargs='+',type=str)
+    parser.add_argument('-rn','--range',help='range',nargs='+',type=str)
+     
     
     parser.add_argument('-nr','--new_range', help='New range of input or output port')
     parser.add_argument('-pr','--port_name', help='Name of the port to update (for update_range, update_range_json, change_IO_status, and change_IO_status_json operations)')
@@ -181,25 +184,53 @@ if __name__ == '__main__':
     LAGO_USR_INFO()
     Baseboard_path = os.path.join(LAGO_DIR, 'Baseboard')
     
+    if args.reg:
+        if args.range:
+            for args.reg,args.range in zip(args.reg,args.range):
+                add_reg_wire.add_reg_to_json(Top_level_file,args.reg,args.range,Baseboard_path)
+                add_reg_wire.add_reg(Top_level_file,args.reg,args.range)
+            exit()
+        else:
+            range=' '
+            for args.reg in args.reg:
+                add_reg_wire.add_reg_to_json(Top_level_file,args.reg,range,Baseboard_path)
+                add_reg_wire.add_reg(Top_level_file,args.reg,range)
+            exit()
+          
+    if args.wire:
+        if args.range:
+            for args.wire,args.range in zip(args.wire,args.range):
+                add_reg_wire.add_wire_to_json(Top_level_file,args.wire,args.range,Baseboard_path)
+                add_reg_wire.add_wire(Top_level_file,args.wire,args.range)
+            exit()
+        else:
+            range=' '
+            for args.wire in args.wire:
+                add_reg_wire.add_wire_to_json(Top_level_file,args.wire,range,Baseboard_path)
+                add_reg_wire.add_wire(Top_level_file,args.wire,range)
+            exit()
     if args.port:
         if args.inputs or args.outputs:
-            add_inputs_outputs(Top_level_file,args.inputs,args.input_ranges,args.outputs,args.output_ranges)
-            add_inputs_outputs_JSON(Top_level_file,args.inputs,args.input_ranges,args.outputs,args.output_ranges,Baseboard_path)
+            for args.inputs,args.input_ranges,args.outputs,args.output_ranges in zip(args.inputs,args.input_ranges,args.outputs,args.output_ranges):
+                add_inputs_outputs_JSON(Top_level_file,args.inputs,args.input_ranges,args.outputs,args.output_ranges,Baseboard_path)
+                add_inputs_outputs(Top_level_file,args.inputs,args.input_ranges,args.outputs,args.output_ranges)
             exit()
         else:
             print("Please provide input or output port name")
             print("Example:add -p <port> -i <inputs> 'clk' -o <outputs> 'rst' -t <topfile> 'top.sv")
             exit()
-    elif args.parameter:
+    if args.parameter:
         if args.value:
-            addparam.adding_parameters(Top_level_file,args.parameter,args.value)
-            addparam.parameter_json(Top_level_file,args.parameter,args.value,Baseboard_path)
+            for args.parameter,args.value in zip(args.parameter,args.value):
+                addparam.parameter_json(Top_level_file,args.parameter,args.value,Baseboard_path)
+                addparam.adding_parameters(Top_level_file,args.parameter,args.value)
+            exit()
         else:
             print("Please provide value for parameter(s) to add")
             print("Example:add -P <parameter> 'WIDTH' -v <value> '32' -t <topfile> 'top.sv")
             exit()
             
-    elif args.change:
+    if args.change:
         if args.change=='range':
             if args.port_name and args.new_range:
                 changeIOandRange.update_ranges(Top_level_file,args.port_name,args.new_range)
