@@ -70,7 +70,6 @@ if __name__ == '__main__':
         exit()
     if args.wire and args.instance1 and args.input_ports:
         for args.wire,args.input_ports in zip(args.wire,args.input_ports):
-            print(args.wire,args.input_ports)
             connection.connect_to_wire(Top_level_file,args.wire,args.instance1,args.input_ports,Baseboard_path)
         exit()
     if args.instance1 and args.input_ports and args.instance2 and args.output_ports:

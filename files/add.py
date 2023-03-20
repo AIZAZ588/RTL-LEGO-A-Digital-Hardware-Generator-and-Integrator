@@ -160,7 +160,7 @@ if __name__ == '__main__':
     parser.add_argument('-p',"--port",action='store_true')
     parser.add_argument('-c',"--change",type=str,help='change IO status or range')
     parser.add_argument('-P', '--parameter',nargs='+',help='the name of the parameter(s) to add')
-    parser.add_argument('-v', '--value', dest='value',nargs='+', type=str,default=['None'], help='the value of the parameter(s) to add')
+    parser.add_argument('-v', '--value',nargs='+', help='the value of the parameter(s) to add')
     parser.add_argument('-r','--reg',help='reg',nargs='+', type=str)
     parser.add_argument('-w','--wire',help='wire', nargs='+',type=str)
     parser.add_argument('-rn','--range',help='range',nargs='+',type=str)

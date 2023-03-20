@@ -13,7 +13,7 @@ def connect_to_reg(Top_level_file,reg_name,instance_name,port_name,Baseboard_pat
                     for string in content:
                        if instance_name in string:
                             index2=content.index(string)
-                       if port_name in string:
+                       if f'.{port_name}' in string:
                             index1=content.index(string)
                             break
                     if index2>index1:
@@ -40,46 +40,33 @@ def connect_to_wire(Top_level_file,wire_name,instance_name,port_name,Baseboard_p
     json_file=Top_level_file.replace(".sv",".json")
     with open(f'{Baseboard_path}/{json_file}', 'r') as f:
         data = json.load(f)
-        f.close()
         if wire_name in data:
             if  port_name in data[instance_name]['ports']:
                with open (f'{Top_level_file}','r') as f:
                     content=f.readlines()
-                    f.close()
                     index=False;index2=False
                     for string in content:
                         if instance_name in string:
                             index=content.index(string)
                             break
                     for string in content:
-                        if port_name in string:
+                        if f'.{port_name}' in string:
                             index2=content.index(string)
                             if index2>index:
                                 break
-                    print("first : ",content[index2])
-                    print('sring : ',string)
-                    #del string
-                    #print('srting : ',string)
                     try: 
                         if content[index2+1].startswith("."): 
                             content.pop(index2)
-                            print(index2)
                             content.insert(index2,f".{port_name} \t\t ({wire_name}),\n")
-                            print("second : ",content[index2]) 
-                            print(content[index:index2+3])
                             print(Fore.LIGHTGREEN_EX + f'Port Connected to wire' + Fore.RESET)
                             with open(f'{Top_level_file}','w') as f:
                                 f.writelines(content)
-                                f.close()
-                            #index=False;index2=False;content=[];string=""
                         else:
                             content.pop(index2)
                             content.insert(index2,f".{port_name} \t\t ({wire_name})\n")
                             print(Fore.LIGHTGREEN_EX + 'Port Connected to wire' + Fore.RESET)
-                        # with open (f'{Top_level_file}','w') as f:
-                                #f.writelines(content)
-                                #f.close()
-                    # del index,index2,content,string
+                            with open (f'{Top_level_file}','w') as f:
+                                f.writelines(content)
                     except IndexError:
                        print(Fore.RED,"IndexError",Fore.RESET)
                        return
