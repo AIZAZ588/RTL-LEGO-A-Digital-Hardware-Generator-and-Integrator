@@ -16,7 +16,7 @@ then
 	then
 	      /bin/tree
 		exit
-	elif [[ $# -eq 2 && $1 == '-f' ]]
+	elif [[ $# -eq 2 && $1 == '-f' || $1 == '--file' ]]
 	then
 		if [[ -f $2 ]]
 		then
@@ -26,7 +26,7 @@ then
 			echo "$1: not exists ";
 			exit
 		fi
-	elif [[ $# -eq 2 && $1 == '-fe' ]]
+	elif [[ $# -eq 2 && $1 == '-ef' || $1 == '--edit_file' ]]
 	then
 		if [[ -f $2 ]]
 		then
