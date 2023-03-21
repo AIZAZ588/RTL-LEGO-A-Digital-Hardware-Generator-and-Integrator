@@ -45,6 +45,7 @@ then
 	fi
 
 		/bin/chmod u+x *.sh
+		/bin/chmod u+x ${LAGO_DIR}/examples/ *
 		/bin/chmod u+x ${LAGO_DIR}/files/*.py
 
 fi
