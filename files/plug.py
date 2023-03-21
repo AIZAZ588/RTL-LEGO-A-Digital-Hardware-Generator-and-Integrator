@@ -288,11 +288,11 @@ if __name__ == '__main__':
         exit()
     if args.mux:
         if args.inputs and args.outputs and args.select_line:
-            generating_mux(args.inputs, args.outputs, args.select_line)
+            generating_mux(args.inputs,args.input_ranges, args.outputs,args.output_ranges, args.select_line)
             exit()
         else:
             print("Please provide all the required arguments\n")
-            print("plug -m -i <inputs> -o <output> -sl <select_line> \n")
+            print("plug -m -i <inputs> -ir <input_ranges> -o <output> -or <output_ranges> -sl <select_line> \n")
             exit()
         
     if args.register:
