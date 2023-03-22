@@ -1,8 +1,7 @@
 #!/bin/bash
 create -f clock.sv -o count_sec count_min count_hrs -or [5:0] [5:0] [5:0] #creating TOP_file clock.sv
-add -P TRUE count_max -v "1'b1" "6'b11101"		#adding parameters
+add -P TRUE count_max -v "1'b1" "6'd59"		#adding parameters
 add -w clr_sec clr_min clr_hrs			#adding wire 1-bit
-add -w count -rn [5:0]				#adding wire 5-bit
 
 plug -inst up_counter.sv -n SEC 			#plug instance up_counter.sv 
 plug -inst up_counter.sv -n MIN			#//
