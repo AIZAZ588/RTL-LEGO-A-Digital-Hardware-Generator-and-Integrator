@@ -1,4 +1,5 @@
-# Digital Hardware Generator and Integrator
+# RTL LAGO
+## A Digital Hardware Generator and Integrator
 
 The aim of this project is to create a framework that can be used to generate and intergrate RTL components. User should be able to connect components from a library of generic RTL components and existing IP blocks to create Digital Hardware.
 
