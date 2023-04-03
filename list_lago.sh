@@ -26,7 +26,7 @@ then
 			echo "$1: not exists ";
 			exit
 		fi
-	elif [[ $# -eq 2 && $1 == '-ef' || $1 == '--edit_file' ]]
+	elif [[ $# -eq 2 && $1 == '-e' || $1 == '--edit' ]]
 	then
 		if [[ -f $2 ]]
 		then

@@ -264,7 +264,7 @@ if __name__ == '__main__':
     
     parser.add_argument('-n', '--instance_name', help='Name of instance')
    
-    parser.add_argument('-i', '--inputs',help='Input port name')
+    parser.add_argument('-i', '--inputs',nargs='+',help='Input port name')
     parser.add_argument('-ir', '--input_ranges',help='Input port range')
     parser.add_argument('-o', '--outputs',help='Output port name')
     parser.add_argument('-or', '--output_ranges',help='Output port range')
@@ -281,14 +281,16 @@ if __name__ == '__main__':
     LAGO_USR_INFO()  # ---->
     Baseboard_path = os.path.join(LAGO_DIR, 'Baseboard')
     library = os.path.join(LAGO_DIR, 'library')
-    library_file = os.path.join(library, file)  # --->
+
+   
     
     if args.instance:
+        library_file = os.path.join(library, file)  # --->
         create_instance(args.instance,args.instance_name)
         exit()
     if args.mux:
         if args.inputs and args.outputs and args.select_line:
-            generating_mux(args.inputs,args.input_ranges, args.outputs,args.output_ranges, args.select_line)
+            generating_mux(args.inputs, args.outputs,args.select_line)
             exit()
         else:
             print("Please provide all the required arguments\n")
@@ -297,7 +299,7 @@ if __name__ == '__main__':
         
     if args.register:
         if args.inputs and args.outputs:
-            generate_register(args.inputs, args.outputs, args.enable_signal, args.input_ranges, args.output_ranges)   # why en is taking as input
+            generate_register(args.inputs, args.input_ranges, args.outputs, args.output_ranges ,args.enable_signal )              
             exit()
         else:
             print("Please provide all the required arguments\n")
