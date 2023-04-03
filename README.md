@@ -15,11 +15,24 @@ Here is the command to run install file
 ```
 
 After running this file you can use following commands in your terminal
+```bash
+create //To create Top level file
+```
 
 ```bash
-    create -f filename
-    plug -i instance_name -f filename
-    connect -i input instance_name -o output instance name -ip input port -op output port 
+list_lago //To veiw avalible files in library
+```
+
+```bash
+plug //To create instances of library files in your Toplevel file and plug registers,mux etc
+```
+
+```bash
+add //Use add to add reg/wire/ranges etc
+```
+
+```bash
+connect //Use connect to connect ports of instances
 ```
 
 Here is the brief discription of commands
