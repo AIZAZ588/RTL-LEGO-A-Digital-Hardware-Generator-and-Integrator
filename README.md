@@ -1,4 +1,5 @@
 # RTL LAGO
+
 ## A Digital Hardware Generator and Integrator
 
 The aim of this project is to create a framework that can be used to generate and intergrate RTL components. User should be able to connect components from a library of generic RTL components and existing IP blocks to create Digital Hardware.
@@ -16,6 +17,7 @@ Here is the command to run install file
 ```
 
 After running this file you can use following commands in your terminal
+
 ```bash
 create //To create Top level file
 ```
@@ -194,3 +196,17 @@ To uninstall the commands run ./uninstall.sh file
 ```bash
 ./uninstall.sh
 ```
+
+## Usage/Examples
+
+To run Examples, Please look into [examples](examples). eg To run ex_clock.sh file
+
+```bash
+./ex_clock.sh
+```
+
+## Documentation
+
+To undestand complete and Usage Please look into [commands](commands)
+## 🚀 About Me
+I'm Student of Electrical Engineering...
