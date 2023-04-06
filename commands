@@ -49,7 +49,7 @@
 	USAGE:
 		plug -inst <instance_name> 
 			OPTIONAL: -n <name_instance> -t <topfile>
-			EXAMPLE: plug -inst up_counter -n SEC 
+			EXAMPLE: plug -inst up_counter.sv -n SEC 
 	
 	2) plug --register:
 	USAGE:
