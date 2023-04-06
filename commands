@@ -32,7 +32,7 @@
 	USAGE:
 		1) list_lago  					//list file avalable in library to plug
 	 	2) list_lago -f <file>			//view file content (cat)
-	 	3) list_lago -ef <edit_file> 	//edit file in nano editer
+	 	3) list_lago -e <edit_file> 	//edit file in nano editer
 
 	EXAMPLES: 
 			  list_lago -f bram.sv 
@@ -54,7 +54,7 @@
 	2) plug --register:
 	USAGE:
 		plug -r <register> -i <inputs> -o <outputs> -en <enable> 
-			OPTIONAL:-ir <input_ranges>  -or <output_ranges> -t<topfile> 
+			OPTIONAL:-ir <input_ranges>  -or <output_ranges> -t <topfile> 
 			EXAMPLE: plug -r -i data_in -ir [5:0] -o data_output -or [5:0] -en push
 	
 	3) plug --mux:
