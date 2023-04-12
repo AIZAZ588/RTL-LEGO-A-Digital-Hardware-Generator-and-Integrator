@@ -78,10 +78,11 @@ list_lago -e filename
 
 plug command can create instance of a file. You can use this command to create instance of a file that you have created using create command or you can use this command to create instance of a file that is already present in the library.
 
-By default it will create instance of a file with its own name you can use different name by ***-i*** argument.
+By default it will create instance of a file with its own name you can use different name by ***-i*** argument. and will create instance in current or recesnt created .sv file (make sure you are in that .sv file Dir)
+
 
 ```bash
-plug -i instance_name -f filename 
+plug -inst file_name -i instance_name 
 ```
 
 plug command can also add comments like ***register, mux*** to the Top file.
