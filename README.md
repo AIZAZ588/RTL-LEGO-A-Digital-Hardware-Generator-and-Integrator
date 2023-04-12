@@ -18,24 +18,30 @@ Here is the command to run install file
 
 After running this file you can use following commands in your terminal
 
-```bash
-create //To create Top level file
-```
+To create Top level file
 
 ```bash
-list_lago //To veiw avalible files in library
+create 
 ```
+To veiw avalible files in library
 
 ```bash
-plug //To create instances of library files in your Toplevel file and plug registers,mux etc
+list_lago 
 ```
+To create instances of library files in your Toplevel file and plug registers,mux etc
 
 ```bash
-add //Use add to add reg/wire/ranges etc
+plug 
 ```
+Use add to add reg/wire/ranges etc
 
 ```bash
-connect //Use connect to connect ports of instances
+add 
+```
+Use connect to connect ports of instances
+
+```bash
+connect 
 ```
 
 Here is the brief discription of commands
@@ -82,7 +88,7 @@ By default it will create instance of a file with its own name you can use diffe
 
 
 ```bash
-plug -inst file_name -i instance_name 
+plug -inst file_name -n instance_name 
 ```
 
 plug command can also add comments like ***register, mux*** to the Top file.
