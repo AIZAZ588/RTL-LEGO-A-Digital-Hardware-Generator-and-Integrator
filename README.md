@@ -18,24 +18,30 @@ Here is the command to run install file
 
 After running this file you can use following commands in your terminal
 
-```bash
-create //To create Top level file
-```
+To create Top level file
 
 ```bash
-list_lago //To veiw avalible files in library
+create 
 ```
+To veiw avalible files in library
 
 ```bash
-plug //To create instances of library files in your Toplevel file and plug registers,mux etc
+list_lago 
 ```
+To create instances of library files in your Toplevel file and plug registers,mux etc
 
 ```bash
-add //Use add to add reg/wire/ranges etc
+plug 
 ```
+Use add to add reg/wire/ranges etc
 
 ```bash
-connect //Use connect to connect ports of instances
+add 
+```
+Use connect to connect ports of instances
+
+```bash
+connect 
 ```
 
 Here is the brief discription of commands
@@ -78,10 +84,11 @@ list_lago -e filename
 
 plug command can create instance of a file. You can use this command to create instance of a file that you have created using create command or you can use this command to create instance of a file that is already present in the library.
 
-By default it will create instance of a file with its own name you can use different name by ***-i*** argument.
+By default it will create instance of a file with its own name you can use different name by ***-i*** argument. and will create instance in current or recesnt created .sv file (make sure you are in that .sv file Dir) To plug instance in older (other then previous) ure ***-t*** Topfile name  
+
 
 ```bash
-plug -i instance_name -f filename 
+plug -inst file_name -n instance_name 
 ```
 
 plug command can also add comments like ***register, mux*** to the Top file.
