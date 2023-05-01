@@ -1,8 +1,9 @@
 #!/usr/bin/python3
+
 import argparse
+import argcomplete
 import os
 import json
-import colorama
 
 #################### LAGO ROOT address ######################################
 def LAGO_USR_INFO(fname):
@@ -90,6 +91,7 @@ if __name__ == '__main__':
                         nargs='+', help='Output port name')
     parser.add_argument('-or', '--output_ranges',
                         nargs='+', help='Output port range')
+    argcomplete.autocomplete(parser)
     args = parser.parse_args()
 
     f_name = args.filename

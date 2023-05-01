@@ -72,3 +72,4 @@ else
 	echo ".LAGO_USR_INFO not found!";
 fi
 	echo "-------------------------------";
+complete -r create plug connect delete add rename

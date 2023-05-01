@@ -14,7 +14,7 @@ CREATE_LINK(){
 if [[ ${FILE1} && ${FILE2} && ${FILE3} ]];
 then
 	cd /usr/bin/
-	sudo ln -s  ${LAGO_DIR}/files/create.py create;
+	sudo ln -s  ${LAGO_DIR}/create.sh create;
 	echo "+++++++++++++++++++++++++++++";
 	echo "======create  installed======";
 	sudo ln -s  ${LAGO_DIR}/files/plug.py plug;
@@ -47,6 +47,7 @@ then
 		/bin/chmod u+x *.sh
 		/bin/chmod u+x ${LAGO_DIR}/examples/ *
 		/bin/chmod u+x ${LAGO_DIR}/files/*.py
+		
 
 fi
 }
