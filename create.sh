@@ -50,6 +50,6 @@ then
 	exit 1
 else
 	run $@
-	source ${LAGO_DIR}/my_completions.sh
+	source ${LAGO_DIR}/tab_completion.sh
 	exit 0
 fi
