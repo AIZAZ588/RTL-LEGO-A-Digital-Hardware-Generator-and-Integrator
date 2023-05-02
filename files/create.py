@@ -90,7 +90,6 @@ if __name__ == '__main__':
                         nargs='+', help='Output port name')
     parser.add_argument('-or', '--output_ranges',
                         nargs='+', help='Output port range')
-    argcomplete.autocomplete(parser)
     args = parser.parse_args()
 
     f_name = args.filename
