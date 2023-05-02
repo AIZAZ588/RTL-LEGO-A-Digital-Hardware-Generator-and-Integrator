@@ -22,12 +22,13 @@ complete -F _my_completion create connect add rename delete
 
 _my_plug_completion() {
     local cur prev
+    . ~/.LAGO_USR_INFO
     LAGO_LIB="${LAGO_DIR}/files/library"
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     if [ "${prev}" == "-inst" ]; then
-        words=($(ls ${LAGO_LIB}/*.sv | xargs -n1 basename ))
+        words=($(ls ${LAGO_LIB}/*.sv | xargs -n1 /bin/basename ))
         COMPREPLY=( $(compgen -W "${words[*]}" -- ${cur}) )
     fi
     return 0
