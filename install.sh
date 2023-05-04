@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#set -x
 LAGO_DIR=$(pwd);
 FILE1=false;
 FILE2=false;
@@ -10,11 +10,10 @@ YELLOW=$'\e[1;33m'
 WHITE=$'\e[1;37m'
 GREEN=$'\e[1;32m'
 
-CREATE_LINK(){
-if [[ ${FILE1} && ${FILE2} && ${FILE3} ]];
-then
+CREATE_LINK()
+{
 	cd /usr/bin/
-	sudo ln -s  ${LAGO_DIR}/create.sh create;
+	sudo ln -s  ${LAGO_DIR}/files/create.py create;
 	echo "+++++++++++++++++++++++++++++";
 	echo "======create  installed======";
 	sudo ln -s  ${LAGO_DIR}/files/plug.py plug;
@@ -47,10 +46,20 @@ then
 		/bin/chmod u+x *.sh
 		/bin/chmod u+x ${LAGO_DIR}/examples/ *
 		/bin/chmod u+x ${LAGO_DIR}/files/*.py
-		
 
-fi
+		${LAGO_DIR}/list_lago.sh
+
+	# adding tab_completion to /etc/bash_completion.d/
+	if [[ -f /etc/bash_completion.d/tab_completion.sh ]]
+	then
+		echo ${YELLOW} "tab_completion is already installed";
+	else
+		sudo cp ${LAGO_DIR}/tab_completion.sh /etc/bash_completion.d/tab_completion.sh
+		echo "tab_completion installed";
+		echo -e ${GREEN}  "\nplease restart your terminal to apply changes"
+	fi
 }
+
 
 if [ -e ./files/create.py ];then
 	FILE1=true;
@@ -91,4 +100,3 @@ CREATE_LINK
 #echo -e -n ${WHITE} "\nUse config command to configure your Top_level_file"
 #echo -e -n ${WHITE} "\nUse 'list_lago' command to find avalible modules";./list_lago.sh '-h';
 #echo -e -n ${WHITE} "\nHERE is a list of files you can plug to:";
-${LAGO_DIR}/list_lago.sh

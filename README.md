@@ -23,21 +23,25 @@ To create Top level file
 ```bash
 create 
 ```
+
 To veiw avalible files in library
 
 ```bash
 list_lago 
 ```
+
 To create instances of library files in your Toplevel file and plug registers,mux etc
 
 ```bash
 plug 
 ```
+
 Use add to add reg/wire/ranges etc
 
 ```bash
 add 
 ```
+
 Use connect to connect ports of instances
 
 ```bash
@@ -84,8 +88,7 @@ list_lago -e filename
 
 plug command can create instance of a file. You can use this command to create instance of a file that you have created using create command or you can use this command to create instance of a file that is already present in the library.
 
-By default it will create instance of a file with its own name you can use different name by ***-i*** argument. and will create instance in current or recesnt created .sv file (make sure you are in that .sv file Dir) To plug instance in older (other then previous) ure ***-t*** Topfile name  
-
+By default it will create instance of a file with its own name you can use different name by ***-i*** argument. and will create instance in current or recesnt created .sv file (make sure you are in that .sv file Dir) To plug instance in older (other then previous) ure ***-t*** Topfile name
 
 ```bash
 plug -inst file_name -n instance_name 
@@ -119,7 +122,7 @@ add -p <port> -i <inputs> -o <outputs>
 To add ***Parameter*** use following command
 
 ```bash
-add -pa <Parameter> -v <value>
+add -p <Parameter> -v <value>
 ```
 
 To add ***wire*** use following command
@@ -215,5 +218,7 @@ To run Examples, Please look into [examples](examples). eg To run ex_clock.sh fi
 ## Documentation
 
 To undestand complete and Usage Please look into [commands](commands)
+
 ## 🚀 About Me
+
 I'm Student of Electrical Engineering...
