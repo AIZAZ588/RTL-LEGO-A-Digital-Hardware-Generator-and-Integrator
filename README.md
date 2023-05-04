@@ -119,7 +119,7 @@ add -p <port> -i <inputs> -o <outputs>
 To add ***Parameter*** use following command
 
 ```bash
-add -pa <Parameter> -v <value>
+add -P <Parameter> -v <value>
 ```
 
 To add ***wire*** use following command
