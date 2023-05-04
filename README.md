@@ -122,7 +122,11 @@ add -p <port> -i <inputs> -o <outputs>
 To add ***Parameter*** use following command
 
 ```bash
+<<<<<<< HEAD
 add -p <Parameter> -v <value>
+=======
+add -P <Parameter> -v <value>
+>>>>>>> refs/remotes/origin/main
 ```
 
 To add ***wire*** use following command
