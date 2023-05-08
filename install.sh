@@ -47,7 +47,7 @@ CREATE_LINK()
 		/bin/chmod u+x ${LAGO_DIR}/examples/ *
 		/bin/chmod u+x ${LAGO_DIR}/files/*.py
 
-		${LAGO_DIR}/list_lago.sh
+		${LAGO_DIR}/list_lego.sh
 
 	# adding tab_completion to /etc/bash_completion.d/
 	if [[ -f /etc/bash_completion.d/tab_completion.sh ]]
