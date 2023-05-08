@@ -125,6 +125,20 @@ To add ***Parameter*** use following command
 add -P <Parameter> -v <value>
 ```
 
+use '' to add string value
+
+```bash
+add -P <parameter> -v '"HIGH_PERFORMANCE"'
+```
+
+will add ***parameter  = "HIGH_PERFORMANCE"*** to the file
+
+To add local ***parameter*** use following command
+
+```bash
+add -lp <localparam> -v <value> -inst <instance>
+```
+
 To add ***wire*** use following command
 
 ```bash
