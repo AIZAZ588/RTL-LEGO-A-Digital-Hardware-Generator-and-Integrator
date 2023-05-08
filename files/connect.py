@@ -60,19 +60,19 @@ if __name__ == '__main__':
     with open(f'{Baseboard_path}/{json_file}', 'r') as f:
        data = json.load(f)
     
-    if args.parameter and args.instance1 and args.input_ports:
+    if args.parameter and args.instance1 and args.input_ports:  # connect to parameter
         for args.parameter,args.input_ports in zip(args.parameter,args.input_ports):
            connection.connect_param(Top_level_file,args.parameter,args.instance1,args.input_ports,Baseboard_path,data)
         exit()
-    if args.reg and args.instance1 and args.input_ports:
+    if args.reg and args.instance1 and args.input_ports: # connect to reg
         for args.reg,args.input_ports in zip(args.reg,args.input_ports):
             connection.connect_to_reg(Top_level_file,args.reg,args.instance1,args.input_ports,Baseboard_path)
         exit()
-    if args.wire and args.instance1 and args.input_ports:
+    if args.wire and args.instance1 and args.input_ports: # connect to wire
         for args.wire,args.input_ports in zip(args.wire,args.input_ports):
             connection.connect_to_wire(Top_level_file,args.wire,args.instance1,args.input_ports,Baseboard_path)
         exit()
-    if args.instance1 and args.input_ports and args.instance2 and args.output_ports:
+    if args.instance1 and args.input_ports and args.instance2 and args.output_ports: # connect to instance
         for args.input_ports, args.output_ports in zip(args.input_ports, args.output_ports):
             connection.connect_instances(Top_level_file,args.instance1,args.input_ports,args.instance2,args.output_ports,Baseboard_path)
         exit() 

@@ -40,7 +40,7 @@ def connect_to_wire(Top_level_file,wire_name,instance_name,port_name,Baseboard_p
     json_file=Top_level_file.replace(".sv",".json")
     with open(f'{Baseboard_path}/{json_file}', 'r') as f:
         data = json.load(f)
-        if wire_name in data:
+        if wire_name in data['wire']:
             if  port_name in data[instance_name]['ports']:
                with open (f'{Top_level_file}','r') as f:
                     content=f.readlines()
