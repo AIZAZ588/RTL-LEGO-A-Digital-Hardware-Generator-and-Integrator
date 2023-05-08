@@ -6,7 +6,7 @@ def connect_to_reg(Top_level_file,reg_name,instance_name,port_name,Baseboard_pat
     json_file=Top_level_file.replace(".sv",".json")
     with open(f'{Baseboard_path}/{json_file}', 'r') as f:
         data = json.load(f)
-        if reg_name in data:
+        if reg_name in data['reg']:
            if  port_name in data[instance_name]['ports']:
                with open (f'{Top_level_file}','r') as f:
                     content=f.readlines()
