@@ -1,4 +1,4 @@
-# RTL LAGO
+# RTL LEGO
 
 ## A Digital Hardware Generator and Integrator
 
