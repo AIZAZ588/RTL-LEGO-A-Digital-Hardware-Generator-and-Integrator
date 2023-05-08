@@ -44,7 +44,7 @@ CREATE_LINK()
 	fi
 
 		/bin/chmod u+x *.sh
-		/bin/chmod u+x ${LEGO_DIR}/examples/ *
+		/bin/chmod u+x ${LEGO_DIR}/examples/*
 		/bin/chmod u+x ${LEGO_DIR}/files/*.py
 
 		${LEGO_DIR}/list_lego.sh
