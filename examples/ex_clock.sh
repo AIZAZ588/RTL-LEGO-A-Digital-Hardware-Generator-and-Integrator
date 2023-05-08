@@ -19,3 +19,7 @@ connect -i MIN -ip count_max -P count_max
 
 connect -i HRS -ip en clr -w clr_min clr_hrs
 connect -i HRS -ip count_max -P count_max
+
+iverilog -o tb_clock *.sv
+vvp tb_clock
+gtkwave wave.vcd
