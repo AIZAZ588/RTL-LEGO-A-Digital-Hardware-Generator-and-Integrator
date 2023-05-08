@@ -232,7 +232,7 @@ if __name__ == '__main__':
             print("Example:add -P <parameter> 'WIDTH' -v <value> '32' -t <topfile> 'top.sv")
             exit()
             
-    if args.localparam[0]:
+    if args.localparam:
         if args.instance:
             for args.localparam,args.value in zip(args.localparam,args.value):
                 addparam.parameter_json(Top_level_file,args.localparam,args.value,Baseboard_path)
