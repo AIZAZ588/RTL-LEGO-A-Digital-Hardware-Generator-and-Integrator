@@ -5,18 +5,18 @@ import os
 import json
 
 #################### LAGO ROOT address ######################################
-def LAGO_USR_INFO(fname):
-	global LAGO_DIR;
-	file_path = os.path.expanduser("~/.LAGO_USR_INFO")
+def LEGO_USR_INFO(fname):
+	global LEGO_DIR;
+	file_path = os.path.expanduser("~/.LEGO_USR_INFO")
 	with open(file_path, "a+") as f:
 		f.write(f"\nTOP_FILE={fname}") #--> write current toplevel file name
 		f.seek(0)
-		LAGO_DIR=f.readline().replace("LAGO_DIR=","")+"/files/";
+		LEGO_DIR=f.readline().replace("LEGO_DIR=","")+"/files/";
 		f.close()
-		LAGO_DIR=LAGO_DIR.replace("\n","")
+		LEGO_DIR=LEGO_DIR.replace("\n","")
 ##############################################################################
 from colorama import Fore
-LAGO_DIR=''
+LEGO_DIR=''
 f_name = "Baseboard.sv"
 folder_name = 'Baseboard'
 ######################## setting name of instance & body  ############################
@@ -98,9 +98,9 @@ if __name__ == '__main__':
     outputs = args.outputs
     output_ranges = args.output_ranges
 
-    LAGO_USR_INFO(f_name)
+    LEGO_USR_INFO(f_name)
     name() #->> name function called
-    os.chdir(LAGO_DIR)
+    os.chdir(LEGO_DIR)
     try:
         os.chdir(folder_name)
     except:

@@ -20,7 +20,7 @@ CREATE_LINK()
 	echo "======plug    installed======";
 	sudo ln -s  ${LAGO_DIR}/files/connect.py connect;
 	echo "======connect installed======";
-	sudo ln -s ${LAGO_DIR}/list_lago.sh list_lago;
+	sudo ln -s ${LAGO_DIR}/list_lego.sh list_lego;
 	echo "======list_lago installed===";
 	sudo ln -s ${LAGO_DIR}/files/add.py add;
 	echo "======add installed=======";
@@ -32,14 +32,14 @@ CREATE_LINK()
 	cd $LAGO_DIR
 	if [[ -f ~/.LAGO_USR_INFO ]]
 	then
-		/bin/rm -r ~/.LAGO_USR_INFO
-		echo -n "LAGO_DIR=${LAGO_DIR}">~/.LAGO_USR_INFO;
+		/bin/rm -r ~/.LEGO_USR_INFO
+		echo -n "LEGO_DIR=${LAGO_DIR}">~/.LEGO_USR_INFO;
 
 	elif [[ -n ~/.LAGO_USR_INFO ]]
 	then
-		echo -n "LAGO_DIR=${LAGO_DIR}">~/.LAGO_USR_INFO;
+		echo -n "LEGO_DIR=${LAGO_DIR}">~/.LEGO_USR_INFO;
 	else
-		echo "error: LAGO_USR_INFO is not written!";
+		echo "error: LEGO_USR_INFO is not written!";
 		exit 1
 	fi
 

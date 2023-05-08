@@ -6,17 +6,17 @@ import json
 from colorama import Fore
 import connection
 
-LAGO_DIR=''
+LEGO_DIR=''
 Top_level_file=''
 found = False     
 
 #################### LAGO ROOT address #######################################
-def LAGO_USR_INFO():
-        global LAGO_DIR,Top_level_file
-        Linux_file_path = os.path.expanduser("~/.LAGO_USR_INFO")
+def LEGO_USR_INFO():
+        global LEGO_DIR,Top_level_file
+        Linux_file_path = os.path.expanduser("~/.LEGO_USR_INFO")
         with open(Linux_file_path, "r") as Shell_file:
             sh_file=Shell_file.readlines()
-            LAGO_DIR=sh_file[0].replace("LAGO_DIR=","")+"/files/"
+            LEGO_DIR=sh_file[0].replace("LEGO_DIR=","")+"/files/"
             if Top_level_file:
              if f"TOP_FILE={Top_level_file}\n" in sh_file:
                 pass
@@ -25,7 +25,7 @@ def LAGO_USR_INFO():
                 exit()
             else:
                 Top_level_file=sh_file[-1]
-        LAGO_DIR=LAGO_DIR.replace("\n","")
+        LEGO_DIR=LEGO_DIR.replace("\n","")
         Top_level_file=Top_level_file.replace("TOP_FILE=",'')
        
 ##############################################################################
@@ -53,8 +53,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     Top_level_file = args.filename
 
-    LAGO_USR_INFO()
-    Baseboard_path = os.path.join(LAGO_DIR,'Baseboard')
+    LEGO_USR_INFO()
+    Baseboard_path = os.path.join(LEGO_DIR,'Baseboard')
     json_file=Top_level_file.replace(".sv",'.json')
     
     with open(f'{Baseboard_path}/{json_file}', 'r') as f:

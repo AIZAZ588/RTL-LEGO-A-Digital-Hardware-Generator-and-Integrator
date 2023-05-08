@@ -7,18 +7,18 @@ import shutil
 import math
 import re
 from colorama import Fore
-LAGO_DIR = ''
+LEGO_DIR = ''
 Top_level_file = ''
 CURRENT_DIR = os.getcwd()
 #################### LAGO ROOT address #######################################
 
 
-def LAGO_USR_INFO():
-    global LAGO_DIR, Top_level_file
-    Linux_file_path = os.path.expanduser("~/.LAGO_USR_INFO")
+def LEGO_USR_INFO():
+    global LEGO_DIR, Top_level_file
+    Linux_file_path = os.path.expanduser("~/.LEGO_USR_INFO")
     with open(Linux_file_path, "r") as Shell_file:
         sh_file = Shell_file.readlines()
-        LAGO_DIR = sh_file[0].replace("LAGO_DIR=", "")+"/files/"
+        LEGO_DIR = sh_file[0].replace("LEGO_DIR=", "")+"/files/"
         if Top_level_file:
             if f"TOP_FILE={Top_level_file}\n" in sh_file:
                 pass
@@ -27,7 +27,7 @@ def LAGO_USR_INFO():
                 exit()
         else:
             Top_level_file = sh_file[-1]
-    LAGO_DIR = LAGO_DIR.replace("\n", "")
+    LEGO_DIR = LEGO_DIR.replace("\n", "")
     Top_level_file = Top_level_file.replace("TOP_FILE=", '')
 
 
@@ -233,7 +233,7 @@ def fileio(inputs, input_ranges, outputs, output_ranges):
         with open(f"{CURRENT_DIR}/{Top_level_file}", "w") as f:
             f.write(file_contents)
 def create_instance(file_name,inst_name):
-    global LAGO_DIR, Baseboard_path,library_file
+    global LEGO_DIR, Baseboard_path,library_file
 
     if inst_name:
         instance = inst_name
@@ -278,9 +278,9 @@ if __name__ == '__main__':
     file = args.instance
     Top_level_file = args.topfile
     
-    LAGO_USR_INFO()  # ---->
-    Baseboard_path = os.path.join(LAGO_DIR, 'Baseboard')
-    library = os.path.join(LAGO_DIR, 'library')
+    LEGO_USR_INFO()  # ---->
+    Baseboard_path = os.path.join(LEGO_DIR, 'Baseboard')
+    library = os.path.join(LEGO_DIR, 'library')
 
    
     
