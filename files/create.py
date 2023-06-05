@@ -1,17 +1,16 @@
 #!/usr/bin/python3
-
 import argparse
 import os
 import json
 
 #################### LAGO ROOT address ######################################
 def LEGO_USR_INFO(fname):
-	global LEGO_DIR;
+	global LEGO_DIR
 	file_path = os.path.expanduser("~/.LEGO_USR_INFO")
 	with open(file_path, "a+") as f:
-		f.write(f"\nTOP_FILE={fname}") #--> write current toplevel file name
+		f.write(f"\nTOP_FILE={fname}")
 		f.seek(0)
-		LEGO_DIR=f.readline().replace("LEGO_DIR=","")+"/files/";
+		LEGO_DIR=f.readline().replace("LEGO_DIR=","")+"/files/"
 		f.close()
 		LEGO_DIR=LEGO_DIR.replace("\n","")
 ##############################################################################
@@ -26,20 +25,22 @@ def set_instance_name(f_name, inputs, outputs, input_ranges, output_ranges):
         Body = f"module {m_name} (\ninput\t   \t\tclk,\ninput\t   \t\treset,"
         if inputs:
             i = ""
-            for inp, inp_ranges in zip(inputs, input_ranges):
-                if inp_ranges == 'None' or inp_ranges == 'none':
+            if input_ranges in ['None', 'none']:
+                for inp in inputs:
                     inpu = f"\ninput\t  \t\t{(i.join(inp))},"
                     Body = Body + inpu
-                else:
+            else:
+                for inp, inp_ranges in zip(inputs, input_ranges):
                     inpu = f"\ninput\t  \t{inp_ranges}\t{(i.join(inp))},"
                     Body = Body + inpu
         if outputs:
             o = ""
-            for out, opt_ranges in zip(outputs, output_ranges):
-                if opt_ranges == 'None' or opt_ranges == 'none':
+            if output_ranges in ['None', 'none']:
+                for out in outputs:
                     outu = f"\noutput\twire\t\t{o.join(out)},"
                     Body = Body + outu
-                else:
+            else:
+                for out, opt_ranges in zip(outputs, output_ranges):
                     outu = f"\noutput\twire\t{opt_ranges}\t{o.join(out)},"
                     Body = Body + outu
         Body = Body.rstrip(",")
@@ -63,6 +64,12 @@ def storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges):
     ports = {}
     ports["clk"] = {"type": "input", "range": "None"}
     ports["reset"] = {"type": "input", "range": "None"}
+    
+    if input_ranges in ['None', 'none']:
+        input_ranges = ['None' for i in range(len(inputs))]
+
+    if output_ranges in ['None', 'none']:
+        output_ranges = ['None' for i in range(len(outputs))]
 
     if inputs:
         for i, inp in enumerate(inputs):
@@ -85,11 +92,11 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--inputs', type=str,
                         nargs='+', help='Input port name')
     parser.add_argument('-ir', '--input_ranges', type=str,
-                        nargs='+', help='Input port range')
+                        nargs='+', help='Input port range',default='None')
     parser.add_argument('-o', '--outputs', type=str,
                         nargs='+', help='Output port name')
     parser.add_argument('-or', '--output_ranges',
-                        nargs='+', help='Output port range')
+                        nargs='+', help='Output port range',default='None')
     args = parser.parse_args()
 
     f_name = args.filename
@@ -99,7 +106,7 @@ if __name__ == '__main__':
     output_ranges = args.output_ranges
 
     LEGO_USR_INFO(f_name)
-    name() #->> name function called
+    name()
     os.chdir(LEGO_DIR)
     try:
         os.chdir(folder_name)
