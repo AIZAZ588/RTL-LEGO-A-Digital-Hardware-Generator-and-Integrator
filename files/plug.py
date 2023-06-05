@@ -256,13 +256,13 @@ def create_instance(file_name,inst_name):
         print("error occured! ")
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-inst',"--instance",help='Name of file from which instance is taken', type=str)
+    parser.add_argument('-inst',"--instance",help='Name of file from which instance is taken', type=str, nargs='+')
     parser.add_argument('-m',"--mux",action='store_true')
     parser.add_argument('-r',"--register",action='store_true')
     parser.add_argument('-t,','--topfile',help='Top level file name', type=str)
 
     
-    parser.add_argument('-n', '--instance_name', help='Name of instance')
+    parser.add_argument('-n', '--instance_name', help='Name of instance',nargs='+')
    
     parser.add_argument('-i', '--inputs',nargs='+',help='Input port name')
     parser.add_argument('-ir', '--input_ranges',help='Input port range')
@@ -275,7 +275,6 @@ if __name__ == '__main__':
     parser.add_argument('-en', '--enable_signal', type=str, help='Select line')
     
     args = parser.parse_args()
-    file = args.instance
     Top_level_file = args.topfile
     
     LEGO_USR_INFO()  # ---->
@@ -285,9 +284,16 @@ if __name__ == '__main__':
    
     
     if args.instance:
-        library_file = os.path.join(library, file)  # --->
-        create_instance(args.instance,args.instance_name)
-        exit()
+        if  len(args.instance) == 1 and len(args.instance_name) > 1:
+            for i in args.instance_name:
+                library_file = os.path.join(library, f"{args.instance[0]}")
+                create_instance(args.instance[0],i)
+            exit()
+        else:
+            for file,name in args.instance,args.instance_name:
+                library_file = os.path.join(library, file)
+                create_instance(file,name)
+            exit()
     if args.mux:
         if args.inputs and args.outputs and args.select_line:
             generating_mux(args.inputs, args.outputs,args.select_line)

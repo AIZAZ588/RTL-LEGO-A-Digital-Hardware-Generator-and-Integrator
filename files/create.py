@@ -23,7 +23,8 @@ def set_instance_name(f_name, inputs, outputs, input_ranges, output_ranges):
     m_name = f_name.replace(".sv", "")
     if inputs or outputs:
         Body = f"module {m_name} (\ninput\t   \t\tclk,\ninput\t   \t\treset,"
-        if inputs:
+        if inputs != "None":
+            print("inputs",inputs)
             i = ""
             if input_ranges in ['None', 'none']:
                 for inp in inputs:
@@ -33,7 +34,7 @@ def set_instance_name(f_name, inputs, outputs, input_ranges, output_ranges):
                 for inp, inp_ranges in zip(inputs, input_ranges):
                     inpu = f"\ninput\t  \t{inp_ranges}\t{(i.join(inp))},"
                     Body = Body + inpu
-        if outputs:
+        if outputs != "None":
             o = ""
             if output_ranges in ['None', 'none']:
                 for out in outputs:
@@ -65,18 +66,19 @@ def storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges):
     ports["clk"] = {"type": "input", "range": "None"}
     ports["reset"] = {"type": "input", "range": "None"}
     
-    if input_ranges in ['None', 'none']:
+    if input_ranges == 'None' and inputs != "None":
         input_ranges = ['None' for i in range(len(inputs))]
 
-    if output_ranges in ['None', 'none']:
+    if output_ranges == 'None' and outputs != "None":
         output_ranges = ['None' for i in range(len(outputs))]
 
-    if inputs:
+
+    if inputs != "None":
         for i, inp in enumerate(inputs):
             if type(inp) == list:
                 inp = inp[0]
             ports[inp] = {"type": "input", "range": input_ranges[i]}
-    if outputs:
+    if outputs != "None":
         for j, out in enumerate(outputs):
             if type(out) == list:
                 out = out[0]
@@ -87,16 +89,11 @@ def storing_data_in_Json(f_name, inputs, input_ranges, outputs, output_ranges):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f', '--filename',
-                        default="Baseboard.sv", help='Name of the  top level file')
-    parser.add_argument('-i', '--inputs', type=str,
-                        nargs='+', help='Input port name')
-    parser.add_argument('-ir', '--input_ranges', type=str,
-                        nargs='+', help='Input port range',default='None')
-    parser.add_argument('-o', '--outputs', type=str,
-                        nargs='+', help='Output port name')
-    parser.add_argument('-or', '--output_ranges',
-                        nargs='+', help='Output port range',default='None')
+    parser.add_argument('-f', '--filename',default="Baseboard.sv", help='Name of the  top level file')
+    parser.add_argument('-i', '--inputs', type=str,nargs='+', help='Input port name',default='None')
+    parser.add_argument('-ir', '--input_ranges', type=str, nargs='+', help='Input port range',default='None')
+    parser.add_argument('-o', '--outputs', type=str,nargs='+', help='Output port name',default='None')
+    parser.add_argument('-or', '--output_ranges',nargs='+', help='Output port range',default='None')
     args = parser.parse_args()
 
     f_name = args.filename
