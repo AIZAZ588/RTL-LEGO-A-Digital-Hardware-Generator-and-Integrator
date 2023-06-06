@@ -193,7 +193,7 @@ if __name__ == '__main__':
                 add_reg_wire.add_reg(Top_level_file,args.reg,args.range)
             exit()
         else:
-            range=' '
+            range='None '
             for args.reg in args.reg:
                 add_reg_wire.add_reg_to_json(Top_level_file,args.reg,range,Baseboard_path)
                 add_reg_wire.add_reg(Top_level_file,args.reg,range)

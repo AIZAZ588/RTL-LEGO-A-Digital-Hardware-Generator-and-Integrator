@@ -31,16 +31,55 @@ def add_wire_to_json(file_name,name,range,Baseboard_path):
                 else:
                     print(Fore.RED,"Aborting...",Fore.RESET)
                     return 0
-            else:
-                data['wire'].update({name:range})
-                succes=True
+            else: 
+                if "[" in range:
+                        range=range.replace("[","")
+                        range=range.replace("]","")
+                        var = range.split(":")
+                        param = var[0].split("-")
+                        if param[0] in data['parameter']:
+                            param_value=data['parameter'][param[0]]
+                            param_value=int(param_value)-int(param[1])
+                            new=f'[{param_value}:{var[1]}]'
+                            data['wire'].update({name:new})
+                            with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
+                                json.dump(data, write_file, indent=4)
+                                succes=True     
+                                exit() 
+                        else:
+                            print(Fore.RED,"Error: This parameter doesn't exist",Fore.RESET)
+                            exit()
+                else:   
+                    data['wire'].update({name:range})
+                    with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
+                        json.dump(data, write_file, indent=4)
+                        succes=True
+   
         except:
             if succes is not True:
-                data['wire']={name:range}
-                succes=True    
-            
-        with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
-            json.dump(data, write_file, indent=4)
+                if "[" in range:
+                        range=range.replace("[","")
+                        range=range.replace("]","")
+                        var = range.split(":")
+                        param = var[0].split("-")
+                        if param[0] in data['parameter']:
+                            param_value=data['parameter'][param[0]]
+                            param_value=int(param_value)-int(param[1])
+                            new=f'[{param_value}:{var[1]}]'
+                            data['wire']={name:new}
+                            with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
+                                json.dump(data, write_file, indent=4)
+                                succes=True     
+                                exit() 
+                        else:
+                            print(Fore.RED,"Error: This parameter doesn't exist",Fore.RESET)
+                            exit()
+                else:   
+                    data['wire']={name:range}
+                    with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
+                        json.dump(data, write_file, indent=4)
+                        succes=True
+                            
     
 def add_reg_to_json(file_name,name,range,Baseboard_path):
     global succes
@@ -52,9 +91,29 @@ def add_reg_to_json(file_name,name,range,Baseboard_path):
                 print(Fore.RED,"Error: This register already exists",Fore.RESET)
                 choice=input("Do you want to update it? (y/n) : ")
                 if choice=='y' or choice=='Y':
-                    data['reg']={name:range}
-                    with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
-                        json.dump(data, write_file, indent=4)
+                    if "[" in range:
+                        range=range.replace("[","")
+                        range=range.replace("]","")
+                        var = range.split(":")
+                        param = var[0].split("-")
+                        if param[0] in data['parameter']:
+                            param_value=data['parameter'][param[0]]
+                            param_value=int(param_value)-int(param[1])
+                            new=f'[{param_value}:{var[1]}]'
+                            data['reg'].update({name:new})
+                            with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
+                                json.dump(data, write_file, indent=4)
+                                succes=True     
+                                exit() 
+                        else:
+                            print(Fore.RED,"Error: This parameter doesn't exist",Fore.RESET)
+                            exit()
+                    else:   
+                        data['reg'].update({name:range})
+                        with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
+                            json.dump(data, write_file, indent=4)
+                            succes=True
+        
                     with open(file_name) as f:
                         content=f.readlines()
                         index1=0;index2=0
@@ -74,17 +133,54 @@ def add_reg_to_json(file_name,name,range,Baseboard_path):
                     print(Fore.RED,"Aborting...",Fore.RESET)
                     return 
             else:
-                data['reg'].update({name:range})
-                with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
-                    json.dump(data, write_file, indent=4)
-                    succes=True
+                if "[" in range:
+                    print("if []")
+                    range=range.replace("[","")
+                    range=range.replace("]","")
+                    var = range.split(":")
+                    param = var[0].split("-")
+                    if param[0] in data['parameter']:
+                        param_value=data['parameter'][param[0]]
+                        param_value=int(param_value)-int(param[1])
+                        new=f'[{param_value}:{var[1]}]'
+                        print(new)
+                        data['reg'].update({name:new})
+                        with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
+                            json.dump(data, write_file, indent=4)
+                            succes=True     
+                            exit() 
+                    else:
+                        print(Fore.RED,"Error: This parameter doesn't exist",Fore.RESET)
+                        exit()
+                else: 
+                    data['reg'].update({name:range})
+                    with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
+                        json.dump(data, write_file, indent=4)
+                        succes=True
         except:
             if succes is not True:
-                data['reg']={name:range}
-                with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
-                  json.dump(data, write_file, indent=4)
-                  succes=True
-            
+                if "[" in range:
+                    range=range.replace("[","")
+                    range=range.replace("]","")
+                    var = range.split(":")
+                    param = var[0].split("-")
+                    if param[0] in data['parameter']:
+                        param_value=data['parameter'][param[0]]
+                        param_value=int(param_value)-int(param[1])
+                        new=f'[{param_value}:{var[1]}]'
+                        data['reg']={name:new}
+                        with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
+                            json.dump(data, write_file, indent=4)
+                            succes=True     
+                            exit() 
+                    else:
+                        print(Fore.RED,"Error: This parameter doesn't exist",Fore.RESET)
+                        exit()
+                else:   
+                    data['reg']={name:range}
+                    with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
+                        json.dump(data, write_file, indent=4)
+                        succes=True
         
         
 def add_reg(file_name,name,range):
