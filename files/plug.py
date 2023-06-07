@@ -290,7 +290,7 @@ if __name__ == '__main__':
                 create_instance(args.instance[0],i)
             exit()
         elif args.instance and args.instance_name:
-            for file,name in args.instance,args.instance_name:
+            for file,name in zip(args.instance,args.instance_name):
                 library_file = os.path.join(library, file)
                 create_instance(file,name)
             exit()
