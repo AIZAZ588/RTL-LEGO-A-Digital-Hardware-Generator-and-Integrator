@@ -233,14 +233,14 @@ if __name__ == '__main__':
             exit()
             
     if args.localparam:
-        if args.instance:
+        if args.value:
             for args.localparam,args.value in zip(args.localparam,args.value):
                 addparam.parameter_json(Top_level_file,args.localparam,args.value,Baseboard_path)
-                addparam.adding_localparam(Top_level_file,args.localparam,args.value,args.instance)
+                addparam.adding_localparam(Top_level_file,args.localparam,args.value)
             exit()
         else:
             print("Please provide value for localparam(s) to add")
-            print("Example:add -l <localparam> 'WIDTH' -v <value> '32' -t <topfile> 'top.sv")
+            print("Example:add -lp <localparam> 'WIDTH' -v <value> '32' -t <topfile> 'top.sv")
             exit()
             
     if args.change:

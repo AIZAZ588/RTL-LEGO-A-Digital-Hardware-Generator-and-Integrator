@@ -284,20 +284,17 @@ if __name__ == '__main__':
    
     
     if args.instance:
-        if  len(args.instance) == 1 and len(args.instance_name) > 1:
-            print("instance name is provided more than once\n")
+        if  len(args.instance) == 1 and len(args.instance_name) > 1:  
             for i in args.instance_name:
                 library_file = os.path.join(library, f"{args.instance[0]}")
                 create_instance(args.instance[0],i)
             exit()
         elif args.instance and args.instance_name:
-            print("both instance and instance name are provided\n")
             for file,name in args.instance,args.instance_name:
                 library_file = os.path.join(library, file)
                 create_instance(file,name)
             exit()
         elif args.instance:
-            print("instance name is not provided\n")
             for file in args.instance:
                 library_file = os.path.join(library, file)
                 create_instance(file,None)

@@ -42,6 +42,7 @@ def parameter_json(filename,param,ranges,Baseboard_path):
                 filename=filename.replace(".json",".sv")
                 print(Fore.LIGHTRED_EX + f"{param} already exists in {filename}" + Fore.RESET)
                 print(Fore.LIGHTRED_EX + f"Please change the parameter name" + Fore.RESET)
+                success = False
                 return
             elif data.get('parameter'):
                  data['parameter'][param]=ranges
@@ -97,22 +98,23 @@ def ovride_prms(filename,prv_w, nw_w,inst):
         with open(filename, 'w') as f:
             f.write(content)
 
-def adding_localparam(fileName,prms,wid,inst=None):
-    if inst is None:
-        param = "".join([f'parameter\t{p}\t= {w};\n' for p,w in zip(prms,wid)])
-        import plug
-        plug.io_outside(param)
-    else:
-        with open(fileName,"r+") as f:
-            content = f.readlines()
-            for string in content:
-                if f"{inst}" in string:
-                    index = content.index(string)
-                    break
-            param = "".join([f'parameter\t{p}\t= {w};\n' for p,w in zip(prms,wid)])
-            content.insert(index,param)
-        with open(fileName,'w') as write_file:
-                write_file.writelines(content)
+# def adding_localparam(fileName,prms,wid,inst=None):
+#     if inst is None:
+#         param = "".join([f'parameter\t{p}\t= {w};\n' for p,w in zip(prms,wid)])
+#         import plug
+#         plug.io_outside(param)
+#     else:
+#         with open(fileName,"r+") as f:
+#             content = f.readlines()
+#             for string in content:
+#                 if f"{inst}" in string:
+#                     index = content.index(string)
+#                     break
+#             param = "".join([f'parameter\t{p}\t= {w};\n' for p,w in zip(prms,wid)])
+#             content.insert(index,param)
+#         with open(fileName,'w') as write_file:
+#                 write_file.writelines(content)
+
 
 # local_param("clock.sv","SEC","wids",'32')
 
@@ -130,3 +132,24 @@ def adding_localparam(fileName,prms,wid,inst=None):
 #     args = parser.parse_args()
 
 #     ovride_prms(args.filename, args.instance,args.old_width,args.new_width)
+
+###################################################################################################
+def adding_localparam(fileName,prms,wid):
+        param = "".join([f'parameter\t{prms}\t= {wid};'])
+        io_outside(fileName,param)
+        
+def io_outside(fileName,ios):
+    m_name = fileName.replace(".sv", "")
+    with open(fileName, 'r') as f:
+        file_contents = f.read()
+    pattern = rf".*?(module\s+{m_name}\s*((?:[\s\S]*?);))"
+    match = re.search(pattern, file_contents)
+    if match:
+        block = match.group(1)
+        new_data = block + f"\n{ios}"
+        file_contents = re.sub(pattern, new_data, file_contents)
+        with open(fileName, 'w') as f:
+            f.write(file_contents)
+    else:
+        print(Fore.RED + f"Module {m_name} not found" + Fore.RESET)
+        exit()
