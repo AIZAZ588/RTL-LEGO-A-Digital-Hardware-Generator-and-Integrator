@@ -44,8 +44,7 @@ def add_wire_to_json(file_name,name,range,Baseboard_path):
                             data['wire'].update({name:new})
                             with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
                                 json.dump(data, write_file, indent=4)
-                                succes=True     
-                                exit() 
+                                succes=True
                         else:
                             print(Fore.RED,"Error: This parameter doesn't exist",Fore.RESET)
                             exit()
@@ -70,7 +69,6 @@ def add_wire_to_json(file_name,name,range,Baseboard_path):
                             with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
                                 json.dump(data, write_file, indent=4)
                                 succes=True     
-                                exit() 
                         else:
                             print(Fore.RED,"Error: This parameter doesn't exist",Fore.RESET)
                             exit()
@@ -104,7 +102,6 @@ def add_reg_to_json(file_name,name,range,Baseboard_path):
                             with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
                                 json.dump(data, write_file, indent=4)
                                 succes=True     
-                                exit() 
                         else:
                             print(Fore.RED,"Error: This parameter doesn't exist",Fore.RESET)
                             exit()
@@ -148,7 +145,6 @@ def add_reg_to_json(file_name,name,range,Baseboard_path):
                         with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
                             json.dump(data, write_file, indent=4)
                             succes=True     
-                            exit() 
                     else:
                         print(Fore.RED,"Error: This parameter doesn't exist",Fore.RESET)
                         exit()
@@ -172,7 +168,6 @@ def add_reg_to_json(file_name,name,range,Baseboard_path):
                         with open(f"{Baseboard_path}/{json_file}", "w") as write_file:
                             json.dump(data, write_file, indent=4)
                             succes=True     
-                            exit() 
                     else:
                         print(Fore.RED,"Error: This parameter doesn't exist",Fore.RESET)
                         exit()
@@ -187,19 +182,11 @@ def add_reg(file_name,name,range):
     if succes==True:
         with open (file_name) as f:
             content = f.readlines()
-            try:
-                for string in content:
-                    if ");" in string:
-                        index = content.index(string)
-                        break
-                content.insert(index+1,f"reg  \t {range} \t {name};\n")
-                #print(Fore.GREEN,f"Register {name} added successfully",Fore.RESET)
-            except:
-                for string in content:
-                    if ");" in string:
-                        index = content.index(string)
-                        break
-                content.insert(index+1,f"reg  \t {range} \t {name};\n")
-                #print(Fore.GREEN,f"Register {name} added successfully",Fore.RESET)
+            for string in content:
+                if ");" in string:
+                    index = content.index(string)
+                    break
+            content.insert(index+1,f"reg  \t {range} \t {name};\n")
             with open(file_name,'w') as write_file:
                 write_file.writelines(content)
+            print(Fore.GREEN,f"Register {name} added successfully",Fore.RESET)
