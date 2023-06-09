@@ -167,7 +167,7 @@ if __name__ == '__main__':
     parser.add_argument('-inst','--instance',help='instance name')
     parser.add_argument('-r','--reg',help='reg',nargs='+', type=str)
     parser.add_argument('-w','--wire',help='wire', nargs='+',type=str)
-    parser.add_argument('-rn','--range',help='range',nargs='+',type=str)
+    parser.add_argument('-rn','--range',help='range',nargs='+',type=str,default=['None'])
      
     
     parser.add_argument('-nr','--new_range', help='New range of input or output port')
@@ -188,11 +188,9 @@ if __name__ == '__main__':
     LEGO_USR_INFO()
     Baseboard_path = os.path.join(LEGO_DIR, 'Baseboard')
 
-    if args.newwidth and args.oldwidth and args.instance:
-        addparam.ovride_prms(Top_level_file,args.newwidth,args.oldwidth,args.instance)
+    if args.new_width and args.old_width and args.instance:
+        addparam.ovride_prms(Top_level_file,args.new_width,args.old_width,args.instance)
         exit()
-    else:
-        print(Fore.RED + "Please enter the instance name and the new width" + Fore.RESET)
     
     if args.reg:
         if args.range:
@@ -200,24 +198,11 @@ if __name__ == '__main__':
                 add_reg_wire.add_reg_to_json(Top_level_file,args.reg,args.range,Baseboard_path)
                 add_reg_wire.add_reg(Top_level_file,args.reg,args.range)
             exit()
-        else:
-            range='None '
-            for args.reg in args.reg:
-                add_reg_wire.add_reg_to_json(Top_level_file,args.reg,range,Baseboard_path)
-                add_reg_wire.add_reg(Top_level_file,args.reg,range)
-            exit()
           
     if args.wire:
-        if args.range:
             for args.wire,args.range in zip(args.wire,args.range):
                 add_reg_wire.add_wire_to_json(Top_level_file,args.wire,args.range,Baseboard_path)
                 add_reg_wire.add_wire(Top_level_file,args.wire,args.range)
-            exit()
-        else:
-            range=' '
-            for args.wire in args.wire:
-                add_reg_wire.add_wire_to_json(Top_level_file,args.wire,range,Baseboard_path)
-                add_reg_wire.add_wire(Top_level_file,args.wire,range)
             exit()
     if args.port:
         if args.inputs or args.outputs:

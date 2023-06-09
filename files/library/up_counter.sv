@@ -1,6 +1,7 @@
 module up_counter 
 #(
 	parameter WIDTH = 6
+	
 )
 (
 	input 					clk,

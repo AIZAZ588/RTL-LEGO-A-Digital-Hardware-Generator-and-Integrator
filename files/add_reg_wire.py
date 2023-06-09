@@ -3,6 +3,8 @@ import json
 from colorama import Fore
 succes=False
 def add_wire(file_name,name,range):
+    if range == "None":
+        range=" "
     global succes
     if succes==True:
         with open (file_name) as f:
@@ -242,6 +244,8 @@ def add_reg_to_json(file_name,name,range,Baseboard_path):
         
         
 def add_reg(file_name,name,range):
+    if range == "None":
+        range=" "
     if succes==True:
         with open (file_name) as f:
             content = f.readlines()

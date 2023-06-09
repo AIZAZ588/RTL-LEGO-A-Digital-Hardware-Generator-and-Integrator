@@ -39,7 +39,7 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--instance1',type=str,help='Name of the first instance')
     parser.add_argument('-r', '--reg',nargs='+',type=str, help='Name of the reg')
     parser.add_argument('-w', '--wire',nargs='+',type=str, help='Name of the wire')
-    
+    parser.add_argument('-lp','--local_param',nargs='+',type=str,help='local parameter')
     parser.add_argument('-P', '--parameter',nargs='+',type=str, help='Name of the port')
     
     parser.add_argument('-o', '--instance2',type=str, help='Name of the second instance')
@@ -60,6 +60,12 @@ if __name__ == '__main__':
     with open(f'{Baseboard_path}/{json_file}', 'r') as f:
        data = json.load(f)
     
+    if args.local_param and args.instance1 and args.input_ports:
+        for args.local_param ,args.input_ports in zip(args.local_param,args.input_ports):
+            connection.check_json(Top_level_file,args.local_param,args.instance1,args.input_ports,Baseboard_path)
+            connection.connect_localparam(Top_level_file,args.local_param,args.instance1,args.input_ports)
+        exit()
+
     if args.parameter and args.instance1 and args.input_ports:  # connect to parameter
         for args.parameter,args.input_ports in zip(args.parameter,args.input_ports):
            connection.connect_param(Top_level_file,args.parameter,args.instance1,args.input_ports,Baseboard_path,data)
@@ -79,7 +85,4 @@ if __name__ == '__main__':
     if args.input_ports and args.output_ports and args.instance1: # connect to I/O
         found = connection.check_range_equality(found,Top_level_file,args.instance1, args.input_ports, args.output_ports,data)
         connection.connect_to_IO(found,Top_level_file, args.instance1,args.input_ports, args.output_ports)
-        exit()
-    else:
-        print("Please enter the correct arguments")
         exit()
