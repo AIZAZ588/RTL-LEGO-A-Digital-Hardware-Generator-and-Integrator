@@ -58,7 +58,7 @@ def parameter_json(filename,param,ranges,Baseboard_path):
                 success = True
     
 #############################################################################################################
-def ovride_prms(filename,prv_w, nw_w,inst):
+def ovride_prms(filename, nw_w,prv_w,inst):
     module_name = str(filename).replace('.sv','')
     with open(filename, 'r') as file:
         content = file.read()

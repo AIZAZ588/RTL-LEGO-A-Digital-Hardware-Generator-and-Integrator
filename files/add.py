@@ -156,7 +156,9 @@ def add_inputs_outputs_JSON(fileName,inputs, input_ranges, ouputs,output_ranges,
         json.dump(data, f, indent=4)
    
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()       
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-nw',"--new_width",type=str,nargs='+',help='the name of the parameter(s) to add')
+    parser.add_argument('-ow',"--old_width",type=str,nargs='+',help='the name of the parameter(s) to add')       
     parser.add_argument('-p',"--port",action='store_true')
     parser.add_argument('-c',"--change",type=str,help='change IO status or range')
     parser.add_argument('-P', '--parameter',nargs='+',help='the name of the parameter(s) to add')
@@ -185,6 +187,12 @@ if __name__ == '__main__':
     
     LEGO_USR_INFO()
     Baseboard_path = os.path.join(LEGO_DIR, 'Baseboard')
+
+    if args.newwidth and args.oldwidth and args.instance:
+        addparam.ovride_prms(Top_level_file,args.newwidth,args.oldwidth,args.instance)
+        exit()
+    else:
+        print(Fore.RED + "Please enter the instance name and the new width" + Fore.RESET)
     
     if args.reg:
         if args.range:
