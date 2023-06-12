@@ -266,7 +266,7 @@ def comb_block(fileName,output,input):
             x = f.truncate(r_end)
             f.write('\n' + code)
             f.write('\nendmodule')
-            print("combinational block created successfully")
+            print(Fore.GREEN,"combinational block declared successfully",Fore.RESET)
 
 #Function to declare a memory in file
 def mem_declaration(fileName,mem_name,wid,dep):
@@ -279,7 +279,7 @@ def mem_declaration(fileName,mem_name,wid,dep):
             x = f.truncate(r_end)
             f.write('\n' + code)
             f.write('\nendmodule')
-            print("memory declared successfully")
+            print(Fore.GREEN,"memory declared successfully",Fore.RESET)
 
 
 if __name__ == '__main__':
@@ -313,11 +313,14 @@ if __name__ == '__main__':
 
    
     if args.outputs and args.inputs:
-        comb_block(Top_level_file,args.outputs,args.inputs)
+        for args.output, args.input in zip(args.outputs, args.inputs):
+            comb_block(Top_level_file,args.outputs,args.inputs)
+            exit()
 
     if args.name_of_mem and args.width_of_mem and args.depth_of_mem:
-        mem_declaration(Top_level_file,args.name_of_mem,args.width_of_mem,args.depth_of_mem)
-
+        for args.name_of_mem, args.width_of_mem, args.depth_of_mem in zip(args.name_of_mem, args.width_of_mem, args.depth_of_mem):
+            mem_declaration(Top_level_file,args.name_of_mem,args.width_of_mem,args.depth_of_mem)
+            exit()
     
     if args.instance:
         if  len(args.instance) == 1 and len(args.instance_name) > 1:  
@@ -357,6 +360,4 @@ if __name__ == '__main__':
             print("Please provide all the required arguments\n")
             print("plug -r -i <input_signal> -o <output_signal> -en <enable_signal> -ir <input_range> -or <output_range> \n")
             exit()
-    else:
-        print("Please select bewteen inst,reg,mux")
-        exit()
+   

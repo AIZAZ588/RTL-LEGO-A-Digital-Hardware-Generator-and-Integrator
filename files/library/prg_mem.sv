@@ -27,7 +27,7 @@ module prg_mem
     if (ram_enable) begin
        if (write_enable)
           ram_name[address] <= in_data;
-       in_data <= ram_name[address];
+       out_data <= ram_name[address];
     end
 
 endmodule
