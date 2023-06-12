@@ -254,6 +254,34 @@ def create_instance(file_name,inst_name):
                 extract_data(library_file,instance)
     except:
         print("error occured! ")
+
+    #Function to declare a single input and single output combinational block
+def comb_block(fileName,output,input):
+    code = f"always@* {output} = {input};\n"
+    with open(f"{fileName}", "r") as f:
+        content = f.read()
+    with open(f"{fileName}", "a+") as f:
+        if 'endmodule' in content:
+            r_end = (f.tell())-9
+            x = f.truncate(r_end)
+            f.write('\n' + code)
+            f.write('\nendmodule')
+            print("combinational block created successfully")
+
+#Function to declare a memory in file
+def mem_declaration(fileName,mem_name,wid,dep):
+    code = f"reg\t{wid} {mem_name} {dep};"
+    with open(f"{fileName}", "r") as f:
+        content = f.read()
+    with open(f"{fileName}", "a+") as f:
+        if 'endmodule' in content:
+            r_end = (f.tell())-9
+            x = f.truncate(r_end)
+            f.write('\n' + code)
+            f.write('\nendmodule')
+            print("memory declared successfully")
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-inst',"--instance",help='Name of file from which instance is taken', type=str, nargs='+')
@@ -273,6 +301,8 @@ if __name__ == '__main__':
     
     parser.add_argument('-re', '--reset_signal', type=str, help='Select line')
     parser.add_argument('-en', '--enable_signal', type=str, help='Select line')
+    parser.add_argument("-w","--width_of_mem",type=str,help="width of memory",nargs='+')
+    parser.add_argument("-dp","--depth_of_mem",type=str,help="depth of memory",nargs='+')
     
     args = parser.parse_args()
     Top_level_file = args.topfile
@@ -282,6 +312,12 @@ if __name__ == '__main__':
     library = os.path.join(LEGO_DIR, 'library')
 
    
+    if args.output_name and args.input_name:
+        comb_block(Top_level_file,args.output_name,args.input_name)
+
+    if args.name_of_mem and args.width_of_mem and args.depth_of_mem:
+        mem_declaration(Top_level_file,args.name_of_mem,args.width_of_mem,args.depth_of_mem)
+
     
     if args.instance:
         if  len(args.instance) == 1 and len(args.instance_name) > 1:  
