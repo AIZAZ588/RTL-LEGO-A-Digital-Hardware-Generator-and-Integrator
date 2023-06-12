@@ -8,12 +8,13 @@ processor
 #(
 	.RAM_WIDTH 			(32				),
 	.RAM_ADDR_BITS 		(9				),
-	.DATA_FILE 			("data_file.txt"),
-	.DATA_START_ADDR 	(0				),
-	.DATA_END_ADDR		(7				),
+	//.DATA_FILE 			("data_file.txt"),
+	//.DATA_START_ADDR 	(0				),
+	//.DATA_END_ADDR		(7				),
 	.PROG_FILE 			("program.hex"	),
 	.PROG_START_ADDR 	(0				),
-	.PROG_END_ADDR		(14             )
+	.PROG_END_ADDR		(14             ),
+	.WIDTH              (9              )
 )
 
 processor_inst(
