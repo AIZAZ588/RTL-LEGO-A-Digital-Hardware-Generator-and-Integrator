@@ -47,7 +47,7 @@ if __name__ == '__main__':
     parser.add_argument('-ip', '--input_ports', nargs='+',type=str,help='Input ports of the first instance')
     
     parser.add_argument('-op', '--output_ports', nargs='+', type=str,help='Output ports of the second instance')
-    
+    parser.add_argument("-v","--value",type=str,help="value to be assigned to port",nargs='+')
     parser.add_argument('-f', '--filename', help='other top level file',type=str)
     # Parse the arguments
     args = parser.parse_args()
@@ -59,6 +59,11 @@ if __name__ == '__main__':
     
     with open(f'{Baseboard_path}/{json_file}', 'r') as f:
        data = json.load(f)
+
+    if args.instance1 and args.input_ports and args.value: # connect to value
+        for args.input_ports,args.value in zip(args.input_ports,args.value):
+            connection.check_json_inst_ports(Top_level_file,args.instance1,args.input_ports,Baseboard_path)
+            connection.connect_to_value(Top_level_file,args.instance1,args.input_ports,args.value)
     
     if args.local_param and args.instance1 and args.input_ports:
         for args.local_param ,args.input_ports in zip(args.local_param,args.input_ports):

@@ -288,8 +288,6 @@ if __name__ == '__main__':
     parser.add_argument('-m',"--mux",action='store_true')
     parser.add_argument('-r',"--register",action='store_true')
     parser.add_argument('-t,','--topfile',help='Top level file name', type=str)
-
-    
     parser.add_argument('-n', '--instance_name', help='Name of instance',nargs='+')
    
     parser.add_argument('-i', '--inputs',nargs='+',help='Input port name')
@@ -303,6 +301,8 @@ if __name__ == '__main__':
     parser.add_argument('-en', '--enable_signal', type=str, help='Select line')
     parser.add_argument("-w","--width_of_mem",type=str,help="width of memory",nargs='+')
     parser.add_argument("-dp","--depth_of_mem",type=str,help="depth of memory",nargs='+')
+    parser.add_argument("-nm","--name_of_mem",type=str,help="name of memory",nargs='+')
+
     
     args = parser.parse_args()
     Top_level_file = args.topfile
@@ -312,8 +312,8 @@ if __name__ == '__main__':
     library = os.path.join(LEGO_DIR, 'library')
 
    
-    if args.output_name and args.input_name:
-        comb_block(Top_level_file,args.output_name,args.input_name)
+    if args.outputs and args.inputs:
+        comb_block(Top_level_file,args.outputs,args.inputs)
 
     if args.name_of_mem and args.width_of_mem and args.depth_of_mem:
         mem_declaration(Top_level_file,args.name_of_mem,args.width_of_mem,args.depth_of_mem)

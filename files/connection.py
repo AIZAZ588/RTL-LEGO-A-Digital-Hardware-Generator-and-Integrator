@@ -286,3 +286,42 @@ def connect_localparam(file_name,local_param,instance,port):
         except: 
             print(Fore.RED,f"{instance} is not present in {file_name}!",Fore.RESET)
             exit()
+
+def check_json_inst_ports(Top_level_file,instance,ports,Baseboard_path):
+    json_file=Top_level_file.replace(".sv",'.json')
+    with open(f"{Baseboard_path}/{json_file}") as j:
+        data=json.load(j)
+        try:
+            if ports in data[instance]['ports']:
+                return True
+            else:
+                print(Fore.RED,f"{ports} is not present in {instance}!",Fore.RESET)
+                exit()
+        except:
+            print(Fore.RED,f"{instance} is not present in {Top_level_file}!",Fore.RESET)
+            exit()
+
+def connect_to_value(Top_level_file,instance,port,value):
+     with open (f'{Top_level_file}','r') as f:
+                    content=f.readlines()
+                    index1=False;index2=False
+                    for string in content:
+                       if instance in string:
+                            index2=index1=content.index(string)
+                            for string in content[index1+1:]:
+                                index2+=1
+                                if f'.{port}' in string:
+                                    if content[index2+1].startswith("."):
+                                        content.pop(index2)
+                                        content.insert(index2,f".{port} \t\t ({value}),\n")
+                                        print(Fore.LIGHTGREEN_EX + f'Port Connected to {value}' + Fore.RESET)
+                                        with open (f'{Top_level_file}','w') as f:
+                                            f.writelines(content)
+                                            success=False
+                                    else:
+                                        content.pop(index2)
+                                        content.insert(index2,f".{port} \t\t ({value})\n")
+                                        print(Fore.LIGHTGREEN_EX + f'Port Connected to {value}' + Fore.RESET)
+                                        with open (f'{Top_level_file}','w') as f:
+                                            f.writelines(content)
+                                            success=False
