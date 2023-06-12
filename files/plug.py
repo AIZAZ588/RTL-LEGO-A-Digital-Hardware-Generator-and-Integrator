@@ -323,25 +323,23 @@ if __name__ == '__main__':
             exit()
     
     if args.instance:
-        if  len(args.instance) == 1 and len(args.instance_name) > 1:  
-            for i in args.instance_name:
-                library_file = os.path.join(library, f"{args.instance[0]}")
-                create_instance(args.instance[0],i)
-            exit()
-        elif args.instance and args.instance_name:
-            for file,name in zip(args.instance,args.instance_name):
-                library_file = os.path.join(library, file)
-                create_instance(file,name)
-            exit()
-        elif args.instance:
-            for file in args.instance:
-                library_file = os.path.join(library, file)
-                create_instance(file,None)
-            exit()
-        else:
-            print("Please provide all the required arguments\n")
-            print("plug -inst <file_name> -n <instance_name> \n")
-            exit()
+        try:
+            if  len(args.instance) == 1 and len(args.instance_name) > 1:  
+                for i in args.instance_name:
+                    library_file = os.path.join(library, f"{args.instance[0]}")
+                    create_instance(args.instance[0],i)
+                exit()
+            elif args.instance and args.instance_name:
+                for file,name in zip(args.instance,args.instance_name):
+                    library_file = os.path.join(library, file)
+                    create_instance(file,name)
+                exit()
+        except:
+            if args.instance:
+                for file in args.instance:
+                    library_file = os.path.join(library, file)
+                    create_instance(file,None)
+                exit()
             
     if args.mux:
         if args.inputs and args.outputs and args.select_line:
