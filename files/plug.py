@@ -292,7 +292,7 @@ if __name__ == '__main__':
    
     parser.add_argument('-i', '--inputs',nargs='+',help='Input port name')
     parser.add_argument('-ir', '--input_ranges',help='Input port range')
-    parser.add_argument('-o', '--outputs',help='Output port name')
+    parser.add_argument('-o', '--outputs',help='Output port name',nargs='+')
     parser.add_argument('-or', '--output_ranges',help='Output port range')
       
     parser.add_argument('-sl', '--select_line', type=str, help='Select line')
@@ -313,7 +313,7 @@ if __name__ == '__main__':
 
    
     if args.outputs and args.inputs:
-        for args.output, args.input in zip(args.outputs, args.inputs):
+        for args.outputs, args.inputs in zip(args.outputs, args.inputs):
             comb_block(Top_level_file,args.outputs,args.inputs)
             exit()
 
