@@ -15,7 +15,7 @@ module reg_file
 		input	[WIDTH_DATA-1:0]	wr_data
 );
 
-
+reg [31:0] regs[0:31];
 
 always@(posedge clk)
 	if(wr_en)	regs[wr_addr] <= wr_data;
