@@ -2,6 +2,7 @@
 import json
 from colorama import Fore
 import re
+from create import tabsize
 success = False
 def adding_parameters(filename, param, value):
     inst_name = filename.replace(".sv","")
@@ -73,7 +74,7 @@ def ovride_prms(filename,nw_w,prv_w,inst):
             existing_prm = match.group(1)
             existing_prm += "" if existing_prm else ""
             if prm_dec:
-                Body = "".join([f'\n\t.{prm}\t\t\t\t({("".join(rng))},'for prm, rng in zip(prv_w, nw_w) if f".{prm}" not in ext_pram])
+                Body = "".join([f'\n.{prm}'.ljust(tabsize)+f'({("".join(rng))},'for prm, rng in zip(prv_w, nw_w) if f".{prm}" not in ext_pram])
                 if Body:
                     print(Fore.GREEN + f"{prv_w} added to {inst}" + Fore.RESET)
                 else:
@@ -86,7 +87,7 @@ def ovride_prms(filename,nw_w,prv_w,inst):
                 print(Fore.RED + f"Please declare {nw_w} in parameters." + Fore.RESET)
         else:
             if prm_dec:
-                Body = "".join([f'\n\t.{prm}\t\t\t\t({("".join(rng))}),' for prm, rng in zip(prv_w, nw_w)])
+                Body = "".join([f'\n.{prm}'.ljust(tabsize)+f'({("".join(rng))}),' for prm, rng in zip(prv_w, nw_w)])
                 if Body:
                     print(Fore.GREEN + f"{prv_w} added to {inst}" + Fore.RESET)
                     pattern_text = f"\n#(\n\t{Body.rstrip(',')}\n)\n{inst}"
