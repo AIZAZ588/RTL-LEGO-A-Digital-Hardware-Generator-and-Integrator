@@ -40,10 +40,20 @@ def copy_file(file):
     if not os.path.exists(f"{CURRENT_DIR}/{file}"):
         shutil.copy(library_file, CURRENT_DIR)
 
-def extract_data(file,instance):                   # it will open library file
-    global Top_level_file, CURRENT_DIR ,tabsize
+def extract_data(file,instance):               
+    global Top_level_file, CURRENT_DIR ,tabsize,library
+    #list only files in library not there extension
+    files = [os.path.splitext(f)[0] for f in os.listdir(library) if os.path.isfile(os.path.join(library, f))]
     with open(f"{file}", 'r') as f:
         lines = f.readlines()
+        for line in lines:
+            for file in files:
+                if file in line.split() :
+                    if '.'  in lines[lines.index(line)+1]: 
+                        file=os.path.join(library,f'{file}.sv')
+                        if not os.path.exists(f"{CURRENT_DIR}/{file}"):
+                            shutil.copy(file, CURRENT_DIR)
+
     in_module = False
     input_or_output_count = 0
     output_string = ""
