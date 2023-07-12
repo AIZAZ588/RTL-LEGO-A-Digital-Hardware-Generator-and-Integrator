@@ -38,6 +38,15 @@ def parameter_json(filename,param,ranges,Baseboard_path):
     filename=filename.replace(".sv",".json")
     with open (f"{Baseboard_path}/{filename}",'r') as j:
         data=json.load(j)
+        for key, value in data['ports'].items():
+            if param in value['range']:
+                new_range = value['range'].replace(param, ranges)
+                start,end = new_range.split(':')
+                start=start.replace("[","")
+                end=end.replace("]","")
+                start=int(start.split("-")[0]) - int(start.split("-")[1])
+                new_range = f'[{start}:{end}]'
+                data['ports'][key] = {'type': value['type'], 'range': new_range}
         try:
             if param in data['parameter']:
                 filename=filename.replace(".json",".sv")
@@ -47,6 +56,8 @@ def parameter_json(filename,param,ranges,Baseboard_path):
                 return
             elif data.get('parameter'):
                  data['parameter'][param]=ranges
+                 print(data['ports'])
+
                  with open (f"{Baseboard_path}/{filename}",'w') as n:
                     new = json.dumps(data,indent=4)
                     n.write(new)
