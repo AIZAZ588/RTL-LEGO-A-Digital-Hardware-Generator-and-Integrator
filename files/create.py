@@ -40,11 +40,11 @@ def set_instance_name(f_name, inputs, outputs, input_ranges, output_ranges):
             o = ""
             if output_ranges in ['None', 'none']:
                 for out in outputs:
-                    outu = f"\noutput wire\t{o.join(out)},"
+                    outu = f"\noutput reg\t{o.join(out)},"
                     Body = Body + outu
             else:
                 for out, opt_ranges in zip(outputs, output_ranges):
-                    outu = f"\noutput wire  {opt_ranges}\t{o.join(out)},"
+                    outu = f"\noutput reg  {opt_ranges}\t{o.join(out)},"
                     Body = Body + outu
         Body = Body.rstrip(",")
         end = "\n\n);\nendmodule"
