@@ -33,10 +33,14 @@ ADD_TAB_COMPLETION(){
 	if [[ -f /etc/bash_completion.d/tab_completion.sh ]]
 	then
 		echo ${YELLOW} "tab_completion is already installed";
-	else
+	else if [[ -f ${LEGO_DIR}/tab_completion.sh ]]
+	then
 		sudo cp ${LEGO_DIR}/tab_completion.sh /etc/bash_completion.d/tab_completion.sh
 		echo "tab_completion installed";
 		echo -e ${GREEN}  "\nplease restart your terminal to apply changes"
+	else
+		echo "tab_completion is not present"
+		exit 1
 	fi
 }
 
@@ -86,7 +90,7 @@ CREATE_LINK()
 		/bin/chmod +x ${LEGO_DIR}/files/*.py
 }
 
-if [[ -f /usr/bin/create && -f /usr/bin/plug && -f /usr/bin/connect ]]
+if [[ -f /usr/bin/create && -f /usr/bin/plug && -f /usr/bin/connect && -f /usr/bin/list_lego && -f /usr/bin/add && -f /usr/bin/rename && -f /usr/bin/delete && -f ~/.LEGO_USR_INFO && -f /etc/bash_completion.d/tab_completion.sh ]]
 then
 	echo "LEGO is already installed";
 	echo "Do you want to reinstall it? (y/n)";
