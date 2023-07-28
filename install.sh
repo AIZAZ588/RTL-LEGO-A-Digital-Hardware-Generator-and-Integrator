@@ -1,7 +1,8 @@
 #!/bin/bash
 #set -x
-LEGO_DIR=$(pwd);
-
+#set -e
+#LEGO_DIR=$(pwd);
+LEGO_DIR=$(dirname $(readlink -f $0))
 RED=$'\e[1;31m'
 YELLOW=$'\e[1;33m'
 WHITE=$'\e[1;37m'
@@ -9,21 +10,21 @@ GREEN=$'\e[1;32m'
 
 #checking if the package is installed or not
 CHECK(){
-    if [[ -n $(which $1) ]]
+    if [[ -z $(which $1) ]]
     then
-        echo "$1 is installed"
-    else
-        echo "installing $1........"
+      #  echo "$1 is installed"
+    #else
+        echo ${GREEN} "installing $1........"${WHITE}
         sudo apt install $1
     fi
 }
 
 CHECK_colorama(){
-    if [[ -n $(pip list | grep colorama) ]]
+    if [[ -z $(pip list | grep colorama) ]]
     then
-        echo "colorama installed"
-    else
-        echo "installing colorama........"
+        # echo "colorama installed"
+    # else
+        echo ${GREEN} "installing colorama........"${WHITE};
         pip install colorama
     fi
 }
@@ -32,25 +33,29 @@ ADD_TAB_COMPLETION(){
 	#adding tab_completion to etc/bash_completion.d
 	if [[ -f /etc/bash_completion.d/tab_completion.sh ]]
 	then
-		echo ${YELLOW} "tab_completion is already installed";
-	else if [[ -f ${LEGO_DIR}/tab_completion.sh ]]
+		echo ${YELLOW} "tab_completion is already installed"${WHITE};
+	
+	elif [[ -f ${LEGO_DIR}/tab_completion.sh ]]
 	then
-		sudo cp ${LEGO_DIR}/tab_completion.sh /etc/bash_completion.d/tab_completion.sh
-		echo "tab_completion installed";
-		echo -e ${GREEN}  "\nplease restart your terminal to apply changes"
+	 	sudo cp ${LEGO_DIR}/tab_completion.sh /etc/bash_completion.d/tab_completion.sh
+	 	echo "===== tab_completion    installed =====";
+		echo "+++++++++++++++++++++++++++++++++++++++";
+		echo -e ${GREEN} "RTL LEGO is installed successfully"${WHITE}
+	 	echo -e ${WHITE}  "\nplease restart your terminal to apply changes"${WHITE}
+		echo -e ${YELLOW} "Please check out of 'Commands.txt' file in LEGO Dir, To get familiar With RTL LEGO Commands."${WHITE}
+		echo -e ${WHITE} " here is a list of files you can plug";
 	else
-		echo "tab_completion is not present"
+		echo ${RED}"tab_completion.sh is not found!"${WHITE}
 		exit 1
 	fi
 }
 
-CHECK_FOR_PYTHON_FILES(){
-	if [[ -f ${LEGO_DIR}/files/create.py && -f ${LEGO_DIR}/files/plug.py && -f ${LEGO_DIR}/files/connect.py && -f ${LEGO_DIR}/files/add.py && -f ${LEGO_DIR}/files/rename.py && -f ${LEGO_DIR}/files/delete.py && -f ${LEGO_DIR}/list_lego.sh ]]
+CHECK_FOR_PYTHON_FILES(){ #check if python files are not
+	if [[ ! -f ${LEGO_DIR}/files/create.py || ! -f ${LEGO_DIR}/files/plug.py || ! -f ${LEGO_DIR}/files/connect.py ||
+		  ! -f ${LEGO_DIR}/files/add.py || ! -f ${LEGO_DIR}/files/rename.py || ! -f ${LEGO_DIR}/files/delete.py || ! -f ${LEGO_DIR}/list_lego.sh  ]]
 	then
-		echo "python files are installed"
-	else
-		echo "python files are not present"
-		exit 1
+		echo ${RED} "python files are not present " ${WHITE};
+		exit 
 	fi
 }
 CHECK_LEGO_USR_INFO(){
@@ -68,21 +73,21 @@ CREATE_LINK()
 {
 	cd /usr/bin/
 	sudo ln -s  ${LEGO_DIR}/files/create.py create;
-	echo "+++++++++++++++++++++++++++++";
-	echo "======create		installed======";
+	echo "+++++++++++++++++++++++++++++++++++++++";
+	echo "===== create		installed =====";
 	sudo ln -s  ${LEGO_DIR}/files/plug.py plug;
-	echo "======plug		installed======";
+	echo "===== plug		installed =====";
 	sudo ln -s  ${LEGO_DIR}/files/connect.py connect;
-	echo "======connect		installed======";
+	echo "===== connect		installed =====";
 	sudo ln -s ${LEGO_DIR}/list_lego.sh list_lego;
-	echo "======list_lego	installed===";
+	echo "===== list_lego		installed =====";
 	sudo ln -s ${LEGO_DIR}/files/add.py add;
-	echo "======add			installed=======";
+	echo "===== add		installed =====";
 	sudo ln -s ${LEGO_DIR}/files/rename.py rename;
-	echo "======rename 		installed=======";
+	echo "===== rename 		installed =====";
 	sudo ln -s ${LEGO_DIR}/files/delete.py delete;
-	echo "======delete 		installed=======";
-	echo "+++++++++++++++++++++++++++++";
+	echo "===== delete 		installed =====";
+	
 	cd $LEGO_DIR
 
 		/bin/chmod +x *.sh
@@ -93,10 +98,12 @@ CREATE_LINK()
 if [[ -f /usr/bin/create && -f /usr/bin/plug && -f /usr/bin/connect && -f /usr/bin/list_lego && -f /usr/bin/add && -f /usr/bin/rename && -f /usr/bin/delete && -f ~/.LEGO_USR_INFO && -f /etc/bash_completion.d/tab_completion.sh ]]
 then
 	echo "LEGO is already installed";
-	echo "Do you want to reinstall it? (y/n)";
+	echo "Do you want to reinstall it? (y/n) " 
 	read ans
 	if [[ $ans == "y" || $ans == "Y" ]]
 	then
+		#make user as root
+		#sudo -s #sudo su
 		/bin/rm /usr/bin/create
 		/bin/rm /usr/bin/plug
 		/bin/rm /usr/bin/connect
@@ -117,9 +124,9 @@ then
 		${LEGO_DIR}/list_lego.sh
 	else
 		echo "LEGO is not installed";
-		exit 1
+		exit
 	fi
-else
+else 
 	CHECK_FOR_PYTHON_FILES
 	CHECK_LEGO_USR_INFO
 	CHECK python3
