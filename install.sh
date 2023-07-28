@@ -1,7 +1,6 @@
 #!/bin/bash
 #set -x
 #set -e
-#LEGO_DIR=$(pwd);
 LEGO_DIR=$(dirname $(readlink -f $0))
 RED=$'\e[1;31m'
 YELLOW=$'\e[1;33m'
@@ -12,8 +11,6 @@ GREEN=$'\e[1;32m'
 CHECK(){
     if [[ -z $(which $1) ]]
     then
-      #  echo "$1 is installed"
-    #else
         echo ${GREEN} "installing $1........"${WHITE}
         sudo apt install $1
     fi
@@ -22,8 +19,6 @@ CHECK(){
 CHECK_colorama(){
     if [[ -z $(pip list | grep colorama) ]]
     then
-        # echo "colorama installed"
-    # else
         echo ${GREEN} "installing colorama........"${WHITE};
         pip install colorama
     fi
@@ -51,8 +46,7 @@ ADD_TAB_COMPLETION(){
 }
 
 CHECK_FOR_PYTHON_FILES(){ #check if python files are not
-	if [[ ! -f ${LEGO_DIR}/files/create.py || ! -f ${LEGO_DIR}/files/plug.py || ! -f ${LEGO_DIR}/files/connect.py ||
-		  ! -f ${LEGO_DIR}/files/add.py || ! -f ${LEGO_DIR}/files/rename.py || ! -f ${LEGO_DIR}/files/delete.py || ! -f ${LEGO_DIR}/list_lego.sh  ]]
+	if [[ ! -f ${LEGO_DIR}/files/create.py || ! -f ${LEGO_DIR}/files/plug.py || ! -f ${LEGO_DIR}/files/connect.py ||! -f ${LEGO_DIR}/files/add.py || ! -f ${LEGO_DIR}/files/rename.py || ! -f ${LEGO_DIR}/files/delete.py || ! -f ${LEGO_DIR}/list_lego.sh  ]]
 	then
 		echo ${RED} "python files are not present " ${WHITE};
 		exit 
