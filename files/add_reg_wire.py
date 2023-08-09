@@ -14,7 +14,7 @@ def add_wire(file_name,name,range):
                     index = content.index(string)
                     break
             content.insert(index+1,f"wire  \t {range} \t {name};\n")
-            print(Fore.GREEN,f"wire {name} added successfully",Fore.RESET)
+            print(Fore.LIGHTGREEN_EX,f"wire {name} added successfully",Fore.RESET)
             with open(file_name,'w') as write_file:
                 write_file.writelines(content)
             
@@ -256,4 +256,4 @@ def add_reg(file_name,name,range):
             content.insert(index+1,f"reg  \t {range} \t {name};\n")
             with open(file_name,'w') as write_file:
                 write_file.writelines(content)
-            print(Fore.GREEN,f"Register {name} added successfully",Fore.RESET)
+            print(Fore.LIGHTGREEN_EX,f"Register {name} added successfully",Fore.RESET)

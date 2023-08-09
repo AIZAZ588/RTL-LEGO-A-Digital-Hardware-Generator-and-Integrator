@@ -90,7 +90,7 @@ def extract_data(file,instance):
                 f.write(');')
                 f.write('\n\nendmodule')
             print(
-                Fore.GREEN + f'instance {instance} is successfully pluged in {Top_level_file}.' + Fore.RESET)
+                Fore.LIGHTGREEN_EX + f'instance {instance} is successfully pluged in {Top_level_file}.' + Fore.RESET)
 
 def io_outside(ios):
     global Top_level_file, CURRENT_DIR
@@ -276,7 +276,7 @@ def comb_block(fileName,output,input):
             x = f.truncate(r_end)
             f.write('\n' + code)
             f.write('\nendmodule')
-            print(Fore.GREEN,"combinational block declared successfully",Fore.RESET)
+            print(Fore.LIGHTGREEN_EX,"combinational block declared successfully",Fore.RESET)
 
 #Function to declare a memory in file
 def mem_declaration(fileName,mem_name,wid,dep):
@@ -289,7 +289,7 @@ def mem_declaration(fileName,mem_name,wid,dep):
             x = f.truncate(r_end)
             f.write('\n' + code)
             f.write('\nendmodule')
-            print(Fore.GREEN,"memory declared successfully",Fore.RESET)
+            print(Fore.LIGHTGREEN_EX,"memory declared successfully",Fore.RESET)
 
 
 if __name__ == '__main__':

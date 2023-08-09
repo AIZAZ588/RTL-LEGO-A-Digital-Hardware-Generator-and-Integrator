@@ -60,7 +60,7 @@ def delete_port(filename, port_name):
             new_lines.append(line)
             prev_line = line
     if deleted:  # print message only if port is deleted
-        print(Fore.GREEN +
+        print(Fore.LIGHTGREEN_EX +
               f"Port {port_name} has been deleted successfully." + Fore.RESET)
     else:
         print(Fore.RED + "Port not found." + Fore.RESET)
@@ -91,7 +91,7 @@ def delete_instance(fileName, instance):
         block = match.group()
         block = block.replace(block, '')
         content = re.sub(pattern, block, content)
-        print(Fore.GREEN +
+        print(Fore.LIGHTGREEN_EX +
               f"instance {instance} has been deleted successfully." + Fore.RESET)
     else:
         print(Fore.RED + f"instance {instance} is not found." + Fore.RESET)

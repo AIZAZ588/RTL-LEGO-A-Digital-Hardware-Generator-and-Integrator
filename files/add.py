@@ -75,11 +75,11 @@ def add_inputs_outputs(fileName, inputs, input_ranges, outputs, output_ranges):
                 else:
                     if inp_ranges == 'None' or inp_ranges == 'none':
                         inpu = f"\ninput\tlogic\t\t{(i.join(inp))},"
-                        print(Fore.GREEN + f"{inp} is added in {fileName}" + Fore.RESET)
+                        print(Fore.LIGHTGREEN_EX + f"{inp} is added in {fileName}" + Fore.RESET)
                         body = body + inpu
                     else:
                         inpu = f"\ninput\tlogic\t{inp_ranges}\t{(i.join(inp))},"
-                        print(Fore.GREEN + f"{inp} is added in {fileName}" + Fore.RESET)
+                        print(Fore.LIGHTGREEN_EX + f"{inp} is added in {fileName}" + Fore.RESET)
                         body = body + inpu
                
         if outputs:
@@ -91,11 +91,11 @@ def add_inputs_outputs(fileName, inputs, input_ranges, outputs, output_ranges):
                 else:
                     if opt_ranges == 'None' or opt_ranges == 'none':
                         outu = f"\noutput\tlogic\t\t{o.join(out)},"
-                        print(Fore.GREEN + f"{out} is added in {fileName}" + Fore.RESET)
+                        print(Fore.LIGHTGREEN_EX + f"{out} is added in {fileName}" + Fore.RESET)
                         body = body + outu
                     else:
                         outu = f"\noutput\tlogic\t{opt_ranges}\t{o.join(out)},"
-                        print(Fore.GREEN + f"{out} is added in {fileName}" + Fore.RESET)
+                        print(Fore.LIGHTGREEN_EX + f"{out} is added in {fileName}" + Fore.RESET)
                         body = body + outu
             
         body = body.rstrip(",")
@@ -121,11 +121,11 @@ def add_inputs_outputs(fileName, inputs, input_ranges, outputs, output_ranges):
                 else:
                     if inp_ranges == 'None' or inp_ranges == 'none':
                         inpu = f"\ninput\tlogic\t\t{(i.join(inp))},"
-                        print(Fore.GREEN + f"{inp} is added in {fileName}" + Fore.RESET)
+                        print(Fore.LIGHTGREEN_EX + f"{inp} is added in {fileName}" + Fore.RESET)
                         body = body + inpu
                     else:
                         inpu = f"\ninput\tlogic\t{inp_ranges}\t{(i.join(inp))},"
-                        print(Fore.GREEN + f"{inp} is added in {fileName}" + Fore.RESET)
+                        print(Fore.LIGHTGREEN_EX + f"{inp} is added in {fileName}" + Fore.RESET)
                         body = body + inpu
                  
         if outputs:
@@ -137,11 +137,11 @@ def add_inputs_outputs(fileName, inputs, input_ranges, outputs, output_ranges):
                 else:
                     if opt_ranges == 'None' or opt_ranges == 'none':
                         outu = f"\noutput\tlogic\t\t{o.join(out)},"
-                        print(Fore.GREEN + f"{out} is added in {fileName}" + Fore.RESET)
+                        print(Fore.LIGHTGREEN_EX + f"{out} is added in {fileName}" + Fore.RESET)
                         body = body + outu
                     else:
                         outu = f"\noutput\tlogic\t{opt_ranges}\t{o.join(out)},"
-                        print(Fore.GREEN + f"{out} is added in {fileName}" + Fore.RESET)
+                        print(Fore.LIGHTGREEN_EX + f"{out} is added in {fileName}" + Fore.RESET)
                         body = body + outu
                  
         body = body.rstrip(",")

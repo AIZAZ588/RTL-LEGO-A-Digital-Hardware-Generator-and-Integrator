@@ -87,7 +87,7 @@ def ovride_prms(filename,nw_w,prv_w,inst):
                 Body = "".join([f'\n.{prm}'.ljust(tabsize)+f'({("".join(rng))},'for prm, rng in zip(prv_w, nw_w) if f".{prm}" not in ext_pram])
                 if Body:
                     for prv_w in prv_w:
-                        print(Fore.GREEN + f"{prv_w} added to {inst}" + Fore.RESET)
+                        print(Fore.LIGHTGREEN_EX + f"{prv_w} added to {inst}" + Fore.RESET)
                 else:
                     for prv_w in prv_w:
                         print(Fore.RED + f"{prv_w} already exists in {inst}" + Fore.RESET)
@@ -101,7 +101,7 @@ def ovride_prms(filename,nw_w,prv_w,inst):
                 Body = "".join([f'\n.{prm}'.ljust(tabsize)+f'({("".join(rng))}),' for prm, rng in zip(prv_w, nw_w)])
                 if Body:
                     for prv_w in prv_w:
-                        print(Fore.GREEN + f"{prv_w} added to {inst}" + Fore.RESET)
+                        print(Fore.LIGHTGREEN_EX + f"{prv_w} added to {inst}" + Fore.RESET)
                     pattern_text = f"\n#(\n\t{Body.rstrip(',')}\n)\n{inst}"
                     content = content.replace(f"{inst}", pattern_text)
             else:
