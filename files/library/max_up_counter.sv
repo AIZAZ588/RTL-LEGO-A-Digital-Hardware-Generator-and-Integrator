@@ -1,6 +1,6 @@
-module up_counter 
+module max_up_counter 
 #(
-	parameter WIDTH = 5
+	parameter WIDTH = 6
 )
 (
 	input 					clk,

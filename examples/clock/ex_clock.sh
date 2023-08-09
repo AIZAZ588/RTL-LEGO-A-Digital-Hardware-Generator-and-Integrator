@@ -1,9 +1,9 @@
 #!/bin/bash
-create -f clock.sv -o count_sec count_min count_hrs -or [4:0] [4:0] [4:0] #creating TOP_file clock.sv
+create -f clock.sv -o count_sec count_min count_hrs -or [5:0] [5:0] [5:0] #creating TOP_file clock.sv
 add -P TRUE count_max -v "1'b1" "6'd59"		#adding parameters
-add -w clr_sec clr_min clr_hrs -rn None None None	#adding wire 1-bit
+add -w clr_sec clr_min clr_hrs -rn None None None		#adding wire 1-bit
 
-plug -inst max_up_counter.sv -n SEC MIN HRS			#plug instance counter.sv 
+plug -inst max_up_counter.sv -n SEC MIN HRS			#plug instance up_counter.sv 
 
 connect -i SEC -ip clk reset count -op clk reset count_sec 	#connect instance 'SEC' ports to Top_file (clock.sv) ports
 connect -i MIN -ip clk reset count -op clk reset count_min	#//

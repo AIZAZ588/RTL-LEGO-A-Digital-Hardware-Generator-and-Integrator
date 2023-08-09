@@ -29,7 +29,7 @@ connect -v "instr[21:17]" "instr[16:12]" "instr[26:22]" -i regfile_inst -ip rd_a
 ###plug -i "instr[31:27]" -o "opcode" ## plug combination block
 ######################### ALU #####################################
 plug -inst ALU.sv -n ALU_inst                 #plug instance  ALU_inst
-add -nw RAM_WIDTH -ow RAM_WIDTH -inst ALU_inst #
+add -nw RAM_WIDTH -ow WIDTH -inst ALU_inst #
 connect -w op1 op2 alu_out -i ALU_inst -ip op1 op2 alu_out # connect : wire to instance ports
 #connect -lp opcode_2bit -i ALU_inst -ip opcode #
 connect -v "opcode[1:0]" -i ALU_inst -ip opcode # constant value connect to the instance

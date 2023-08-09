@@ -59,7 +59,7 @@ mult_inst
 
 
 
-nand_gate 
+bitwise_nand
 #(
 	
 .WIDTH             (WIDTH)
